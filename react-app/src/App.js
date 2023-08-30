@@ -33,6 +33,7 @@ function App() {
     <div className="App">
     <header>
       <h1>WhisperFeed</h1>
+      <p>{user ? <p>Welcome {user.displayName}!</p> : <p>Please log in!</p>}</p>
       <SignOut/>
     </header>
       <section>
