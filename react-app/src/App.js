@@ -1,28 +1,12 @@
-import LoginSignup from './login.js';
 import React from "react";
 import './App.css';
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
-import "firebase/compat/auth";
-
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { auth } from "./firebaseConfig"; // Import Firebase config
 
-
-// API keysand other important config to be used in Firebase
-firebase.initializeApp({
-  apiKey: "AIzaSyDBLZ412ew3JT2n9c6wxJDMfrvovW37jl8",
-  authDomain: "whisperfeed-fall-2023.firebaseapp.com",
-  projectId: "whisperfeed-fall-2023",
-  storageBucket: "whisperfeed-fall-2023.appspot.com",
-  messagingSenderId: "522578546401",
-  appId: "1:522578546401:web:ec7240f27db9cd4462f1a0",
-  measurementId: "G-W1ZLWHEG06"
-});
-
-
-const auth = firebase.auth();
-const firestore = firebase.firestore();
+import SignIn from './components/Auth/SignIn';
+import SignOut from './components/Auth/SignOut';
+import FeedbackMain from './components/Feedback/FeedbackMain';
 
 
 function App() {
@@ -30,59 +14,17 @@ function App() {
   const [user] = useAuthState(auth);
 
   return (
-    <div className="App">
-    <header>
-      <h1>WhisperFeed</h1>
-      <p>{user ? <p>Welcome {user.displayName}!</p> : <p>Please log in!</p>}</p>
-      <SignOut/>
-    </header>
-      <section>
+      <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
+        <header className="bg-blue-500 text-white p-4">
+          <h1 classname="text-3xl font-bold underline">WhisperFeed</h1>
+          <p className="text-lg">{user ? <p>Welcome {user.displayName}!</p> : <p className="text-lg">Please log in!</p>}</p>
+          <SignOut/>
+      </header>
+      <section className="py-8">
         {user ? <FeedbackMain/>  : <SignIn/>}
       </section>
-      {/* <LoginSignup /> */}
     </div>
   );
-}
-
-function SignIn() {
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  }
-
-  return (
-    <button onClick={signInWithGoogle}>Sign in with your account</button>
-  )
-}
-
-function SignOut() {
-  return auth.currentUser && (
-
-    <button onClick={() => auth.signOut()}>Sign out</button>
-  )
-}
-
-function FeedbackMain() {
-  const messagesRef = firestore.collection("messages");
-  const query = messagesRef.orderBy("createdAt").limit(25);
-
-  const [messages] = useCollectionData(query, {idField: "id"});
-
-  return (
-    <>
-      <div>
-        <div>
-          {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-        </div>
-      </div>
-    </>
-  )
-}
-
-function ChatMessage(props) {
-  const {text, uid} = props.message;
-
-  return <p>{text}</p>
 }
 
 export default App;
