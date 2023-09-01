@@ -3,6 +3,7 @@ import "firebase/compat/firestore";
 import "firebase/compat/auth";
 
 // API keysand other important config to be used in Firebase
+// Firebase app is in onni.alasaari@gmail.com
 firebase.initializeApp({
     apiKey: "AIzaSyDBLZ412ew3JT2n9c6wxJDMfrvovW37jl8",
     authDomain: "whisperfeed-fall-2023.firebaseapp.com",

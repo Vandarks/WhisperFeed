@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
 
+// App's login component, uses Firebase to authenticate
 function LoginSignup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLogin, setIsLogin] = useState(true);
 
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         if (isLogin) {
