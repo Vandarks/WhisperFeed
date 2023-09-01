@@ -21,6 +21,7 @@ function App() {
           <SignOut/>
       </header>
       <section className="py-8">
+        {/* Only open FeedbackMain if user is signed in and has a valid uid, else sign in */}
         {user ? <FeedbackMain/>  : <SignIn/>}
       </section>
     </div>
