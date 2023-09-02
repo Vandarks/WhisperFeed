@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { firestore, auth } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import ChatMessage from '../Chat/ChatMessage';
 import firebase from 'firebase/compat/app';
-import { setDoc } from "firebase/firestore";
 
 
 // Main feedback component of the app
@@ -20,6 +19,8 @@ function FeedbackMain() {
 
     const [formValue, setFormValue] = useState("");
 
+
+    // Create a course
     const createCourse = async(e) => {
         e.preventDefault();
 
@@ -44,12 +45,12 @@ function FeedbackMain() {
     }
 
 
-    
-
     return (
         <>
                 <div>
-                    {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} id={docId}/>)}
+                    {messages && messages.map(msg => 
+                    <ChatMessage key={msg.id} message={msg} id={docId} />
+                    )}
                 </div>
                 <form onSubmit={createCourse}>
                     <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
