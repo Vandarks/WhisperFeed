@@ -4,7 +4,7 @@ import {useCollectionData} from "react-firebase-hooks/firestore";
 
 function ChatMessage(props) {
     const {text, uid, photoURL, displayName } = props.message;
-    const courseName = props.message.text;
+    const courseName = text;
     const courseCreator = props.message.uid;
     const messagesRef = firestore.collection("messages");
     const messagesQuery = messagesRef.orderBy("createdAt").limit(25);
@@ -16,7 +16,7 @@ function ChatMessage(props) {
     const [feedbackId, setFeedbackId] = useState("");
     const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
     const [showFeedback, setShowFeedback] = useState(false);
-    const [feedback, setFeedback] = useState("");
+    const [feedback, setFeedback] = useState([]);
 
 
     // Remove course from database
@@ -32,20 +32,34 @@ function ChatMessage(props) {
         });
     }
 
+
+    // View course feedback from database
     const viewFeedback = async () => {
         const courseName = props.message.text;
         const courseCreator = props.message.uid;
-        setShowFeedback(true);
         console.log("course: ", courseName, " uid: ", courseCreator)
 
+        // fetches the feedback for the course and puts into feedback hook
         feedbackRef.get().then((querySnapshot) => {
-            if(!querySnapshot.empty){
-                const feedbackData = querySnapshot.docs[0].data();
-                setFeedback(feedbackData);
-            } else {
-                setFeedback("");
-            }
-        })
+            const reviewData = [];
+            querySnapshot.forEach((doc) => {
+                reviewData.push(doc.data());
+            });
+            setFeedback(reviewData);
+        });
+
+        /* old method for singular feedback
+        * 
+        * feedbackRef.get().then((querySnapshot) => {
+        *     if(!querySnapshot.empty){
+        *         const feedbackData = querySnapshot.docs[0].data();
+        *         setFeedback(feedbackData);
+        *         setShowFeedback(true);
+        *     } else {
+        *         setFeedback("");
+        *     }
+        * })
+        */
         console.log(feedback.text);
     }
 
@@ -63,11 +77,15 @@ function ChatMessage(props) {
             { messageClass ==="sent" && (
                 <div>
                     <button onClick={viewFeedback}> view Feedback </button>
-                        {showFeedback ? <section>
-
-                            <p>{feedback.text}</p>
-
-                        </section> : null}
+                    {feedback.length > 0 ? (
+                        <ul>
+                        {feedback.map((review, index) => (
+                            <li key={index}>
+                            <p>{review.text}</p>
+                            </li>
+                        ))}
+                        </ul>
+                    ) : <div className="noFeedback"/>}
                     <button onClick={handleButtonClick}>Remove course</button>
                 </div>
             )}
