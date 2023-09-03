@@ -1,25 +1,32 @@
-import React, {useState, useEffect} from "react";
+import React, { useState } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
-import {useCollectionData} from "react-firebase-hooks/firestore";
+import firebase from "firebase/compat/app";
 
 function ChatMessage(props) {
     const {text, uid, photoURL, displayName } = props.message;
     const courseName = text;
     const courseCreator = props.message.uid;
-    const messagesRef = firestore.collection("messages");
-    const messagesQuery = messagesRef.orderBy("createdAt").limit(25);
-    const feedbackRef = firestore.collection("feedback")
+
+    // Reference to the feedback collection
+    const reviewRef = firestore.collection("feedback");
+
+    const [formValue, setFormValue] = useState("");
+
+    // For checking out reviews on certain courses
+    const feedbackRef = reviewRef
         .where("courseName", "==", courseName)
         .where("uid", "==", courseCreator);
-    const feedbackQuery = feedbackRef.orderBy("createdAt").limit(25);
-    const [feedbacks] = useCollectionData(feedbackQuery, {idField: "id"});
-    const [feedbackId, setFeedbackId] = useState("");
     const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
-    const [showFeedback, setShowFeedback] = useState(false);
     const [feedback, setFeedback] = useState([]);
+    
+    
 
 
     // Remove course from database
+    // NOTE: course feedback does not disappear from the feedback collection when deleting a course
+    // TODO: when course is removed, 
+    // look for all feedbacks with the corresponding courseName and courseId
+    // and delete them from the feedback collection
     const handleButtonClick = () => {
 
         console.log("course: ", courseName, " uid: ", courseCreator)
@@ -63,9 +70,26 @@ function ChatMessage(props) {
         console.log(feedback.text);
     }
 
+    // Function used to send feedback to the course
+    // TODO: Make frontend notification to sender when succesfully sent feedback
     const sendFeedback = async (e) => {
         e.preventDefault();
-        //Todo: tee insert feedback functio ks feedbackMain createCourse Funktio.
+
+        await reviewRef.add({
+            courseName: courseName,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            text: formValue,
+            uid: courseCreator
+        })
+        .then((docRef) => {
+            console.log("Feedback Document ID: ", docRef.id);
+        })
+        .catch((e) => {
+            console.error("Error adding document: ", e);
+        });
+
+        setFormValue("");
+        
     }
 
 
@@ -92,8 +116,8 @@ function ChatMessage(props) {
             {messageClass ==="received" && (
                 <div>
                     <form onSubmit={sendFeedback}>
-                        <input/><button type = "submit">Send Feedback</button>
-
+                        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
+                        <button type = "submit">Send Feedback</button>
                     </form>
                 </div>
             )}
