@@ -23,11 +23,7 @@ function ChatMessage(props) {
     
 
 
-    // Remove course from database
-    // NOTE: course feedback does not disappear from the feedback collection when deleting a course
-    // TODO: when course is removed, 
-    // look for all feedbacks with the corresponding courseName and courseId
-    // and delete them from the feedback collection
+    // Remove course and feedback from database
     const handleButtonClick = () => {
 
         console.log("course: ", courseName, " uid: ", courseCreator)
