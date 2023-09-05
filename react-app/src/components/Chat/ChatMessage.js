@@ -37,6 +37,13 @@ function ChatMessage(props) {
         .then(querySnapshot => {
             querySnapshot.docs[0].ref.delete();
         });
+
+        feedbackRef
+        .get()
+        .then(querySnapshot => {
+            console.log(querySnapshot.docs)
+            querySnapshot.docs[0].ref.delete();
+            });
     }
 
 
@@ -55,18 +62,6 @@ function ChatMessage(props) {
             setFeedback(reviewData);
         });
 
-        /* old method for singular feedback
-        * 
-        * feedbackRef.get().then((querySnapshot) => {
-        *     if(!querySnapshot.empty){
-        *         const feedbackData = querySnapshot.docs[0].data();
-        *         setFeedback(feedbackData);
-        *         setShowFeedback(true);
-        *     } else {
-        *         setFeedback("");
-        *     }
-        * })
-        */
         console.log(feedback.text);
     }
 
