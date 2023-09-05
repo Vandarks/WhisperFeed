@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import firebase from "firebase/compat/app";
+import { query } from "firebase/firestore";
 
 function ChatMessage(props) {
     const {text, uid, photoURL, displayName } = props.message;
@@ -42,7 +43,9 @@ function ChatMessage(props) {
         .get()
         .then(querySnapshot => {
             console.log(querySnapshot.docs)
-            querySnapshot.docs[0].ref.delete();
+            for(let i = 0; i < querySnapshot.docs.length; i++) {
+                querySnapshot.docs[i].ref.delete();
+            }
             });
     }
 
