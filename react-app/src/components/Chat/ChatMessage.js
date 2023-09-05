@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import firebase from "firebase/compat/app";
-import { query } from "firebase/firestore";
 
 function ChatMessage(props) {
     const {text, uid, photoURL, displayName } = props.message;
@@ -19,9 +18,6 @@ function ChatMessage(props) {
         .where("uid", "==", courseCreator);
     const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
     const [feedback, setFeedback] = useState([]);
-    
-    
-
 
     // Remove course and feedback from database
     const handleButtonClick = () => {
@@ -42,9 +38,8 @@ function ChatMessage(props) {
             for(let i = 0; i < querySnapshot.docs.length; i++) {
                 querySnapshot.docs[i].ref.delete();
             }
-            });
+        });
     }
-
 
     // View course feedback from database
     const viewFeedback = async () => {
@@ -82,16 +77,14 @@ function ChatMessage(props) {
             console.error("Error adding document: ", e);
         });
 
-        setFormValue("");
-        
+        setFormValue("");        
     }
 
-
-
     return (
-        <div>
+        <div className="course">
             <img src={photoURL} alt="Creator"/>
             <p>{text}, Created by: {displayName}</p>
+            {/* Only show this if user is the owner of the course */}
             { messageClass ==="sent" && (
                 <div>
                     <button onClick={viewFeedback}> view Feedback </button>
@@ -107,6 +100,7 @@ function ChatMessage(props) {
                     <button onClick={handleButtonClick}>Remove course</button>
                 </div>
             )}
+            {/* Only show the next part if not the owner */}
             {messageClass ==="received" && (
                 <div>
                     <form onSubmit={sendFeedback}>
