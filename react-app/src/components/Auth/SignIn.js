@@ -12,10 +12,12 @@ function SignIn() {
     }
 
     return (
-        <div class="mt-8 flex justify-center text-lg text-black">
-            <button onClick={signInWithGoogle} class="rounded-3xl bg-orange-500 bg-opacity-50 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-600">Sign in with your account</button>
+        <div className="mt-8 flex justify-center text-lg text-black">
+            <button onClick={signInWithGoogle}
+                className="rounded-3xl bg-orange-500 bg-opacity-50 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-600">
+                Sign in with your account
+            </button>
         </div>
-
     )
 }
 

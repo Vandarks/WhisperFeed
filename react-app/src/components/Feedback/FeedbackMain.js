@@ -47,15 +47,15 @@ function FeedbackMain() {
 
     return (
         <>
-                <div className="courses">
+            <form onSubmit={createCourse} className="mb-5">
+                <input value={formValue} placeholder="Enter a name" onChange={(e) => setFormValue(e.target.value)}/>
+                <button type="submit">Create course</button>
+            </form>
+                <div className="grid grid-rows-4 gap-4">
                     {messages && messages.map(msg => 
                     <ChatMessage key={msg.id} message={msg} id={docId} />
                     )}
                 </div>
-                <form onSubmit={createCourse} className="courseCreation">
-                    <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
-                    <button type="submit">Create course</button>
-                </form>
         </>
     )
 }

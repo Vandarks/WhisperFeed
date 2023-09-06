@@ -81,12 +81,16 @@ function ChatMessage(props) {
     }
 
     return (
-        <div className="course">
-            <img src={photoURL} alt="Creator"/>
-            <p>{text}, Created by: {displayName}</p>
+        <div className="flex grid grid-cols-2 place-content-stretch border">
+            <img src={photoURL} alt="Creator" className="rounded-lg"/>
+            <div className="w-full flex flex-col items-center">
+                <h2 className="text-xl font-semibold mb-2">{text}</h2>
+                <p className="mb-2">{displayName}</p>
+            </div>
+
             {/* Only show this if user is the owner of the course */}
             { messageClass ==="sent" && (
-                <div>
+                <div className="w-full">
                     <button onClick={viewFeedback}> view Feedback </button>
                     {feedback.length > 0 ? (
                         <ul>
@@ -104,7 +108,7 @@ function ChatMessage(props) {
             {messageClass ==="received" && (
                 <div>
                     <form onSubmit={sendFeedback}>
-                        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
+                        <input value={formValue} placeholder="This course was..." onChange={(e) => setFormValue(e.target.value)}/>
                         <button type = "submit">Send Feedback</button>
                     </form>
                 </div>
