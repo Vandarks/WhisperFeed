@@ -86,9 +86,9 @@ function ChatMessage(props) {
             <div className="w-full flex flex-col items-center">
                 <h2 className="text-xl font-semibold mb-2">{text}</h2>
                 <p className="mb-2">{displayName}</p>
-                <button className="w-2/4 rounded-2xl bg-green-500">Good</button>
-                <button className="w-2/4 rounded-2xl bg-yellow-500 mb-2 mt-2">OK</button>
-                <button className="w-2/4 rounded-2xl bg-red-500">Bad</button>
+                <button className="w-2/4 rounded-2xl bg-green-500 bg-opacity-50 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-green-500">Good</button>
+                <button className="w-2/4 rounded-2xl bg-yellow-500 mb-2 mt-2 bg-opacity-95 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-300">OK</button>
+                <button className="w-2/4 rounded-2xl bg-red-600 bg-opacity-50 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-red-500">Bad</button>
             </div>
 
             {/* Only show this if user is the owner of the course */}
