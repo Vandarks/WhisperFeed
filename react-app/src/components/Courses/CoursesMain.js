@@ -1,7 +1,7 @@
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import React, { useState } from "react";
 import { firestore, auth } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
-import ChatMessage from '../Chat/ChatMessage';
+import Course from '../Chat/Course';
 import firebase from 'firebase/compat/app';
 
 // Main feedback component of the app
@@ -53,7 +53,7 @@ function CoursesMain() {
             </form>
                 <div className="grid grid-rows-4 gap-4">
                     {messages && messages.map(msg => 
-                    <ChatMessage key={msg.id} message={msg} id={docId} />
+                    <Course key={msg.id} message={msg} id={docId} />
                     )}
                 </div>
         </>

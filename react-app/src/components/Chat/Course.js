@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
-import FeedbackInput from "./Feedback";
+import FeedbackInput from "./FeedbackInput";
 
-function ChatMessage(props) {
+function Course (props) {
     const { text, uid, photoURL, displayName } = props.message;
     const courseName = text;
     const courseCreator = props.message.uid;
@@ -91,4 +91,4 @@ function ChatMessage(props) {
     )
 }
 
-export default ChatMessage;
+export default Course;
