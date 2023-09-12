@@ -60,27 +60,6 @@ function ChatMessage(props) {
         console.log(feedback.text);
     }
 
-    // Function used to send feedback to the course
-    // TODO: Make frontend notification to sender when succesfully sent feedback
-    const sendFeedback = async (e) => {
-        e.preventDefault();
-
-        await reviewRef.add({
-            courseName: courseName,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            text: formValue,
-            uid: courseCreator
-        })
-        .then((docRef) => {
-            console.log("Feedback Document ID: ", docRef.id);
-        })
-        .catch((e) => {
-            console.error("Error adding document: ", e);
-        });
-
-        setFormValue("");        
-    }
-
     return (
         <div className="flex grid grid-cols-2 place-content-stretch border">
             <img src={photoURL} alt="Creator" className="rounded-lg"/>
