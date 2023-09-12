@@ -8,7 +8,7 @@ import firebase from 'firebase/compat/app';
 // TODO: Put two different views, one for teachers and one for students
 // Students should be able to comment or give a rating to the course created by the teacher.
 // The creator of the course should see the feedback on the course, maybe as a 0-5 star system?
-function FeedbackMain() {
+function CoursesMain() {
 
     const messagesRef = firestore.collection("messages");
 
@@ -60,4 +60,4 @@ function FeedbackMain() {
     )
 }
 
-export default FeedbackMain;
+export default CoursesMain;

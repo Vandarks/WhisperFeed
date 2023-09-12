@@ -7,7 +7,7 @@ import wfLogo from './images/WhisperFeed_Logo.png';
 
 import SignIn from './components/Auth/SignIn';
 import SignOut from './components/Auth/SignOut';
-import FeedbackMain from './components/Feedback/FeedbackMain';
+import CoursesMain from "./components/Courses/CoursesMain";
 
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
                       </header>
                       <section className="py-8">
                           {/* Only open FeedbackMain if user is signed in and has a valid uid, else sign in */}
-                          {user ? <FeedbackMain className="grid-cols-4 gap-4"/>  : <SignIn/>}
+                          {user ? <CoursesMain className="grid-cols-4 gap-4"/>  : <SignIn/>}
                       </section>
                   </div>
               </div>
