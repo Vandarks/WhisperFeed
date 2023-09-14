@@ -35,13 +35,17 @@ function FeedbackInput(props) {
 
         setFeedbackText("");
     }
+    // Handles feedback button onclick event to pass value to feedbackRating hook
+    const handleFeedbackRating = (param) => {
+        setFeedbackRating(param);
+    }
 
     return (
         <div className="flex grid grid-cols-2 place-content-stretch border">
             <div className="w-full flex flex-col items-center">
-                <button onClick={setFeedbackRating(2)} className="w-2/4 rounded-2xl bg-green-500 bg-opacity-50 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-green-500">Good</button>
-                <button onClick={setFeedbackRating(1)} className="w-2/4 rounded-2xl bg-yellow-500 mb-2 mt-2 bg-opacity-95 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-300">OK</button>
-                <button onClick={setFeedbackRating(0)} className="w-2/4 rounded-2xl bg-red-600 bg-opacity-50 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-red-500">Bad</button>
+                <button onClick={handleFeedbackRating(2)} className="w-2/4 rounded-2xl bg-green-500 bg-opacity-50 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-green-500">Good</button>
+                <button onClick={handleFeedbackRating(1)} className="w-2/4 rounded-2xl bg-yellow-500 mb-2 mt-2 bg-opacity-95 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-300">OK</button>
+                <button onClick={handleFeedbackRating(0)} className="w-2/4 rounded-2xl bg-red-600 bg-opacity-50 shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-red-500">Bad</button>
             </div>
                 <div>
                     <form onSubmit={sendFeedback}>
@@ -52,5 +56,6 @@ function FeedbackInput(props) {
         </div>
     )
 }
+
 
 export default FeedbackInput;
