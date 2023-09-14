@@ -74,6 +74,7 @@ function Course (props) {
                             {feedback.map((review, index) => (
                                 <li key={index}>
                                     <p>{review.text}</p>
+                                    <p>{review.feedback}</p>
                                 </li>
                             ))}
                         </ul>

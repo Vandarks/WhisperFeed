@@ -20,7 +20,6 @@ function CoursesMain() {
 
     const [formValue, setFormValue] = useState("");
 
-    const [feedbackRating, setFeedbackRating] = useState(null);
 
 
     // Create a course to the database and for others to see, updates asynchronously
