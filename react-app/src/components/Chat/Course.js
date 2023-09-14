@@ -18,11 +18,11 @@ function Course (props) {
     const [feedback, setFeedback] = useState([]);
 
     // Remove course and feedback from database
-    const handleButtonClick = () => {
+    const handleRemoveCourseButton = () => {
 
         console.log("course: ", courseName, " uid: ", courseCreator)
 
-        firestore.collection("messages")
+        firestore.collection("courses")
             .where("text", "==", courseName)
             .get()
             .then(querySnapshot => {
@@ -74,12 +74,12 @@ function Course (props) {
                             {feedback.map((review, index) => (
                                 <li key={index}>
                                     <p>{review.text}</p>
-                                    <p>{review.feedback}</p>
+                                    <p>Feedback rating: {review.rating}</p>
                                 </li>
                             ))}
                         </ul>
                     ) : <div className="noFeedback" />}
-                    <button onClick={handleButtonClick}>Remove course</button>
+                    <button onClick={handleRemoveCourseButton}>Remove course</button>
                 </div>
             )}
             {/* Only show the next part if not the owner */}
