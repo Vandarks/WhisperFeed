@@ -8,10 +8,10 @@ function Course (props) {
     const courseCreator = props.message.uid;
 
     // Reference to the feedback collection
-    const reviewRef = firestore.collection("feedback");
+    const feedbackRef = firestore.collection("feedback");
 
     // For checking out reviews on certain courses
-    const feedbackRef = reviewRef
+    const courseFeedbackRef = feedbackRef
         .where("courseName", "==", courseName)
         .where("uid", "==", courseCreator);
     const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
@@ -29,7 +29,7 @@ function Course (props) {
                 querySnapshot.docs[0].ref.delete();
             });
 
-        feedbackRef
+        courseFeedbackRef
             .get()
             .then(querySnapshot => {
                 console.log(querySnapshot.docs)
@@ -46,7 +46,7 @@ function Course (props) {
         console.log("course: ", courseName, " uid: ", courseCreator)
 
         // fetches the feedback for the course and puts into feedback hook
-        feedbackRef.get().then((querySnapshot) => {
+        courseFeedbackRef.get().then((querySnapshot) => {
             const reviewData = [];
             querySnapshot.forEach((doc) => {
                 reviewData.push(doc.data());
