@@ -67,8 +67,8 @@ function Course (props) {
 
             {/* Only show this if user is the owner of the course */}
             {messageClass === "sent" && (
-                <div className="w-full">
-                    <button onClick={viewFeedback}> view Feedback </button>
+                <div className="w-full border">
+                    <button onClick={viewFeedback} className="mb-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> View Feedback </button>
                     {feedback.length > 0 ? (
                         <ul>
                             {feedback.map((review, index) => (
@@ -79,7 +79,7 @@ function Course (props) {
                             ))}
                         </ul>
                     ) : <div className="noFeedback" />}
-                    <button onClick={handleRemoveCourseButton}>Remove course</button>
+                    <button onClick={handleRemoveCourseButton} className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
                 </div>
             )}
             {/* Only show the next part if not the owner */}
