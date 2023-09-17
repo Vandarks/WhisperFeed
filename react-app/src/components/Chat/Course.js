@@ -58,16 +58,16 @@ function Course (props) {
     }
 
     return (
-        <div className="flex grid grid-cols-2 place-content-stretch border">
-            <img src={photoURL} alt="Creator" className="rounded-lg" />
-            <div className="w-full flex flex-col items-center">
-                <h2 className="text-xl font-semibold mb-2">{text}</h2>
+        <div className="flex grid grid-cols-2 place-content-stretch rounded-lg bg-gray-900">
+            <img src={photoURL} alt="Creator" className="rounded-lg m-2" />
+            <div className="w-full flex flex-col items-center overflow-visible ">
+                <h2 className="md:text-xl break-words font-semibold m-2">{text}</h2>
                 <p className="mb-2">{displayName}</p>
             </div>
 
             {/* Only show this if user is the owner of the course */}
             {messageClass === "sent" && (
-                <div className="w-full border">
+                <div className="w-full border rounded-lg">
                     <button onClick={viewFeedback} className="mb-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> View Feedback </button>
                     {feedback.length > 0 ? (
                         <ul>
