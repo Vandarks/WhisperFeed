@@ -1,4 +1,4 @@
-import wfLogo from '../../images/WhisperFeed_Logo.png';
+import wfLogo from '../../images/favicon.png';
 
 function HeaderProfile() {
 
