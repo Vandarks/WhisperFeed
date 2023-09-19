@@ -104,22 +104,22 @@ function Course (props) {
 
             {/* Only show this if user is the owner of the course */}
             {messageClass === "sent" && (
-                <div className="w-full border rounded-lg">
-                    <p><b>Average feedback: </b>{feedbackAvg}</p>
-                    <button onClick={viewFeedback} className="mb-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> View Feedback </button>
+                <div className="w-full rounded-lg ml-2 mb-2 bg-gray-800">
+                    <p className="m-2"><b>Average feedback: </b>{feedbackAvg}</p>
+                    <button onClick={viewFeedback} className="mb-2 ml-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> View Feedback </button>
                     {feedback.length > 0 ? (
-                    <div>
-                        <ul>
+                    <div className="m-2">
+                        <ul className="">
                             {feedback.map((review, index) => (
-                                <li key={index}>
-                                    <p>{review.text}</p>
-                                    <p>Feedback rating: {review.rating}</p>
+                                <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
+                                    <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
+                                    <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {review.rating}</p>
                                 </li>
                             ))}
                         </ul>
                     </div>
                     )  : <div className="noFeedback" />}
-                    <button onClick={handleRemoveCourseButton} className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
+                    <button onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
                 </div>
             )}
             {/* Only show the next part if not the owner */}
