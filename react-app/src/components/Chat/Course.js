@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import FeedbackInput from "./FeedbackInput";
 
@@ -16,6 +16,43 @@ function Course (props) {
         .where("uid", "==", courseCreator);
     const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
     const [feedback, setFeedback] = useState([]);
+
+    // Average feedback of a course
+    const [feedbackAvg, setFeedbackAvg] = useState("Currently none");
+
+    // Updates feedback average score value
+    useEffect(() => {
+
+        // fetch all feedback with a rating
+        courseFeedbackRef
+            .where("rating", "!=", null)
+            .get()
+            .then((querySnapshot) => {
+                const data = [];
+                let sum = 0;
+                let count = 0;
+
+                // add to rating and count for each document with a rating
+                querySnapshot.forEach((doc) => {
+                    const feedbackData = doc.data();
+                    const rating = feedbackData.rating;
+
+                    sum += rating;
+                    count++;
+
+                    data.push(feedbackData);
+                });
+
+                // Calculate average if possible
+                const avg = count === 0 ? 0 : sum / count;
+
+                // Set feedback average to avg
+                setFeedbackAvg(avg);
+            })
+            .catch((error) => {
+                console.error("Error getting feedback documents: ", error);
+            });
+    }, [courseFeedbackRef]);
 
     // Remove course and feedback from database
     const handleRemoveCourseButton = () => {
@@ -70,6 +107,7 @@ function Course (props) {
                 <div className="w-full border rounded-lg">
                     <button onClick={viewFeedback} className="mb-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> View Feedback </button>
                     {feedback.length > 0 ? (
+                    <div>
                         <ul>
                             {feedback.map((review, index) => (
                                 <li key={index}>
@@ -78,7 +116,9 @@ function Course (props) {
                                 </li>
                             ))}
                         </ul>
-                    ) : <div className="noFeedback" />}
+                        <p><b>Average feedback: </b>{feedbackAvg}</p>
+                    </div>
+                    )  : <div className="noFeedback" />}
                     <button onClick={handleRemoveCourseButton} className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
                 </div>
             )}
