@@ -20,6 +20,9 @@ function Course (props) {
     // Average feedback of a course
     const [feedbackAvg, setFeedbackAvg] = useState("Currently none");
 
+    // Handles showing and hiding the course specific feedback
+    const [showFeedback, setshowFeedback] = useState(false);
+
     // Updates feedback average score value
     useEffect(() => {
 
@@ -78,6 +81,8 @@ function Course (props) {
 
     // View course feedback from database
     const viewFeedback = async () => {
+        setshowFeedback(!showFeedback);
+
         const courseName = props.message.text;
         const courseCreator = props.message.uid;
         console.log("course: ", courseName, " uid: ", courseCreator)
@@ -106,8 +111,8 @@ function Course (props) {
             {messageClass === "sent" && (
                 <div className="w-full rounded-lg ml-2 mb-2 bg-gray-800">
                     <p className="m-2"><b>Average feedback: </b>{feedbackAvg}</p>
-                    <button onClick={viewFeedback} className="mb-2 ml-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> View Feedback </button>
-                    {feedback.length > 0 ? (
+                    <button onClick={viewFeedback} className="mb-2 ml-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{showFeedback ? "Hide Feedback" : "Show Feedback"}</button>
+                    {feedback.length > 0 && showFeedback ? (
                     <div className="m-2">
                         <ul className="">
                             {feedback.map((review, index) => (
