@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
+import { feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import firebase from "firebase/compat/app";
 
 function FeedbackInput(props) {
@@ -8,7 +8,6 @@ function FeedbackInput(props) {
     const courseCreator = props.creator;
 
     // Reference to the feedback collection
-    const feedbackRef = firestore.collection("feedback");
 
     const [feedbackText, setFeedbackText] = useState("");
 
