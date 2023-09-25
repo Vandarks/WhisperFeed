@@ -17,6 +17,9 @@ function FeedbackInput(props) {
     // Function used to send feedback to the course
     // TODO: Make frontend notification to sender when succesfully sent feedback
     const sendFeedback = async (e) => {
+
+        // Send feedback only when has a valid rating
+        if (feedbackRating != null)    {
         e.preventDefault();
 
         await feedbackRef.add({
@@ -34,6 +37,7 @@ function FeedbackInput(props) {
         });
 
         setFeedbackText("");
+    }
     }
     // Handles feedback button onclick event to pass value to feedbackRating hook
     const handleRatingClick = (param) => {
