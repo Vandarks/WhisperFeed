@@ -1,6 +1,6 @@
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import React, { useState } from "react";
-import { firestore, auth } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
+import { coursesRef, auth } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import Course from '../Chat/Course';
 import firebase from 'firebase/compat/app';
 
@@ -9,8 +9,6 @@ import firebase from 'firebase/compat/app';
 // Students should be able to comment or give a rating to the course created by the teacher.
 // The creator of the course should see the feedback on the course, maybe as a 0-5 star system?
 function CoursesMain() {
-
-    const coursesRef = firestore.collection("courses");
 
     const query = coursesRef.orderBy("createdAt").limit(25);
 
