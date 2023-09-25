@@ -34,7 +34,7 @@ function CoursesMain() {
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             uid,
             photoURL,
-            displayName
+            creatorName: displayName
         })
         .then((docRef) => {
             console.log("Document ID: ", docRef.id);

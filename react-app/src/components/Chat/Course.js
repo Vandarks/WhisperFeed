@@ -3,7 +3,7 @@ import { auth, firestore } from '../../firebaseConfig'; // Import firestore from
 import FeedbackInput from "./FeedbackInput";
 
 function Course (props) {
-    const { courseName, uid, photoURL, displayName } = props.message;
+    const { courseName, uid, photoURL, creatorName } = props.message;
     const courseCreator = props.message.uid;
 
     // Reference to the feedback collection
@@ -101,7 +101,7 @@ function Course (props) {
             <img src={photoURL} alt="Creator" className="rounded-lg m-2" />
             <div className="w-full flex flex-col items-center overflow-visible ">
                 <h2 className="md:text-xl break-words font-semibold m-2">{courseName}</h2>
-                <p className="mb-2">{displayName}</p>
+                <p className="mb-2">{creatorName}</p>
             </div>
 
             {/* Only show this if user is the owner of the course */}
