@@ -41,7 +41,6 @@ function FeedbackInput(props) {
     // Handles feedback button onclick event to pass value to feedbackRating hook
     const handleRatingClick = (param) => {
         setFeedbackRating(param);
-        console.log(feedbackRating);
     }
 
 
