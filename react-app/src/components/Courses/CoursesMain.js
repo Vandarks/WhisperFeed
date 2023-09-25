@@ -45,6 +45,8 @@ function CoursesMain() {
         });
 
         setFormValue("");
+        } else {
+            console.log("Course not created, add valid course name!")
         }
     }
 
