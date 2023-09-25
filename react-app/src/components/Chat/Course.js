@@ -3,8 +3,7 @@ import { auth, firestore } from '../../firebaseConfig'; // Import firestore from
 import FeedbackInput from "./FeedbackInput";
 
 function Course (props) {
-    const { text, uid, photoURL, displayName } = props.message;
-    const courseName = text;
+    const { courseName, uid, photoURL, displayName } = props.message;
     const courseCreator = props.message.uid;
 
     // Reference to the feedback collection
@@ -83,8 +82,6 @@ function Course (props) {
     const viewFeedback = async () => {
         setshowFeedback(!showFeedback);
 
-        const courseName = props.message.text;
-        const courseCreator = props.message.uid;
         console.log("course: ", courseName, " uid: ", courseCreator)
 
         // fetches the feedback for the course and puts into feedback hook
@@ -103,7 +100,7 @@ function Course (props) {
         <div className="flex grid grid-cols-2 place-content-stretch rounded-lg bg-gray-900">
             <img src={photoURL} alt="Creator" className="rounded-lg m-2" />
             <div className="w-full flex flex-col items-center overflow-visible ">
-                <h2 className="md:text-xl break-words font-semibold m-2">{text}</h2>
+                <h2 className="md:text-xl break-words font-semibold m-2">{courseName}</h2>
                 <p className="mb-2">{displayName}</p>
             </div>
 

@@ -27,7 +27,7 @@ function CoursesMain() {
         const { uid, photoURL, displayName } = auth.currentUser;
 
         await coursesRef.add({
-            text: formValue,
+            courseName: formValue,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             uid,
             photoURL,
