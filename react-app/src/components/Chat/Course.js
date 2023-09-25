@@ -9,7 +9,7 @@ function Course (props) {
     // Reference to the feedback collection
     const feedbackRef = firestore.collection("feedback");
 
-    // For checking out reviews on certain courses
+    // For checking out feedback on certain courses
     const courseFeedbackRef = feedbackRef
         .where("courseName", "==", courseName)
         .where("uid", "==", courseCreator);
@@ -59,7 +59,7 @@ function Course (props) {
     // Remove course and feedback from database
     const handleRemoveCourseButton = () => {
 
-        console.log("course: ", courseName, " uid: ", courseCreator)
+        console.log("Selected course: ", courseName, " creator: ", courseCreator)
 
         firestore.collection("courses")
             .where("text", "==", courseName)
@@ -82,7 +82,13 @@ function Course (props) {
     const viewFeedback = async () => {
         setshowFeedback(!showFeedback);
 
+<<<<<<< HEAD
         console.log("course: ", courseName, " uid: ", courseCreator)
+=======
+        const courseName = props.message.text;
+        const courseCreator = props.message.uid;
+        console.log("Selected course: ", courseName, " creator: ", courseCreator)
+>>>>>>> 0a0d5995ab2d5fca99b41a7741ff28dbba56cfa9
 
         // fetches the feedback for the course and puts into feedback hook
         courseFeedbackRef.get().then((querySnapshot) => {
@@ -93,7 +99,7 @@ function Course (props) {
             setFeedback(reviewData);
         });
 
-        console.log(feedback.text);
+        console.log("Feedback text: " + feedback.text);
     }
 
     return (
