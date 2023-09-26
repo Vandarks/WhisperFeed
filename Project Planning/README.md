@@ -10,11 +10,11 @@ The goal of the project is to let students give anonymous feedback to their resp
 ## Functional Requirements  
 Students need to be able to send feedback. Teachers need to be able to read feedback.
 ## Non-Functional Requirements  
-
+Login is done through Firebase so that users can sign in with their google accounts
 ## Resource Allocation  
 
 ## Risk Assesment  
-
+The project has some risks, both in the development and future. Firebase has a limit on how much data one project can store before becoming a paid product. Keeping the project up for long periods of time or having too big of a user base would make this project expensive.
 ## Team Formation  
 The team consists of four people. Onni Alasaari, Tapio Humaljoki, Miiko Majewski and Edvard Nivala. The four of us have previous experience working as a team so teamwork will not be an issue.
 ## Technology Stack  
