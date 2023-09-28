@@ -62,7 +62,7 @@ function Course (props) {
         console.log("Selected course: ", courseName, " creator: ", courseCreator)
 
         firestore.collection("courses")
-            .where("text", "==", courseName)
+            .where("courseName", "==", courseName)
             .get()
             .then(querySnapshot => {
                 querySnapshot.docs[0].ref.delete();
