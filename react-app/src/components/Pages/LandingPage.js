@@ -10,8 +10,8 @@ function LandingPage() {
 
     return (
         <div>
-            <div className="flex min-h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat">
-                <div className="my-10 rounded-xl bg-gray-800 bg-opacity-50 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
+            <div className="flex min-h-screen w-full items-center justify-center bg-gray-900">
+                <div className="my-10 rounded-xl bg-gray-800 px-10 py-3 shadow-lg backdrop-blur-md max-sm:px-8">
                     <div className="mb-8 flex flex-col items-center text-white">
                         {user ? null : <img src={wfLogo} alt="logo" className="w-1/3"/>}
                         <p>{user ? null : <p className="text-lg">Please log in!</p>}</p>
