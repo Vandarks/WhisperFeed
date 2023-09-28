@@ -69,6 +69,8 @@ function CoursesMain() {
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
                     createCourse={createCourse}
+                    formValue={formValue}
+                    setFormValue={setFormValue}
                 />
                 <form onSubmit={createCourse} className="mb-5">
                     <p>New Event</p>
@@ -88,8 +90,7 @@ function CoursesMain() {
     )
 }
 
-function CourseModal({ isOpen, onRequestClose, createCourse }) {
-    const [formValue, setFormValue] = useState("");
+function CourseModal({ isOpen, onRequestClose, createCourse, formValue, setFormValue }) {
 
     return (
         <Modal
