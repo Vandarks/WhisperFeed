@@ -35,7 +35,7 @@ function CoursesMain() {
         e.preventDefault();
 
         // Only when course name > 5 characters
-        if (formCourseName.length > 5 && formCourseType != "") {
+        if (formCourseName.length > 5 && formCourseType !== "") {
 
         const { uid, photoURL, displayName } = auth.currentUser;
 
@@ -64,8 +64,8 @@ function CoursesMain() {
     return (
         <>
             <div className="">
-                <button onClick={openModal} className="btn-open-modal">
-                    Open Modal
+                <button onClick={openModal} className="btn-open-modal m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Create Event
                 </button>
                 <CourseModal
                     isOpen={isModalOpen}
@@ -76,14 +76,6 @@ function CoursesMain() {
                     formCourseType={formCourseType}
                     setFormCourseType={setFormCourseType}
                 />
-                <form onSubmit={createCourse} className="mb-5">
-                    <p>New Event</p>
-                    <input value={formCourseName}
-                           placeholder="Enter a name, min. 5 characters"
-                           onChange={(e) => setFormCourseName(e.target.value)}
-                           className="w-3/12 min-w-min mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                    <button type="submit" className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create course</button>
-                </form>
                 <div className="grid grid-rows-1 gap-4">
                     {courses && courses.map(msg =>
                         <Course key={msg.id} message={msg} id={docId} />

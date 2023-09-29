@@ -97,36 +97,25 @@ function Course (props) {
     }
 
     return (
-        <div className="flex grid grid-cols-2 place-content-stretch rounded-lg bg-gray-900">
-            <img src={photoURL} alt="Creator" className="rounded-lg m-2" />
-            <div className="w-full flex flex-col items-center overflow-visible ">
+        <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
+            <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[200px] max-w-[200px] col-span-1"/>
+            <div className="w-full flex flex-col items-center overflow-visible col-span-1 ">
                 <h2 className="md:text-xl break-words font-semibold m-2">{courseName}</h2>
                 <p className="mb-2">{creatorName}</p>
             </div>
 
             {/* Only show this if user is the owner of the course */}
             {messageClass === "sent" && (
-                <div className="w-full rounded-lg ml-2 mb-2 bg-gray-800">
+                <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
                     <p className="m-2"><b>Average feedback: </b>{feedbackAvg}</p>
-                    <button onClick={viewFeedback} className="mb-2 ml-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{showFeedback ? "Hide Feedback" : "Show Feedback"}</button>
-                    {feedback.length > 0 && showFeedback ? (
-                    <div className="m-2">
-                        <ul className="">
-                            {feedback.map((review, index) => (
-                                <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
-                                    <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
-                                    <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {review.rating}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    )  : <div className="noFeedback" />}
+                    <button onClick={viewFeedback} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{showFeedback ? "Hide Feedback" : "Show Feedback"}</button>
+                    <p className="m-2"><b>Invite code: </b></p>
                     <button onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
                 </div>
             )}
             {/* Only show the next part if not the owner */}
             {messageClass === "received" && (
-                <div>
+                <div className="col-span-3">
                     <FeedbackInput course={courseName} creator={courseCreator} />
                 </div>
             )}
