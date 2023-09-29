@@ -1,15 +1,28 @@
 import wfLogo from '../../images/favicon.png';
+import settingsLogo from '../../images/settings.png';
 import { Link } from "react-router-dom";
 import SignOut from "../Auth/SignOut";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../firebaseConfig";
+import Modal from "react-modal";
+import React, {useState} from "react";
 
 function HeaderProfile() {
     const [user] = useAuthState(auth);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return(
         <header>
-            <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+            <nav className="fixed top-0 w-full z-10 bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     <Link to="/" className="flex items-center">
                         <img src={wfLogo} className="mr-3 h-6 sm:h-9"
@@ -18,7 +31,15 @@ function HeaderProfile() {
                             className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Whisperfeed</span>
                     </Link>
                     <div className="flex items-center lg:order-2">
-                        {user ? <p className="text-gray-800 dark:text-white font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">{user.displayName}</p> : null}
+                        {user ? <p className="text-gray-800 dark:text-white font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">{user.displayName}</p> : null}
+                            <button className="mr-5" onClick={openModal}>
+                                <img src={settingsLogo} alt="settings logo" className="max-w-[30px]"/>
+                            </button>
+                        <SettingsModal
+                            isOpen={isModalOpen}
+                            onRequestClose={closeModal}
+                        />
+
                         <SignOut />
                         <button data-collapse-toggle="mobile-menu-2" type="button"
                                 className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -46,14 +67,6 @@ function HeaderProfile() {
                                       className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Home</Link>
                             </li>
                             <li>
-                                <a href="#"
-                                   className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Company</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Team</a>
-                            </li>
-                            <li>
                                 <Link to="/contact"
                                       className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</Link>
                             </li>
@@ -64,5 +77,35 @@ function HeaderProfile() {
         </header>
     );
 }
+function SettingsModal({ isOpen, onRequestClose }) {
+    return (
+        <Modal
+            isOpen={isOpen}
+            onRequestClose={onRequestClose}
+            className="modal"
+            overlayClassName="overlay"
+        >
+            <div id="defaultModal" className="fixed overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 min-w-[300px]">
+                <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
+                    <div className="flex items-center justify-center mb-2">
+                        <button type="button"
+                                onClick={onRequestClose}
+                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="authentication-modal">
+                            <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span className="sr-only">Close modal</span>
+                        </button>
+                        <h2 className="text-2xl font-semibold text-white mb-5">Settings</h2>
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    );
+};
+
 
 export default HeaderProfile
