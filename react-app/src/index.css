@@ -18,8 +18,8 @@ code {
 
 .modal {
   /* Your modal styles here */
-  width: 50%;
-  height: 50%;
+  width: 30%;
+  height: 40%;
   position: fixed;
   top: 50%;
   left: 50%;

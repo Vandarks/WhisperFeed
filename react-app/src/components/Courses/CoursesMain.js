@@ -103,13 +103,15 @@ function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, set
             className="modal"
             overlayClassName="overlay"
         >
-            <div id="defaultModal" className="relative bg-gray-700 rounded-lg shadow dark:bg-gray-700">
-                <div className="p-4 border-b rounded-t dark:border-gray-600">
-                    <h2 className="text-2xl font-semibold text-white mb-5">Create event</h2>
-                    <form onSubmit={createCourse} className="mb-5 grid grid-cols-2 gap-4">
+            <div id="defaultModal" className="fixed overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 min-w-[300px]">
+                <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
+                    <div className="flex items-center justify-center mb-2">
+                        <h2 className="text-2xl font-semibold text-white mb-5">Create event</h2>
+                    </div>
+                    <form onSubmit={createCourse} className="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Left Section */}
                         <div className="col-span-1 ml-5">
-                            <div className="p-4 bg-gray-800 text-white mb-2 w-2/5 h-4/5">
+                            <div className="p-4 bg-gray-800 text-white mb-2 w-full md:w-2/3">
                                 <p>Photo goes here</p>
                             </div>
 
@@ -145,7 +147,7 @@ function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, set
                             </select>
                             <button
                                 type="submit"
-                                className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full block md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                                 Create course
                             </button>
