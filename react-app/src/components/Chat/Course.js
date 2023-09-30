@@ -49,7 +49,7 @@ function Course (props) {
                 const avg = count === 0 ? 0 : sum / count;
 
                 // Set feedback average to avg
-                setFeedbackAvg(avg);
+                setFeedbackAvg(avg.toFixed(2));
             })
             .catch((error) => {
                 console.error("Error getting feedback documents: ", error);
