@@ -2,7 +2,7 @@ import React from "react";
 import './App.css';
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "./firebaseConfig"; // Import Firebase config
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import HeaderProfile from "./components/Layout/HeaderProfile";
 import LandingPage from "./components/Pages/LandingPage";
