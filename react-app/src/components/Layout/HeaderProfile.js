@@ -78,6 +78,20 @@ function HeaderProfile() {
     );
 }
 function SettingsModal({ isOpen, onRequestClose }) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+    const handleSaveChanges = () => {
+        console.log('Email:', email);
+        console.log('Password::', password);
+    };
+
     return (
         <Modal
             isOpen={isOpen}
@@ -85,9 +99,10 @@ function SettingsModal({ isOpen, onRequestClose }) {
             className="modal"
             overlayClassName="overlay"
         >
-            <div id="defaultModal" className="fixed overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 min-w-[300px]">
+            <div id="defaultModal" className="overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 w-[500px] min-w-[200px]">
                 <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
-                    <div className="flex items-center justify-center mb-2">
+                    <div className="flex items-center justify-center mb-5">
+                        <h2 className="text-2xl font-semibold text-white mb-5">User Settings</h2>
                         <button type="button"
                                 onClick={onRequestClose}
                                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -99,8 +114,43 @@ function SettingsModal({ isOpen, onRequestClose }) {
                             </svg>
                             <span className="sr-only">Close modal</span>
                         </button>
-                        <h2 className="text-2xl font-semibold text-white mb-5">Settings</h2>
                     </div>
+                    <div className="grid grid-cols-2 m-2">
+                        <label htmlFor="email" className="text-white font-medium m-2">
+                            Change Email:
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            className="w-full border rounded-lg py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
+                            placeholder="Email"
+                            value={null} // {email}
+                            onChange={null} // {handleEmailChange}
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 m-2">
+                        <label htmlFor="password" className="text-white block font-medium m-2">
+                            Change Password:
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            className="w-full border rounded-lg py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
+                            placeholder="Password"
+                            value={null} // {password}
+                            onChange={null} // {handlePasswordChange}
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 justify-center mt-5">
+                        <button
+                            className="text-white m-auto max-w-[200px] col-span-2 m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            onClick={null} // {handleSaveChanges}
+                        >
+                            Save Changes
+
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </Modal>
