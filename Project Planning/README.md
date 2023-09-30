@@ -3,7 +3,17 @@ This document defines the project plan and required information.
 
 ## Goal Definition  
 The goal of the project is to let students give anonymous feedback to their respective teachers and courses.
-## Scope Definition  
+## Scope Definition
+Included:
+- sign up / sign in to the service.
+- create a new event that others can join.
+- give feedback on events.
+- view statistics on how your event is doing in terms of rating.
+
+Excluded:
+- x
+- y
+- z
 
 ## Requirements Gathering  
 
