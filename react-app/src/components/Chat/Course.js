@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import FeedbackInput from "./FeedbackInput";
+import Modal from "react-modal";
 
 function Course (props) {
+
+    // Modal settings
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+        viewFeedback();
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    }
+
+
     const { courseName, uid, photoURL, creatorName } = props.message;
     const courseCreator = props.message.uid;
 
@@ -18,9 +33,6 @@ function Course (props) {
 
     // Average feedback of a course
     const [feedbackAvg, setFeedbackAvg] = useState("Currently none");
-
-    // Handles showing and hiding the course specific feedback
-    const [showFeedback, setshowFeedback] = useState(false);
 
     // Updates feedback average score value
     useEffect(() => {
@@ -80,7 +92,6 @@ function Course (props) {
 
     // View course feedback from database
     const viewFeedback = async () => {
-        setshowFeedback(!showFeedback);
 
         console.log("course: ", courseName, " uid: ", courseCreator)
 
@@ -108,7 +119,15 @@ function Course (props) {
             {messageClass === "sent" && (
                 <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
                     <p className="m-2"><b>Average feedback: </b>{feedbackAvg}</p>
-                    <button onClick={viewFeedback} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{showFeedback ? "Hide Feedback" : "Show Feedback"}</button>
+                    <button onClick={openModal} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Show Feedback
+                    </button>
+                    <CourseModal
+                        isOpen={isModalOpen}
+                        onRequestClose={closeModal}
+                        feedback = {feedback}
+                        courseName = {courseName}
+                        />
                     <p className="m-2"><b>Invite code: </b></p>
                     <button onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
                 </div>
@@ -123,4 +142,45 @@ function Course (props) {
     )
 }
 
+function CourseModal({ isOpen, onRequestClose, feedback, courseName}) {
+
+    return (
+        <Modal
+            isOpen={isOpen}
+            onRequestClose={onRequestClose}
+            className="modal"
+            overlayClassName="overlay"
+        >
+            <div id="defaultModal" className="fixed overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 min-w-[300px]">
+                <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
+                    <div className="flex items-center justify-center mb-2">
+                        <h2 className="text-2xl font-semibold text-white mb-5">Feedback for {courseName}</h2>
+                        <button type="button"
+                                onClick={onRequestClose}
+                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="authentication-modal">
+                            <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span className="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <div className="m-2">
+                        <ul className="">
+                            {feedback.map((review, index) => (
+                                <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
+                                    <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
+                                    <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {review.rating}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </Modal>
+    );
+}
 export default Course;
