@@ -32,9 +32,12 @@ function HeaderProfile() {
                     </Link>
                     <div className="flex items-center lg:order-2">
                         {user ? <p className="text-gray-800 dark:text-white font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">{user.displayName}</p> : null}
+                            {user.providerData[0].providerId === "password" && (
+                                
                             <button className="mr-5" onClick={openModal}>
                                 <img src={settingsLogo} alt="settings logo" className="max-w-[30px]"/>
                             </button>
+                            )}
                         <SettingsModal
                             isOpen={isModalOpen}
                             onRequestClose={closeModal}
