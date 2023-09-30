@@ -99,17 +99,28 @@ function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, set
                 <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
                         <h2 className="text-2xl font-semibold text-white mb-5">Create event</h2>
+                        <button type="button"
+                                onClick={onRequestClose}
+                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="authentication-modal">
+                            <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span className="sr-only">Close modal</span>
+                        </button>
                     </div>
-                    <form onSubmit={createCourse} className="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <form onSubmit={createCourse} className="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                         {/* Left Section */}
-                        <div className="col-span-1 ml-5">
-                            <div className="p-4 bg-gray-800 text-white mb-2 w-full md:w-2/3">
+                        <div className="col-span-1 m-2">
+                            <div className="p-4 bg-gray-800 text-white m-2 w-[150px] h-[150px]">
                                 <p>Photo goes here</p>
                             </div>
 
                             <button
                                 type="submit"
-                                className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-2"
                             >
                                 Upload photo
                             </button>
@@ -117,34 +128,35 @@ function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, set
                         </div>
 
                         {/* Right Section */}
-                        <div className="col-span-1 mr-5">
+                        <div className="grid grid-cols-4 col-span-1 mr-5">
+                            <label className="block m-2 text-sm font-medium text-gray-900 dark:text-white">Name: </label>
                             <input
                                 value={formCourseName}
                                 placeholder="Enter a name, min. 5 characters"
                                 onChange={(e) => setFormCourseName(e.target.value)}
-                                className="w-full mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="w-full col-span-3 mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
-                            <label htmlFor="event-types" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Select an option
+                            <label htmlFor="event-types" className="block m-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Type:
                             </label>
                             <select
                                 value={formCourseType}
                                 onChange={(e) => setFormCourseType(e.target.value)}
                                 id="event-types"
-                                className="mb-5 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="mb-5 col-span-3 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                                 <option selected>Choose event type</option>
                                 <option value="Course">Course</option>
                                 <option value="Event">Event</option>
                             </select>
-                            <button
-                                type="submit"
-                                className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full block md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                                Create course
-                            </button>
                         </div>
                     </form>
+                    <button
+                        type="submit"
+                        className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full block md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-auto"
+                    >
+                        Create course
+                    </button>
                 </div>
             </div>
 
