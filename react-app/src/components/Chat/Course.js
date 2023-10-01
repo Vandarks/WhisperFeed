@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
-import { Donut } from "./DonutChart";
+import { Donut, options } from "./DonutChart";
 
 function Course (props) {
 
@@ -177,6 +177,31 @@ function Course (props) {
 
 function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg, good, ok, bad}) {
 
+
+    // Data for donut chart
+    const data = [
+        ["Rating", "Amount"],
+        ["Bad", bad],
+        ["OK", ok],
+        ["Good", good]
+      ];
+
+    // Options for donut chart
+    const options = {
+        title: {courseName},
+        pieHole: 0.4,
+        is3D: false,
+        backgroundColor: "transparent",
+        legend: "none",
+        width: 250,
+        height: 400,
+        slices: {
+            0: {color: "ef4444"},
+            1: {color: "eab308"},
+            2: {color: "22c55e"}
+        }
+    };
+
     return (
         <Modal
             isOpen={isOpen}
@@ -212,6 +237,8 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                                        ok={ok}
                                        good={good}
                                        courseName = {courseName}
+                                       data = {data}
+                                       options = {options}
                                 />
                             </div>
                         </div>
