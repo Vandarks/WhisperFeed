@@ -25,7 +25,7 @@ Login is done through Firebase so that users can sign in with their google accou
 ## Resource Allocation  
 The project requires no very little budget given that all software is free. Both front- and backend programming is required so a team of full-stack developers are required. The programmers need devices from which to write the code. Code needs to be written and compiled in an IDE or similar.
 ## Risk Assesment  
-The project has some risks, both in the development and future. Firebase has a limit on how much data one project can store before becoming a paid product. Keeping the project up for long periods of time or having too big of a user base would make this project expensive.
+The project has some risks, both in the development and future. Firebase has a limit on how much data one project can store before becoming a paid product. Keeping the project up for long periods of time or having too big of a user base would make this project expensive. If the website seds over 50 000 read requests on the same day, firestore will stop working.
 ## Team Formation  
 The team consists of four people. Onni Alasaari, Tapio Humaljoki, Miiko Majewski and Edvard Nivala. The four of us have previous experience working as a team so teamwork will not be an issue.
 ## Technology Stack  
