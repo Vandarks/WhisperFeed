@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
+import { Donut } from "./DonutChart";
 
 function Course (props) {
 
@@ -204,7 +205,13 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                             <p className="ml-2 mt-2 mr-2 text-gray-50 ">Feedback Average {feedbackAvg}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">Good: {good}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-yellow-500">OK: {ok}</p>
-                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">Bad: {bad}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">Bad {bad}</p>
+                            <Donut className=""
+                            bad={bad}
+                            ok={ok}
+                            good={good}
+                            courseName = {courseName}
+                            />
                         </div>
                         <div>
                             <ul className="">
@@ -223,4 +230,5 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
         </Modal>
     );
 }
+
 export default Course;
