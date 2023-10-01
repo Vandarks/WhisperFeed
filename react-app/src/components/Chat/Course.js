@@ -34,44 +34,12 @@ function Course (props) {
     // Average feedback of a course
     const [feedbackAvg, setFeedbackAvg] = useState("Currently none");
 
-    // Updates feedback average score value
-    useEffect(() => {
 
-        // fetch all feedback with a rating
-        courseFeedbackRef
-            .where("rating", "!=", null)
-            .get()
-            .then((querySnapshot) => {
-                const data = [];
-                let sum = 0;
-                let count = 0;
-
-                // add to rating and count for each document with a rating
-                querySnapshot.forEach((doc) => {
-                    const feedbackData = doc.data();
-                    const rating = feedbackData.rating;
-
-                    sum += rating;
-                    count++;
-
-                    data.push(feedbackData);
-                });
-
-                // Calculate average if possible
-                const avg = count === 0 ? 0 : sum / count;
-
-                // Set feedback average to avg
-                setFeedbackAvg(avg.toFixed(2));
-            })
-            .catch((error) => {
-                console.error("Error getting feedback documents: ", error);
-            });
-    }, [courseFeedbackRef]);
 
     // Remove course and feedback from database
     const handleRemoveCourseButton = () => {
 
-        console.log("Selected course: ", courseName, " creator: ", courseCreator)
+        console.log("Deleted course: ", courseName, " creator: ", courseCreator)
 
         firestore.collection("courses")
             .where("courseName", "==", courseName)
@@ -93,43 +61,71 @@ function Course (props) {
     // View course feedback from database
     const viewFeedback = async () => {
 
-        console.log("course: ", courseName, " uid: ", courseCreator)
+        try {
+            const ratingQuerySnap = await courseFeedbackRef.where("rating", "!=", null).get();
 
-        // fetches the feedback for the course and puts into feedback hook
-        courseFeedbackRef.get().then((querySnapshot) => {
+            const ratingData = [];
+            let sum = 0;
+            let count = 0;
+
+            ratingQuerySnap.forEach((doc) => {
+                const feedbackData = doc.data();
+                const rating = feedbackData.rating;
+
+                sum += rating;
+                count ++;
+
+                ratingData.push(feedbackData);
+            });
+
+            const avg = count === 0 ? 0 : sum / count;
+
+            setFeedbackAvg(avg.toFixed(2));
+
+            console.log("course: ", courseName, " uid: ", courseCreator);
+            
+            
+            // Fetch feedback for the course and put into feedback hook
             const reviewData = [];
-            querySnapshot.forEach((doc) => {
+            
+            ratingQuerySnap.forEach((doc) => {
                 reviewData.push(doc.data());
             });
-            setFeedback(reviewData);
-        });
 
-        console.log("Feedback text: " + feedback.text);
+            setFeedback(reviewData);
+
+            console.log("Feedback text: ", reviewData.text);
+
+        } catch (e) {
+            console.error("Error getting feedback documents: ", e);
+        }
     }
+
 
     return (
         <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
             <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[200px] max-w-[200px] col-span-1"/>
             <div className="w-full flex flex-col items-center overflow-visible col-span-1 ">
-                <h2 className="md:text-xl break-words font-semibold m-2">{courseName}</h2>
+                <h2 className="md:text-xl break-words font-semibold m-2 text-center">{courseName}</h2>
                 <p className="mb-2">{creatorName}</p>
             </div>
 
             {/* Only show this if user is the owner of the course */}
             {messageClass === "sent" && (
                 <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
-                    <p className="m-2"><b>Average feedback: </b>{feedbackAvg}</p>
+                    <p className="m-2"><b>Invite code: 12345</b></p>
                     <button onClick={openModal} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Show Feedback
                     </button>
+                    <p className="m-2">[Weekday placeholder]</p>
+                    <button onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
                     <CourseModal
                         isOpen={isModalOpen}
                         onRequestClose={closeModal}
                         feedback = {feedback}
                         courseName = {courseName}
+                        feedbackAvg={feedbackAvg}
                         />
-                    <p className="m-2"><b>Invite code: </b></p>
-                    <button onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove course</button>
                 </div>
             )}
             {/* Only show the next part if not the owner */}
@@ -142,7 +138,7 @@ function Course (props) {
     )
 }
 
-function CourseModal({ isOpen, onRequestClose, feedback, courseName}) {
+function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg}) {
 
     return (
         <Modal
@@ -168,6 +164,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName}) {
                         </button>
                     </div>
                     <div className="m-2">
+                        <p className="ml-2 mt-2 mr-2 text-gray-50">Feedback Average {feedbackAvg}</p>
                         <ul className="">
                             {feedback.map((review, index) => (
                                 <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
