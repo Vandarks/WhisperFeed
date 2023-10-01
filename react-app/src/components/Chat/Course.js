@@ -184,8 +184,8 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
             className="modal"
             overlayClassName="overlay"
         >
-            <div id="defaultModal" className="fixed overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 min-w-[300px]">
-                <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
+            <div id="defaultModal" className="max-h-[550px] fixed bg-gray-700 rounded-lg shadow dark:bg-gray-700">
+                <div className="relative p-4 border-b rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
                         <h2 className="text-2xl font-semibold text-white mb-5">Feedback for {courseName}</h2>
                         <button type="button"
@@ -201,20 +201,22 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                         </button>
                     </div>
                     <div className="m-2 grid grid-cols-2">
-                        <div>
+                        <div className="">
                             <p className="ml-2 mt-2 mr-2 text-gray-50 ">Feedback Average {feedbackAvg}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">Good: {good}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-yellow-500">OK: {ok}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">Bad {bad}</p>
-                            <Donut className=""
-                            bad={bad}
-                            ok={ok}
-                            good={good}
-                            courseName = {courseName}
-                            />
+                            <div className="">
+                                <Donut className=""
+                                       bad={bad}
+                                       ok={ok}
+                                       good={good}
+                                       courseName = {courseName}
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <ul className="">
+                        <div className="">
+                            <ul className="max-h-[420px] overflow-y-auto">
                                 {feedback.map((review, index) => (
                                     <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
                                         <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>

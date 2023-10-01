@@ -14,7 +14,7 @@ export const options = {
   is3D: false,
   backgroundColor: "transparent",
   legend: "none",
-  width: 500,
+  width: 250,
   height: 400,
   slices: {
     0: {color: "red"},
