@@ -17,6 +17,12 @@ function Course (props) {
         setIsModalOpen(false);
     }
 
+    // feedback rating hooks
+    const [goodRating, setGoodRating] = useState(0);
+    const [okRating, setOkRating] = useState(0);
+    const [badRating, setBadRating] = useState(0);
+
+
 
     const { courseName, uid, photoURL, creatorName } = props.message;
     const courseCreator = props.message.uid;
@@ -68,9 +74,28 @@ function Course (props) {
             let sum = 0;
             let count = 0;
 
+            let good = 0;
+            let ok = 0;
+            let bad = 0;
+
             ratingQuerySnap.forEach((doc) => {
                 const feedbackData = doc.data();
                 const rating = feedbackData.rating;
+
+                switch(rating) {
+                    case 2:
+                        good++;
+                        break;
+                        
+                    case 1:
+                        ok++;
+                        break;
+                    case 0:
+                        bad++;
+                        break;
+                    default:
+                        break;
+                }
 
                 sum += rating;
                 count ++;
@@ -80,7 +105,15 @@ function Course (props) {
 
             const avg = count === 0 ? 0 : sum / count;
 
+
+            // set things
+            setGoodRating(good);
+            setOkRating(ok);
+            setBadRating(bad);
+
             setFeedbackAvg(avg.toFixed(2));
+
+            console.log(goodRating);
 
             console.log("course: ", courseName, " uid: ", courseCreator);
             
@@ -125,6 +158,9 @@ function Course (props) {
                         feedback = {feedback}
                         courseName = {courseName}
                         feedbackAvg={feedbackAvg}
+                        good={goodRating}
+                        ok={okRating}
+                        bad={badRating}
                         />
                 </div>
             )}
@@ -138,7 +174,7 @@ function Course (props) {
     )
 }
 
-function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg}) {
+function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg, good, ok, bad}) {
 
     return (
         <Modal
@@ -163,16 +199,23 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="m-2">
-                        <p className="ml-2 mt-2 mr-2 text-gray-50">Feedback Average {feedbackAvg}</p>
-                        <ul className="">
-                            {feedback.map((review, index) => (
-                                <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
-                                    <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
-                                    <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {review.rating}</p>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="m-2 grid grid-cols-2">
+                        <div>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 ">Feedback Average {feedbackAvg}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">Good: {good}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-yellow-500">OK: {ok}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">Bad: {bad}</p>
+                        </div>
+                        <div>
+                            <ul className="">
+                                {feedback.map((review, index) => (
+                                    <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
+                                        <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
+                                        <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {review.rating}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
