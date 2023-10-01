@@ -1,7 +1,9 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {useState} from "react";
+import PasswordAlert from "../Alerts/PasswordAlert";
 
 function SignUpForm({ onSignInClick }) {
+    const [error, setError] = useState("");
 
     //Code for creating a new account in firebase
     const auth = getAuth();
@@ -17,12 +19,15 @@ function SignUpForm({ onSignInClick }) {
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
+                    setError(errorMessage);
                     console.log(errorCode + " " + errorMessage)
                 });
         }else {
             if(password.length < 6){
+                setError("Password should be at least 6 characters long")
                 console.log("Password should be at least 6 characters long");
             }else{
+                setError("Please fill in all fields")
                 console.log("Please fill in all fields");
             }
         }
@@ -78,6 +83,7 @@ function SignUpForm({ onSignInClick }) {
                         <input type="password" name="password" id="password" value={password} onChange={handlePasswordChange}
                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                placeholder="••••••••" required=""/>
+                        {error && <PasswordAlert message={error}/>}
                     </div>
                     <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign up</button>
                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
