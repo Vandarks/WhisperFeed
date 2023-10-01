@@ -2,6 +2,7 @@ import { auth } from "../../firebaseConfig";
 import React from "react";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import googleLogo from '../../images/google_logo.png';
 
 
 // Sign in function, uses Firebase Auth, is only visible when not signed in
@@ -14,8 +15,9 @@ function SignIn() {
     return (
         <div className="mt-8 flex justify-center text-lg text-black">
             <button onClick={signInWithGoogle}
-                className="rounded-3xl bg-orange-500 bg-opacity-50 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-600">
-                Sign in with your account
+                className="flex items-center rounded-3xl bg-orange-500 bg-opacity-50 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-yellow-600">
+                <span>Sign in with</span>
+                <img src={googleLogo} alt="google_logo" className="max-w-[25px] ml-2"/>
             </button>
         </div>
     )
