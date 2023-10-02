@@ -210,7 +210,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
             overlayClassName="overlay"
         >
             <div id="defaultModal" className="max-h-[550px] fixed bg-gray-700 rounded-lg shadow dark:bg-gray-700">
-                <div className="relative p-4 border-b rounded-t dark:border-gray-600">
+                <div className="relative p-4 rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
                         <h2 className="text-2xl font-semibold text-white mb-5">Feedback for {courseName}</h2>
                         <button type="button"
