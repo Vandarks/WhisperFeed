@@ -25,8 +25,9 @@ function Course (props) {
 
 
 
-    const { courseName, uid, photoURL, creatorName } = props.message;
+    const { courseName, uid, photoURL, creatorName, courseKey } = props.message;
     const courseCreator = props.message.uid;
+    
 
     // Reference to the feedback collection
     const feedbackRef = firestore.collection("feedback");
@@ -147,7 +148,7 @@ function Course (props) {
             {/* Only show this if user is the owner of the course */}
             {messageClass === "sent" && (
                 <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
-                    <p className="m-2"><b>Invite code: 12345</b></p>
+                    <p className="m-2"><b>Invite code: {courseKey}</b></p>
                     <button onClick={openModal} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Show Feedback
                     </button>

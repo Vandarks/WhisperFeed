@@ -1,5 +1,5 @@
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { coursesRef, auth } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import Course from '../Chat/Course';
 import firebase from 'firebase/compat/app';
@@ -22,7 +22,46 @@ function CoursesMain() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Course key for new course
+    const [courseKey, setCourseKey] = useState(12345);
+
+    // All known course keys
+    const [knownKeys, setKnownKeys] = useState([123456]);
+
+    // For generating a unique key for course
+    const generateCourseKey = async() => {
+        let generatedKey = "";
+        const characters = "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
+        const keyLength = 6;
+        let counter = 0;
+
+        while (counter < keyLength) {
+            generatedKey += characters.charAt(Math.floor(Math.random() * characters.length));
+            counter += 1;
+        }
+        checkCourseKey(generatedKey);
+        return generatedKey;
+    }
+
+    // Check through the database for course keys, add them to the knownKey array
+    const checkCourseKey = (generatedKey) =>  {
+        let checkAmounts = 0;
+        knownKeys.forEach((key, index) => {
+            checkAmounts++;
+            if (generatedKey === key) {
+                console.log("NOPE", checkAmounts);
+                generateCourseKey();
+            } else {
+                console.log("its a new key! ", generatedKey)
+                setCourseKey(generatedKey);
+                return generatedKey;
+            }
+        });
+    }
+    
+
     const openModal = () => {
+        generateCourseKey();
         setIsModalOpen(true);
     }
     const closeModal = () => {
@@ -45,7 +84,8 @@ function CoursesMain() {
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             uid,
             photoURL,
-            creatorName: displayName
+            creatorName: displayName,
+            courseKey: courseKey
         })
         .then((docRef) => {
             console.log("Document ID: ", docRef.id);
@@ -67,6 +107,10 @@ function CoursesMain() {
                 <button onClick={openModal} className="btn-open-modal m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Create Event
                 </button>
+                <button onClick={generateCourseKey} className="btn-open-modal m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Generate Course Key
+                </button>
+                <p>{courseKey}</p>
                 <CourseModal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
@@ -78,7 +122,7 @@ function CoursesMain() {
                 />
                 <div className="grid grid-rows-1 gap-4">
                     {courses && courses.map(msg =>
-                        <Course key={msg.id} message={msg} id={docId} />
+                        <Course key={msg.id} message={msg} id={msg.docId} courseKey={msg.courseKey} />
                     )}
                 </div>
             </div>
