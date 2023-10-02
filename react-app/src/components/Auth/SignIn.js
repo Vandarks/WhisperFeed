@@ -9,7 +9,11 @@ import googleLogo from '../../images/google_logo.png';
 function SignIn() {
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider);
+        auth.signInWithPopup(provider).then(r => {
+            console.log("logged in", r);
+        }).catch((error) => {
+            console.error(error)
+        });
     }
 
     return (
