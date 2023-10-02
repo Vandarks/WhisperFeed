@@ -247,7 +247,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                                 {feedback.map((review, index) => (
                                     <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
                                         <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
-                                        <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {review.rating}</p>
+                                        <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {convertNumberToRating(review.rating)}</p>
                                     </li>
                                 ))}
                             </ul>
@@ -258,6 +258,19 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
 
         </Modal>
     );
+}
+
+function convertNumberToRating(number){
+    switch (number){
+        case 2:
+            return "Good";
+        case 1:
+            return "Ok";
+        case 0:
+            return "Bad";
+        default:
+            return "Unkown";
+    }
 }
 
 export default Course;
