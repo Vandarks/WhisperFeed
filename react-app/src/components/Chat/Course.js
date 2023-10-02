@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
-import { Donut, options } from "./DonutChart";
+import { Donut } from "./DonutChart";
 
 function Course (props) {
 
@@ -211,7 +211,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
             overlayClassName="overlay"
         >
             <div id="defaultModal" className="max-h-[550px] fixed bg-gray-700 rounded-lg shadow dark:bg-gray-700">
-                <div className="relative p-4 border-b rounded-t dark:border-gray-600">
+                <div className="relative p-4 rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
                         <h2 className="text-2xl font-semibold text-white mb-5">Feedback for {courseName}</h2>
                         <button type="button"
@@ -228,7 +228,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                     </div>
                     <div className="m-2 grid grid-cols-2">
                         <div className="">
-                            <p className="ml-2 mt-2 mr-2 text-gray-50 ">Feedback Average {feedbackAvg}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 ">Feedback Average: {convertRatingAverage(feedbackAvg)} ({feedbackAvg})</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">Good: {good}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-yellow-500">OK: {ok}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">Bad {bad}</p>
@@ -248,7 +248,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                                 {feedback.map((review, index) => (
                                     <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
                                         <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
-                                        <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {review.rating}</p>
+                                        <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {convertNumberToRating(review.rating)}</p>
                                     </li>
                                 ))}
                             </ul>
@@ -259,6 +259,26 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
 
         </Modal>
     );
+}
+
+function convertNumberToRating(number){
+    switch (number){
+        case 2:
+            return "Good";
+        case 1:
+            return "Ok";
+        case 0:
+            return "Bad";
+        default:
+            return "Unkown";
+    }
+}
+
+function convertRatingAverage(average){
+    if(average >= 1.33){return "Good"}
+    else if(average < 1.33 && average > 0.66){return "Ok";}
+    else if(average <= 0.66){return "Bad";}
+    else{return "Unknown";}
 }
 
 export default Course;
