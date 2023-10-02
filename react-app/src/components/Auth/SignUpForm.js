@@ -9,7 +9,7 @@ function SignUpForm({ onSignInClick }) {
     const auth = getAuth();
     const signUp = (e) => {
         e.preventDefault();
-        if(password.length >= 6 && email != "" && firstName != "" && lastName != ""){
+        if(password.length >= 6 && email !== "" && firstName !== "" && lastName !== ""){
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     // Signed up
