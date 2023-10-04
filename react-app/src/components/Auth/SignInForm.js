@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {useState} from "react";
-
+import PasswordAlert from "../Alerts/PasswordAlert";
 
 function SignInForm({ onSignUpClick }) {
 
@@ -17,6 +17,7 @@ function SignInForm({ onSignUpClick }) {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode + " " + errorMessage)
+                setError("Invalid username or password");
             });
     }
 
@@ -29,6 +30,9 @@ function SignInForm({ onSignUpClick }) {
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
+
+    //login username or password error state
+    const [error, setError] = useState("");
 
     return (
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -49,6 +53,7 @@ function SignInForm({ onSignUpClick }) {
                         <input type="password" name="password" id="password" placeholder="••••••••" value={password} onChange={handlePasswordChange}
                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                required=""/>
+                        {error && <PasswordAlert message={error}/>}
                     </div>
                     <div className="flex items-center justify-between">
                         <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
