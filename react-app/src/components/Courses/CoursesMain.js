@@ -19,7 +19,7 @@ function CoursesMain() {
 
     const codeQuery = coursesRef.where("courseKey", "in", userKeys);
 
-    
+    const [courseKeyText, setCourseKeyText] = useState("");
     
     
     const [courses] = useCollectionData(codeQuery, { idField: "id" });
@@ -148,7 +148,7 @@ function CoursesMain() {
         }
         
         // This can be called whenever needed to join a new course, is automatically called when creating a new course
-        const joinCourse = async(newCourseKey) => {
+        const joinCourse = async (newCourseKey) => {
             try {
                 await currentUserRef.update({
                     courseCodes: firebase.firestore.FieldValue.arrayUnion(newCourseKey),
@@ -165,6 +165,12 @@ function CoursesMain() {
                 
             }, []);
         
+        const handleJoinClick = (param) => {
+            if (courseKeyText.length == 6) {
+                console.log("testi");
+                joinCourse(param);
+            }
+        }
         
         return (
             <>
@@ -179,10 +185,12 @@ function CoursesMain() {
                         </div>
                         <div id="join_btn" className="m-2 flex items-start">
                             <input type="text"
+                                    value={courseKeyText}
+                                    onChange={(e) => setCourseKeyText(e.target.value)}
                                    placeholder="Enter Course Key"
                             className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
                             <button
-                                onClick={null}
+                                onClick={() => handleJoinClick(courseKeyText)}
                                 className="ml-2 btn-open-modal bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                                 Join Course
