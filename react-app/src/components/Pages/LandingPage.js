@@ -11,6 +11,7 @@ function LandingPage() {
     const [user] = useAuthState(auth);
     const [showSignUp, setShowSignUp] = useState(false);
     const marginTopClass = user ? 'mt-12' : '';
+    const enableTopDivFlex = user ? 'min-h-screen w-full items-center justify-center bg-gray-900' : 'flex min-h-screen w-full items-center justify-center bg-gray-900';
 
     const toggleSignUp = () => {
         setShowSignUp(!showSignUp);
@@ -18,8 +19,8 @@ function LandingPage() {
 
     return (
         <div className={marginTopClass}>
-            <div className="flex min-h-screen w-full items-center justify-center bg-gray-900">
-                <div className="my-10 rounded-xl bg-gray-800 px-10 py-3 shadow-lg backdrop-blur-md max-sm:px-8">
+            <div className={enableTopDivFlex}>
+                <div className="rounded-xl bg-gray-800 px-10 py-3 shadow-lg backdrop-blur-md max-sm:px-8">
                     <div className="flex flex-col items-center text-white">
                         {user ? null : <img src={wfLogo} alt="logo" className="w-1/3"/>}
                         {user ? null : showSignUp ? (
