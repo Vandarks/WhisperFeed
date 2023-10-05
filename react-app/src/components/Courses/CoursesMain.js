@@ -43,7 +43,16 @@ function CoursesMain() {
                         console.log("Field does not exist in the doc");
                     }
                 } else {
-                    console.log("Document does not exist in collection");
+                    console.log("Document does not exist in collection, creating");
+                    currentUserRef.set({
+                        courseCodes: ["vZVV66"],
+                    })
+                    .then(() => {
+                        console.log("New document created succesfully.")
+                    })
+                    .catch((e) => {
+                        console.error("Error creating a new document: ", e);
+                    });
                 }
             })
             .catch((e) => {
