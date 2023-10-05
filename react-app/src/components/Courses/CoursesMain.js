@@ -10,11 +10,36 @@ import Modal from 'react-modal';
 // The creator of the course should see the feedback on the course, maybe as a 0-5 star system?
 function CoursesMain() {
 
+    // All known course keys
+    const [knownKeys, setKnownKeys] = useState(["js8uIv", "nNb6bj", "JVuC6u", 12345, "8DeL5R"]);
+
     const query = coursesRef.orderBy("createdAt").limit(25);
+
+    const codeQuery = coursesRef.where("courseKey", "in", knownKeys);
+
+
+    useEffect(() => {
+        codeQuery
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data().courseName);
+            });
+        }).catch((error) => {
+            console.error("Error getting user documents: ", error);
+        })
+
+    })
+
+
+    // specialized query that goes through all user codes and searches all related courses
+
+
+    console.log(codeQuery);
 
     const [docId, setDocId] = useState("");
 
-    const [courses] = useCollectionData(query, {idField: "id"});
+    const [courses] = useCollectionData(codeQuery, { idField: "id" });
 
     const [formCourseName, setFormCourseName] = useState("");
 
@@ -25,11 +50,8 @@ function CoursesMain() {
     // Course key for new course
     const [courseKey, setCourseKey] = useState(12345);
 
-    // All known course keys
-    const [knownKeys, setKnownKeys] = useState([123456]);
-
     // For generating a unique key for course
-    const generateCourseKey = async() => {
+    const generateCourseKey = async () => {
         let generatedKey = "";
         const characters = "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
         const keyLength = 6;
@@ -40,16 +62,13 @@ function CoursesMain() {
             counter += 1;
         }
         checkCourseKey(generatedKey);
-        return generatedKey;
     }
 
     // Check through the database for course keys, add them to the knownKey array
-    const checkCourseKey = (generatedKey) =>  {
-        let checkAmounts = 0;
+    const checkCourseKey = (generatedKey) => {
         knownKeys.forEach((key, index) => {
-            checkAmounts++;
             if (generatedKey === key) {
-                console.log("NOPE", checkAmounts);
+                console.log("Key already exists, the chances of this happening is approx one in 56.8 trillion");
                 generateCourseKey();
             } else {
                 console.log("its a new key! ", generatedKey)
@@ -58,7 +77,7 @@ function CoursesMain() {
             }
         });
     }
-    
+
 
     const openModal = () => {
         generateCourseKey();
@@ -70,32 +89,32 @@ function CoursesMain() {
 
 
     // Create a course to the database and for others to see, updates asynchronously
-    const createCourse = async(e) => {
+    const createCourse = async (e) => {
         e.preventDefault();
 
         // Only when course name > 5 characters
         if (formCourseName.length > 5 && formCourseType !== "") {
 
-        const { uid, photoURL, displayName } = auth.currentUser;
+            const { uid, photoURL, displayName } = auth.currentUser;
 
-        await coursesRef.add({
-            courseName: formCourseName,
-            courseType: formCourseType,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            uid,
-            photoURL,
-            creatorName: displayName,
-            courseKey: courseKey
-        })
-        .then((docRef) => {
-            console.log("Document ID: ", docRef.id);
-            setDocId(docRef.id);
-        })
-        .catch((e) => {
-            console.error("Error adding document: ", e);
-        });
+            await coursesRef.add({
+                courseName: formCourseName,
+                courseType: formCourseType,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                uid,
+                photoURL,
+                creatorName: displayName,
+                courseKey: courseKey
+            })
+                .then((docRef) => {
+                    console.log("Document ID: ", docRef.id);
+                    setDocId(docRef.id);
+                })
+                .catch((e) => {
+                    console.error("Error adding document: ", e);
+                });
 
-        setFormCourseName("");
+            setFormCourseName("");
         } else {
             console.log("Course not created, add valid course name!")
         }
@@ -130,7 +149,7 @@ function CoursesMain() {
     )
 }
 
-function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, setFormCourseName, formCourseType, setFormCourseType}) {
+function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, setFormCourseName, formCourseType, setFormCourseType }) {
 
     return (
         <Modal
@@ -144,13 +163,13 @@ function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, set
                     <div className="flex items-center justify-center mb-2">
                         <h2 className="text-2xl font-semibold text-white mb-5">Create event</h2>
                         <button type="button"
-                                onClick={onRequestClose}
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                data-modal-hide="authentication-modal">
+                            onClick={onRequestClose}
+                            className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="authentication-modal">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 14 14">
+                                viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                             </svg>
                             <span className="sr-only">Close modal</span>
                         </button>
