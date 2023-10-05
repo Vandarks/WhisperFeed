@@ -169,9 +169,27 @@ function CoursesMain() {
         return (
             <>
             <div className="">
-                <button onClick={openModal} className="btn-open-modal m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Create Event
-                </button>
+                    <div id="btn_cont" className="flex justify-between">
+                        <div className="flex">
+                            <div id="create_btn" className="m-2">
+                                <button onClick={openModal} className="btn-open-modalbg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Create Event
+                                </button>
+                            </div>
+                        </div>
+                        <div id="join_btn" className="m-2 flex items-start">
+                            <input type="text"
+                                   placeholder="Enter Course Key"
+                            className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                            <button
+                                onClick={null}
+                                className="ml-2 btn-open-modal bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Join Course
+                            </button>
+                        </div>
+                    </div>
+
                 <CourseModal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
