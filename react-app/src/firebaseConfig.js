@@ -18,6 +18,7 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 const feedbackRef = firestore.collection("feedback");
 const coursesRef = firestore.collection("courses");
+const usersRef = firestore.collection("users");
 
 
-export { auth, firestore, feedbackRef, coursesRef };
+export { auth, firestore, feedbackRef, coursesRef, usersRef };

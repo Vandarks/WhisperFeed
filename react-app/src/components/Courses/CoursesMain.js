@@ -1,6 +1,6 @@
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import React, { useEffect, useState } from "react";
-import { coursesRef, auth } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
+import { coursesRef, auth, usersRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import Course from '../Chat/Course';
 import firebase from 'firebase/compat/app';
 import Modal from 'react-modal';
@@ -11,33 +11,54 @@ import Modal from 'react-modal';
 function CoursesMain() {
 
     // All known course keys
-    const [knownKeys, setKnownKeys] = useState(["js8uIv", "nNb6bj", "JVuC6u", 12345, "8DeL5R"]);
+    const [knownKeys, setKnownKeys] = useState([""]);
 
-    const query = coursesRef.orderBy("createdAt").limit(25);
+    const [userKeys, setUserKeys] = useState(["vZVV66"]);
 
-    const codeQuery = coursesRef.where("courseKey", "in", knownKeys);
+    const currentUserRef = usersRef.doc(auth.currentUser.uid);
+
+    // const query = coursesRef.orderBy("createdAt").limit(25);
+
+    const codeQuery = coursesRef.where("courseKey", "in", userKeys);
 
 
     useEffect(() => {
+
+        currentUserRef.get()
+            .then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    if (userData.hasOwnProperty("courseCodes")) {
+                        setUserKeys(userData.courseCodes);
+                        console.log("User keys: " + userKeys);
+                    } else {
+                        console.log("Field does not exist in the doc");
+                    }
+                } else {
+                    console.log("Document does not exist in collection");
+                }
+            })
+            .catch((e) => {
+                console.error("Error fetching document: ", e);
+            });
+
         codeQuery
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data().courseName);
-            });
-        }).catch((error) => {
-            console.error("Error getting user documents: ", error);
-        })
+                    console.log("Doc id: " + doc.id + " course name: " + doc.data().courseName);
+                });
+            }).catch((error) => {
+                console.error("Error getting user documents: ", error);
+            })
 
-    })
+    }, []);
 
 
     // specialized query that goes through all user codes and searches all related courses
 
 
-    console.log(codeQuery);
 
-    const [docId, setDocId] = useState("");
 
     const [courses] = useCollectionData(codeQuery, { idField: "id" });
 
@@ -47,40 +68,47 @@ function CoursesMain() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Course key for new course
-    const [courseKey, setCourseKey] = useState(12345);
 
+    let generatedKey = "";
     // For generating a unique key for course
-    const generateCourseKey = async () => {
-        let generatedKey = "";
+    const generateCourseKey = () => {
         const characters = "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
         const keyLength = 6;
         let counter = 0;
+        let uniqueKeyGenerated = false;
 
-        while (counter < keyLength) {
-            generatedKey += characters.charAt(Math.floor(Math.random() * characters.length));
-            counter += 1;
-        }
-        checkCourseKey(generatedKey);
-    }
+        //Retrieving all known keys from document
+        coursesRef.get()
+            .then((querySnapshot) => {
+                const keys = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.hasOwnProperty("courseKey")) {
+                        keys.push(data.courseKey);
+                    }
+                })
+                setKnownKeys(keys);
+            });
 
-    // Check through the database for course keys, add them to the knownKey array
-    const checkCourseKey = (generatedKey) => {
-        knownKeys.forEach((key, index) => {
-            if (generatedKey === key) {
-                console.log("Key already exists, the chances of this happening is approx one in 56.8 trillion");
-                generateCourseKey();
-            } else {
-                console.log("its a new key! ", generatedKey)
-                setCourseKey(generatedKey);
-                return generatedKey;
+        while (!uniqueKeyGenerated) {
+            while (counter < keyLength) {
+                generatedKey += characters.charAt(Math.floor(Math.random() * characters.length));
+                counter += 1;
             }
-        });
-    }
+            counter = 0;
+            knownKeys.forEach((key, index) => {
+                if (generatedKey === key) {
+                    console.log("NOPE");
+                } else {
+                    console.log("its a new key! ", generatedKey)
+                    uniqueKeyGenerated = true;
+                }
+            })
 
+        }
+    }
 
     const openModal = () => {
-        generateCourseKey();
         setIsModalOpen(true);
     }
     const closeModal = () => {
@@ -91,12 +119,10 @@ function CoursesMain() {
     // Create a course to the database and for others to see, updates asynchronously
     const createCourse = async (e) => {
         e.preventDefault();
-
         // Only when course name > 5 characters
         if (formCourseName.length > 5 && formCourseType !== "") {
-
             const { uid, photoURL, displayName } = auth.currentUser;
-
+            generateCourseKey();
             await coursesRef.add({
                 courseName: formCourseName,
                 courseType: formCourseType,
@@ -104,11 +130,10 @@ function CoursesMain() {
                 uid,
                 photoURL,
                 creatorName: displayName,
-                courseKey: courseKey
+                courseKey: generatedKey
             })
                 .then((docRef) => {
                     console.log("Document ID: ", docRef.id);
-                    setDocId(docRef.id);
                 })
                 .catch((e) => {
                     console.error("Error adding document: ", e);
@@ -126,10 +151,6 @@ function CoursesMain() {
                 <button onClick={openModal} className="btn-open-modal m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Create Event
                 </button>
-                <button onClick={generateCourseKey} className="btn-open-modal m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Generate Course Key
-                </button>
-                <p>{courseKey}</p>
                 <CourseModal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
