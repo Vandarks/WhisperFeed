@@ -28,40 +28,47 @@ function CoursesMain() {
     // All known course keys
     const [knownKeys, setKnownKeys] = useState([123456]);
 
+    let generatedKey = "";
     // For generating a unique key for course
-    const generateCourseKey = async() => {
-        let generatedKey = "";
+    const generateCourseKey = () => {
+        let newKey = "";
         const characters = "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
         const keyLength = 6;
         let counter = 0;
+        let uniqueKeyGenerated = false;
 
-        while (counter < keyLength) {
-            generatedKey += characters.charAt(Math.floor(Math.random() * characters.length));
-            counter += 1;
-        }
-        checkCourseKey(generatedKey);
-        return generatedKey;
-    }
+        //Retrieving all known keys from document
+        coursesRef.get()
+            .then((querySnapshot) => {
+                const keys = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.hasOwnProperty("courseKey")) {
+                        keys.push(data.courseKey);
+                    }
+                })
+                setKnownKeys(keys);
+            });
 
-    // Check through the database for course keys, add them to the knownKey array
-    const checkCourseKey = (generatedKey) =>  {
-        let checkAmounts = 0;
-        knownKeys.forEach((key, index) => {
-            checkAmounts++;
-            if (generatedKey === key) {
-                console.log("NOPE", checkAmounts);
-                generateCourseKey();
-            } else {
-                console.log("its a new key! ", generatedKey)
-                setCourseKey(generatedKey);
-                return generatedKey;
+        while (!uniqueKeyGenerated) {
+            while (counter < keyLength) {
+                generatedKey += characters.charAt(Math.floor(Math.random() * characters.length));
+                counter += 1;
             }
-        });
+            counter = 0;
+            knownKeys.forEach((key, index) => {
+                if (generatedKey === key) {
+                    console.log("NOPE");
+                } else {
+                    console.log("its a new key! ", generatedKey)
+                    uniqueKeyGenerated = true;
+                }
+            })
+
+        }
     }
-    
 
     const openModal = () => {
-        generateCourseKey();
         setIsModalOpen(true);
     }
     const closeModal = () => {
@@ -72,12 +79,10 @@ function CoursesMain() {
     // Create a course to the database and for others to see, updates asynchronously
     const createCourse = async(e) => {
         e.preventDefault();
-
         // Only when course name > 5 characters
         if (formCourseName.length > 5 && formCourseType !== "") {
-
         const { uid, photoURL, displayName } = auth.currentUser;
-
+        generateCourseKey();
         await coursesRef.add({
             courseName: formCourseName,
             courseType: formCourseType,
@@ -85,7 +90,7 @@ function CoursesMain() {
             uid,
             photoURL,
             creatorName: displayName,
-            courseKey: courseKey
+            courseKey: generatedKey
         })
         .then((docRef) => {
             console.log("Document ID: ", docRef.id);
