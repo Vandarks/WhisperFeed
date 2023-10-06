@@ -20,20 +20,20 @@ function CoursesMain() {
     const codeQuery = coursesRef.where("courseKey", "in", userKeys);
 
     const [courseKeyText, setCourseKeyText] = useState("");
-    
-    
+
+
     const [courses] = useCollectionData(codeQuery, { idField: "id" });
-    
+
     const [formCourseName, setFormCourseName] = useState("");
-    
+
     const [formCourseType, setFormCourseType] = useState("");
-    
+
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    
+
+
     const refreshCourses = () => {
         currentUserRef.get()
-        .then((doc) => {
+            .then((doc) => {
                 if (doc.exists) {
                     const userData = doc.data();
                     if (userData.hasOwnProperty("courseCodes")) {
@@ -47,19 +47,19 @@ function CoursesMain() {
                     currentUserRef.set({
                         courseCodes: ["vZVV66"],
                     })
-                    .then(() => {
-                        console.log("New document created succesfully.")
-                    })
-                    .catch((e) => {
-                        console.error("Error creating a new document: ", e);
-                    });
+                        .then(() => {
+                            console.log("New document created succesfully.")
+                        })
+                        .catch((e) => {
+                            console.error("Error creating a new document: ", e);
+                        });
                 }
             })
             .catch((e) => {
                 console.error("Error fetching document: ", e);
             });
-            
-            codeQuery
+
+        codeQuery
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -68,8 +68,8 @@ function CoursesMain() {
             }).catch((error) => {
                 console.error("Error getting user documents: ", error);
             });
-        }
-    
+    }
+
     let generatedKey = "";
     // For generating a unique key for course
     const generateCourseKey = () => {
@@ -77,10 +77,10 @@ function CoursesMain() {
         const keyLength = 6;
         let counter = 0;
         let uniqueKeyGenerated = false;
-        
+
         //Retrieving all known keys from document
         coursesRef.get()
-        .then((querySnapshot) => {
+            .then((querySnapshot) => {
                 const keys = [];
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
@@ -90,42 +90,46 @@ function CoursesMain() {
                 })
                 setKnownKeys(keys);
             });
-            
-            while (!uniqueKeyGenerated) {
-                while (counter < keyLength) {
-                    generatedKey += characters.charAt(Math.floor(Math.random() * characters.length));
-                    counter += 1;
-                }
-                counter = 0;
-                knownKeys.forEach((key, index) => {
-                    if (generatedKey === key) {
-                        console.log("NOPE");
-                    } else {
-                        console.log("its a new key! ", generatedKey)
-                        uniqueKeyGenerated = true;
-                    }
-                })
-                
+
+        while (!uniqueKeyGenerated) {
+            while (counter < keyLength) {
+                generatedKey += characters.charAt(Math.floor(Math.random() * characters.length));
+                counter += 1;
             }
+            counter = 0;
+            knownKeys.forEach((key, index) => {
+                if (generatedKey === key) {
+                    console.log("NOPE");
+                } else {
+                    console.log("its a new key! ", generatedKey)
+                    uniqueKeyGenerated = true;
+                }
+            })
+
         }
-        
-        const openModal = () => {
-            setIsModalOpen(true);
-        }
-        const closeModal = () => {
-            setIsModalOpen(false);
-        };
-        
-        
-        // Create a course to the database and for others to see, updates asynchronously
-        const createCourse = async (e) => {
-            e.preventDefault();
-            // Only when course name > 5 characters
-            if (formCourseName.length > 5 && formCourseType !== "") {
-                const { uid, photoURL, displayName } = auth.currentUser;
-                generateCourseKey();
-                await coursesRef.add({
-                    courseName: formCourseName,
+    }
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    }
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
+    // Create a course to the database and for others to see, updates asynchronously
+    const createCourse = async (e) => {
+        e.preventDefault();
+        // Only when course name > 5 characters
+        if (formCourseName.length > 5 && formCourseType !== "") {
+            let { uid, photoURL, displayName } = auth.currentUser;
+            // If not logged in via google
+            if (displayName == null && photoURL == null) {
+                displayName = auth.currentUser.email;
+            }
+            generateCourseKey();
+            await coursesRef.add({
+                courseName: formCourseName,
                 courseType: formCourseType,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 uid,
@@ -133,70 +137,70 @@ function CoursesMain() {
                 creatorName: displayName,
                 courseKey: generatedKey
             })
-            .then((docRef) => {
-                console.log("Document ID: ", docRef.id);
-                joinCourse(generatedKey);
-            })
-            .catch((e) => {
-                console.error("Error adding document: ", e);
-            });
-                
-                setFormCourseName("");
-            } else {
-                console.log("Course not created, add valid course name!")
-            }
-        }
-        
-        // This can be called whenever needed to join a new course, is automatically called when creating a new course
-        const joinCourse = async (newCourseKey) => {
-            try {
-                await currentUserRef.update({
-                    courseCodes: firebase.firestore.FieldValue.arrayUnion(newCourseKey),
+                .then((docRef) => {
+                    console.log("Document ID: ", docRef.id);
+                    joinCourse(generatedKey);
+                })
+                .catch((e) => {
+                    console.error("Error adding document: ", e);
                 });
-                console.log("joined course " + newCourseKey);
-                refreshCourses();
-            } catch (e) {
-                console.error("Error joining the course ", e);
-            }
+
+            setFormCourseName("");
+        } else {
+            console.log("Course not created, add valid course name!")
         }
-        
-        useEffect(() => {
+    }
+
+    // This can be called whenever needed to join a new course, is automatically called when creating a new course
+    const joinCourse = async (newCourseKey) => {
+        try {
+            await currentUserRef.update({
+                courseCodes: firebase.firestore.FieldValue.arrayUnion(newCourseKey),
+            });
+            console.log("joined course " + newCourseKey);
             refreshCourses();
-                
-            }, []);
-        
-        const handleJoinClick = (param) => {
-            if (courseKeyText.length == 6) {
-                console.log("testi");
-                joinCourse(param);
-            }
+        } catch (e) {
+            console.error("Error joining the course ", e);
         }
-        
-        return (
-            <>
+    }
+
+    useEffect(() => {
+        refreshCourses();
+
+    }, []);
+
+    const handleJoinClick = (param) => {
+        if (courseKeyText.length == 6) {
+            console.log("testi");
+            joinCourse(param);
+        }
+    }
+
+    return (
+        <>
             <div className="">
-                    <div id="btn_cont" className="flex justify-between">
-                        <div className="flex">
-                            <div id="create_btn" className="m-2">
-                                <button onClick={openModal} className="btn-open-modalbg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Create Event
-                                </button>
-                            </div>
-                        </div>
-                        <div id="join_btn" className="m-2 flex items-start">
-                            <input type="text"
-                                    value={courseKeyText}
-                                    onChange={(e) => setCourseKeyText(e.target.value)}
-                                   placeholder="Enter Course Key"
-                            className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                            <button
-                                onClick={() => handleJoinClick(courseKeyText)}
-                                className="ml-2 btn-open-modal bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                                Join Course
+                <div id="btn_cont" className="flex justify-between">
+                    <div className="flex">
+                        <div id="create_btn" className="m-2">
+                            <button onClick={openModal} className="btn-open-modalbg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Create Event
                             </button>
                         </div>
                     </div>
+                    <div id="join_btn" className="m-2 flex items-start">
+                        <input type="text"
+                            value={courseKeyText}
+                            onChange={(e) => setCourseKeyText(e.target.value)}
+                            placeholder="Enter Course Key"
+                            className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <button
+                            onClick={() => handleJoinClick(courseKeyText)}
+                            className="ml-2 btn-open-modal bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            Join Course
+                        </button>
+                    </div>
+                </div>
 
                 <CourseModal
                     isOpen={isModalOpen}
@@ -206,11 +210,11 @@ function CoursesMain() {
                     setFormCourseName={setFormCourseName}
                     formCourseType={formCourseType}
                     setFormCourseType={setFormCourseType}
-                    />
+                />
                 <div className="grid grid-rows-1 gap-4">
                     {courses && courses.map(msg =>
                         <Course key={msg.id} message={msg} id={msg.docId} courseKey={msg.courseKey} />
-                        )}
+                    )}
                 </div>
             </div>
         </>
