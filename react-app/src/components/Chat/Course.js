@@ -149,7 +149,10 @@ function Course (props) {
             {messageClass === "sent" && (
                 <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
                     <div>
-                        <p className="m-2"><b>Invite code: {courseKey}</b></p>
+                        <div className="grid grid-cols-2">
+                        <p className="m-2"><b>Invite code: </b></p>
+                        <p className="m-2"><b>{courseKey}</b></p>
+                        </div>
                         <p className="m-2">[Weekday placeholder]</p>
                     </div>
                     <div className="flex flex-col">
