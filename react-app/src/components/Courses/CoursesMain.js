@@ -191,13 +191,13 @@ function CoursesMain() {
                         <input type="text"
                             value={courseKeyText}
                             onChange={(e) => setCourseKeyText(e.target.value)}
-                            placeholder="Enter Course Key"
+                            placeholder="Enter Event Key"
                             className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         <button
                             onClick={() => handleJoinClick(courseKeyText)}
                             className="ml-2 btn-open-modal bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
-                            Join Course
+                            Join Event
                         </button>
                     </div>
                 </div>
@@ -233,7 +233,7 @@ function CourseModal({ isOpen, onRequestClose, createCourse, formCourseName, set
             <div id="defaultModal" className="fixed overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 min-w-[300px]">
                 <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
-                        <h2 className="text-2xl font-semibold text-white mb-5">Create event</h2>
+                        <h2 className="text-2xl font-semibold text-white mb-5">Create Event</h2>
                         <button type="button"
                             onClick={onRequestClose}
                             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"

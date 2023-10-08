@@ -139,7 +139,7 @@ function Course (props) {
 
     return (
         <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
-            <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[200px] max-w-[200px] col-span-1"/>
+            <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1"/>
             <div className="w-full flex flex-col items-center overflow-visible col-span-1 ">
                 <h2 className="md:text-xl break-words font-semibold m-2 text-center">{courseName}</h2>
                 <p className="mb-2">{creatorName}</p>
@@ -160,7 +160,7 @@ function Course (props) {
                         </div>
                         <div className="ml-auto">
                             <button onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Remove course
+                                Remove Event
                             </button>
                         </div>
                     </div>
