@@ -2,7 +2,7 @@
 
 An anonymous feedback School project for Fall 2023.
 ---
-Developed by Onni Alasaari, Tapio Humaljoki, Edward Nivala and Miiko Majewski.
+Developed by Onni Alasaari, Tapio Humaljoki, Edvard Nivala and Miiko Majewski.
 
 ## Vision  
 ### Who will use the product?
