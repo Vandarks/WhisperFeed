@@ -8,6 +8,10 @@
 # testing
 /coverage
 .venv
+report.html
+log.html
+playwrite-log.txt
+output.xml
 
 # production
 /build
