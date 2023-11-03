@@ -6,8 +6,12 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../firebaseConfig";
 import Modal from "react-modal";
 import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 function HeaderProfile() {
+    const { t } = useTranslation();
+
     const [user] = useAuthState(auth);
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -37,6 +41,7 @@ function HeaderProfile() {
                             className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Whisperfeed</span>
                     </Link>
                     <div className="flex items-center lg:order-2">
+                        <LanguageSwitcher />
                         {user ? <p className="text-gray-800 dark:text-white font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">{user.displayName}</p> : null}
                             {user.providerData[0].providerId === "password" && (
                                 
@@ -73,11 +78,11 @@ function HeaderProfile() {
                         <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                             <li>
                                 <Link to="/"
-                                      className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-800">Home</Link>
+                                      className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-800">{t("nav_home")}</Link>
                             </li>
                             <li>
                                 <Link to="/contact"
-                                      className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-800">Contact</Link>
+                                      className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-800">{t("nav_contact")}</Link>
                             </li>
                         </ul>
                     </div>
