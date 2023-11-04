@@ -3,6 +3,7 @@ import { auth, firestore } from '../../firebaseConfig'; // Import firestore from
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
 import { Donut } from "./DonutChart";
+import {useTranslation} from "react-i18next";
 
 function Course (props) {
 
@@ -42,7 +43,7 @@ function Course (props) {
     // Average feedback of a course
     const [feedbackAvg, setFeedbackAvg] = useState("Currently none");
 
-
+    const { t } = useTranslation();
 
     // Remove course and feedback from database
     const handleRemoveCourseButton = () => {
@@ -150,7 +151,7 @@ function Course (props) {
                 <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
                     <div>
                         <div className="grid grid-cols-2">
-                        <p className="m-2"><b>Invite code: </b></p>
+                        <p className="m-2"><b>{t("invite_code")}: </b></p>
                         <p className="m-2"><b>{courseKey}</b></p>
                         </div>
                         <p className="m-2">[Weekday placeholder]</p>
@@ -158,12 +159,12 @@ function Course (props) {
                     <div className="flex flex-col">
                         <div className="ml-auto">
                             <button onClick={openModal} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Show Feedback
+                                {t("button_show_feedback")}
                             </button>
                         </div>
                         <div className="ml-auto">
                             <button onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Remove Event
+                                {t("button_remove_event")}
                             </button>
                         </div>
                     </div>
@@ -216,6 +217,8 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
         }
     };
 
+    const { t } = useTranslation();
+
     return (
         <Modal
             isOpen={isOpen}
@@ -226,7 +229,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
             <div id="defaultModal" className="max-h-[550px] fixed bg-gray-700 rounded-lg shadow dark:bg-gray-700">
                 <div className="relative p-4 rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
-                        <h2 className="text-2xl font-semibold text-white mb-5">Feedback for {courseName}</h2>
+                        <h2 className="text-2xl font-semibold text-white mb-5">{t("modal_label_feedback_for")} {courseName}</h2>
                         <button type="button"
                                 onClick={onRequestClose}
                                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -241,10 +244,10 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                     </div>
                     <div className="m-2 grid grid-cols-2">
                         <div className="">
-                            <p className="ml-2 mt-2 mr-2 text-gray-50 ">Feedback Average: {convertRatingAverage(feedbackAvg)} ({feedbackAvg})</p>
-                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">Good: {good}</p>
-                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-yellow-500">OK: {ok}</p>
-                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">Bad {bad}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 ">{t("modal_label_feedback_average")} {convertRatingAverage(feedbackAvg)} ({feedbackAvg})</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">{t("grade_good")}: {good}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-yellow-500">{t("grade_ok")}: {ok}</p>
+                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">{t("grade_bad")}: {bad}</p>
                             <div className="">
                                 <Donut className=""
                                        bad={bad}

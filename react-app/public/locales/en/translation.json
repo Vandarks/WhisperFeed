@@ -1,4 +1,27 @@
 {
   "nav_home": "Home",
-  "nav_contact": "Contact"
+  "nav_contact": "Contact",
+  "button_signout": "Sign out",
+  "button_create_event": "Create event",
+  "button_join_event": "Join event",
+  "field_event_key": "Enter event key",
+  "invite_code": "Invite code",
+  "button_show_feedback": "Show Feedback",
+  "button_remove_event": "Remove Event",
+  "field_review": "Write your thoughts here...",
+  "button_send_feedback": "Send Feedback",
+  "grade_good": "Good",
+  "grade_ok": "OK",
+  "grade_bad": "Bad",
+  "modal_photo_placeholder": "Photo goes here",
+  "modal_event_name": "Name",
+  "modal_field_event_name": "Enter a name - min. 5 characters",
+  "modal_event_type": "Type",
+  "modal_selection_choose": "Choose event type",
+  "modal_selection_event": "Event",
+  "modal_selection_course": "Course",
+  "modal_button_upload_photo": "Upload photo",
+  "modal_label_feedback_for": "Feedback for",
+  "modal_label_feedback_average": "Feedback Average:",
+  "modal_label_feedback_ratio": "Feedback ratio"
 }

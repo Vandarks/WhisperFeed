@@ -19,7 +19,6 @@ const resources = {
     fi: {
         translation: {
             app_name: "Whisperfeed",
-            nav_home: "Koti"
         }
     }
 };

@@ -1,4 +1,27 @@
 {
   "nav_home": "Koti",
-  "nav_contact": "Yhteystiedot"
+  "nav_contact": "Yhteystiedot",
+  "button_signout": "Kirjaudu ulos",
+  "button_create_event": "Luo tapahtuma",
+  "button_join_event": "Liity tapahtumaan",
+  "field_event_key": "Syötä tapahtuman avain",
+  "invite_code": "Kutsukoodi",
+  "button_show_feedback": "Näytä palaute",
+  "button_remove_event": "Poista tapahtuma",
+  "field_review": "Kirjoita palautteesi...",
+  "button_send_feedback": "Lähetä palaute",
+  "grade_good": "Hyvä",
+  "grade_ok": "OK",
+  "grade_bad": "Huono",
+  "modal_photo_placeholder": "Valitse kuva",
+  "modal_event_name": "Nimi",
+  "modal_field_event_name": "Syötä nimi - min. 5 kirjainta",
+  "modal_event_type": "Tyyppi",
+  "modal_selection_choose": "Valitse tapahtuman tyyppi",
+  "modal_selection_event": "Tapahtuma",
+  "modal_selection_course": "Kurssi",
+  "modal_button_upload_photo": "Lataa kuva",
+  "modal_label_feedback_for": "Palaute tapahtumalle:",
+  "modal_label_feedback_average": "Palautteen keskiarvo:",
+  "modal_label_feedback_ratio": "Palautteen suhde:"
 }

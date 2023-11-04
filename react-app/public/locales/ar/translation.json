@@ -17,9 +17,11 @@
     "modal_event_name": "الاسم",
     "modal_field_event_name": "أدخل اسمًا، الحد الأدنى 5 أحرف" ,
     "modal_event_type": "النوع",
+    "modal_selection_choose": "اختر نوع الحدث",
     "modal_selection_event": "حدث",
     "modal_selection_course": "دورة",
     "modal_button_upload_photo": "تحميل الصورة",
+    "modal_label_feedback_for": "تقييم لـ",
     "modal_label_feedback_average": "متوسط التعليقات:",
     "modal_label_feedback_ratio": "تقييم التعليقات:"
 }
