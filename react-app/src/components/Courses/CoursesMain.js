@@ -4,7 +4,7 @@ import { coursesRef, auth, usersRef } from "../../firebaseConfig"; // Import fir
 import Course from "../Chat/Course";
 import firebase from "firebase/compat/app";
 import Modal from "react-modal";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 // Main feedback component of the app
 // Students should be able to comment or give a rating to the course created by the teacher.
@@ -69,9 +69,9 @@ function CoursesMain() {
                 querySnapshot.forEach((doc) => {
                     console.log(
                         "Doc id: " +
-                            doc.id +
-                            " course name: " +
-                            doc.data().courseName
+                        doc.id +
+                        " course name: " +
+                        doc.data().courseName
                     );
                 });
             })
@@ -176,6 +176,19 @@ function CoursesMain() {
         }
     };
 
+    const deleteAllCourseCodes = async () => {
+        try {
+            // get all course codes from user and remove them
+            currentUserRef.update({
+                courseCodes: firebase.firestore.FieldValue.delete()
+            });
+            console.log("deleted all course codes for user " + auth.currentUser.uid);
+            refreshCourses();
+        } catch (e) {
+            console.error("Error deleting all courses ", e);
+        }
+    }
+
     useEffect(() => {
         refreshCourses();
     }, []);
@@ -200,6 +213,14 @@ function CoursesMain() {
                                 {t("button_create_event")}
                             </button>
                         </div>
+                    </div>
+                    <div id="delete_keys_btn" className="m-2">
+                        <button
+                            onClick={deleteAllCourseCodes}
+                            className="bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                        >
+                            {t("button_delete_all_keys")}
+                        </button>
                     </div>
                     <div id="join_btn" className="m-2 flex items-start">
                         <input
