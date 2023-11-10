@@ -4,16 +4,19 @@ import {useTranslation} from "react-i18next";
 function LanguageSwitcher() {
 
     const {i18n} = useTranslation();
+    const { t } = useTranslation();
 
     return (
 
         <div className="select">
             <select
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={i18n.language}
                 onChange={(e) =>
                     i18n.changeLanguage(e.target.value)
                 }
             >
+                <option selected>{t("select_tag_language")}</option>
                 <option value="en">English</option>
                 <option value="fi">Finnish</option>
                 <option value="ar">عربي</option>
