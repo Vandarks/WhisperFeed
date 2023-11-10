@@ -3,6 +3,7 @@
     "nav_contact": "الاتصال",
     "button_signout": "تسجيل الخروج",
     "button_create_event": "إنشاء حدث",
+    "button_delete_all_keys": "مقبول",
     "button_join_event": "الانضمام إلى الحدث",
     "field_event_key": "أدخل مفتاح الحدث",
     "invite_code": "كود الدعوة",
@@ -23,5 +24,21 @@
     "modal_button_upload_photo": "تحميل الصورة",
     "modal_label_feedback_for": "تقييم لـ",
     "modal_label_feedback_average": "متوسط التعليقات:",
-    "modal_label_feedback_ratio": "تقييم التعليقات:"
+    "modal_label_feedback_ratio": "تقييم التعليقات:",
+    "select_tag_language": "اختر لغة",
+
+    "sign_in_header": "قم بتسجيل الدخول إلى حسابك",
+    "your_email": "بريدك الإلكتروني",
+    "password": "كلمه السر",
+    "forgot_password": "هل نسيت كلمة المرور؟",
+    "sign_in": "تسجيل الدخول",
+    "no_account_yet": "ليس لديك حساب بعد؟",
+    "sign_up": "سجل",
+    "sign_in_with": "تسجيل الدخول باستخدام",
+    "sign_up_header": "قم بإنشاء حساب جديد",
+    "first_name": "الاسم الاول",
+    "last_name": "الكنية",
+    "already_have_account": "هل لديك حساب؟",
+
+    "delete_all_keys": "حذف جميع المفاتيح"
 }
