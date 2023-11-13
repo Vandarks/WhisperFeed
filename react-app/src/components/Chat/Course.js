@@ -25,10 +25,8 @@ function Course (props) {
     const [badRating, setBadRating] = useState(0);
 
 
-
-    const { courseName, uid, photoURL, creatorName, courseKey } = props.message;
-    const courseCreator = props.message.uid;
-    
+    const { courseName, uid, photoURL, creatorName, courseKey  } = props.message;
+        
 
     // Reference to the feedback collection
     const feedbackRef = firestore.collection("feedback");
@@ -36,7 +34,7 @@ function Course (props) {
     // For checking out feedback on certain courses
     const courseFeedbackRef = feedbackRef
         .where("courseName", "==", courseName)
-        .where("uid", "==", courseCreator);
+        .where("uid", "==", uid);
     const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
     const [feedback, setFeedback] = useState([]);
 
@@ -48,7 +46,7 @@ function Course (props) {
     // Remove course and feedback from database
     const handleRemoveCourseButton = () => {
 
-        console.log("Deleted course: ", courseName, " creator: ", courseCreator)
+        console.log("Deleted course: ", courseName, " creator: ", uid)
 
         firestore.collection("courses")
             .where("courseName", "==", courseName)
@@ -118,7 +116,7 @@ function Course (props) {
 
             console.log(goodRating);
 
-            console.log("course: ", courseName, " uid: ", courseCreator);
+            console.log("course: ", courseName, " uid: ", uid);
             
             
             // Fetch feedback for the course and put into feedback hook
@@ -142,7 +140,10 @@ function Course (props) {
         <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
             <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1"/>
             <div className="w-full flex flex-col items-center overflow-visible col-span-1 ">
-                <h2 className="md:text-xl break-words font-semibold m-2 text-center">{courseName}</h2>
+                <h2 className="md:text-xl break-words font-semibold m-2 text-center"
+                >
+                    {courseName}
+                </h2>
                 <p className="mb-2">{creatorName}</p>
             </div>
 
@@ -183,7 +184,7 @@ function Course (props) {
             {/* Only show the next part if not the owner */}
             {messageClass === "received" && (
                 <div className="col-span-3">
-                    <FeedbackInput course={courseName} creator={courseCreator} />
+                    <FeedbackInput course={courseName} creator={uid} />
                 </div>
             )}
         </div>

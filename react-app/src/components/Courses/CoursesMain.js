@@ -250,12 +250,9 @@ function CoursesMain() {
                 />
                 <div className="grid grid-rows-1 gap-4">
                     {courses &&
-                        courses.map((msg) => (
+                        courses.map((course) => (
                             <Course
-                                key={msg.id}
-                                message={msg}
-                                id={msg.docId}
-                                courseKey={msg.courseKey}
+                                message={course}
                             />
                         ))}
                 </div>

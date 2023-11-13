@@ -49,6 +49,10 @@ function FeedbackInput(props) {
         setFeedbackRating(param);
     }
 
+    const leaveCourse = async (e) => {
+        e.preventDefault();
+        console.log("Leave course");
+    }
 
     return (
         <div className="grid grid-cols-3 place-content-stretch rounded-lg py-3 m-2 ">
@@ -83,7 +87,16 @@ function FeedbackInput(props) {
                             className="md:mt-0 mr-2 w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     <div className="flex flex-col items-end m-2">
-                        <button type="submit" className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{t("button_send_feedback")}</button>
+                        <button type="submit" className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >{t("button_send_feedback")}</button>
+                    </div>
+                    <div className="flex flex-col items-end m-2">
+                        <button 
+                        onClick={leaveCourse}
+                        className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            {t("button_leave_course")}
+                        </button>
                     </div>
                 </form>
             </div>
