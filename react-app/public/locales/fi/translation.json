@@ -40,5 +40,18 @@
   "last_name": "Sukunimi",
   "already_have_account": "Onko sinulla jo tili?",
 
-  "delete_all_keys": "Poista avaimet"
+  "delete_all_keys": "Poista avaimet",
+
+  "user_settings": "Käyttäjäasetukset",
+  "change_email": "Vaihda sähköpostiosoite",
+  "change_password": "Vaihda salasana",
+  "save_changes": "Tallenna muutokset",
+
+  "contact_us": "Ota yhteyttä",
+  "contact_subheader": "Ota yhteyttä, jos sinulla on kysyttävää tai ehdotuksia.",
+  "subject": "Aihe",
+  "how_can_we_help": "Miten voimme auttaa?",
+  "your_message": "Viestisi",
+  "leave_comment": "Jätä kommentti",
+  "send_message": "Lähetä"
 }

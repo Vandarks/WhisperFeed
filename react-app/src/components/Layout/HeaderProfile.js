@@ -95,6 +95,8 @@ function SettingsModal({ isOpen, onRequestClose }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const { t } = useTranslation();
+
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
@@ -116,7 +118,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
             <div id="defaultModal" className="overflow-y-auto overflow-x-hidden outline-none bg-gray-700 rounded-lg shadow dark:bg-gray-700 w-[500px] min-w-[200px]">
                 <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-5">
-                        <h2 className="text-2xl font-semibold text-white mb-5">User Settings</h2>
+                        <h2 className="text-2xl font-semibold text-white mb-5">{t("user_settings")}</h2>
                         <button type="button"
                                 onClick={onRequestClose}
                                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -131,7 +133,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
                     </div>
                     <div className="grid grid-cols-2 m-2">
                         <label htmlFor="email" className="text-white font-medium m-2">
-                            Change Email:
+                            {t("change_email")}:
                         </label>
                         <input
                             type="email"
@@ -144,7 +146,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
                     </div>
                     <div className="grid grid-cols-2 m-2">
                         <label htmlFor="password" className="text-white block font-medium m-2">
-                            Change Password:
+                            {t("change_password")}:
                         </label>
                         <input
                             type="password"
@@ -160,7 +162,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
                             className="text-white m-auto max-w-[200px] col-span-2 m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             onClick={null} // {handleSaveChanges}
                         >
-                            Save Changes
+                            {t("save_changes")}
 
                         </button>
                     </div>

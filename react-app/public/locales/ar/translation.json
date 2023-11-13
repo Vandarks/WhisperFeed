@@ -40,5 +40,18 @@
     "last_name": "الكنية",
     "already_have_account": "هل لديك حساب؟",
 
-    "delete_all_keys": "حذف جميع المفاتيح"
+    "delete_all_keys": "حذف جميع المفاتيح",
+
+    "user_settings": "إعدادات المستخدم",
+    "change_email": "تغيير البريد الإلكتروني",
+    "change_password": "تغيير كلمة المرور",
+    "save_changes": "حفظ التغييرات",
+
+    "contact_us": "اتصل بنا",
+    "contact_subheader": "هل لديك مشكلة تقنية أو ترغب في إرسال ملاحظات حول ميزة تجريبية؟ هل تحتاج إلى تفاصيل حول خطتنا التجارية؟ دعنا نعرف.",
+    "subject": "موضوع",
+    "how_can_we_help": "كيف يمكننا مساعدتك؟",
+    "your_message": "رسالتك",
+    "leave_comment": "اترك تعليقا",
+    "send_message": "إرسال رسالة"
 }
