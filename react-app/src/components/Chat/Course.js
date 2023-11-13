@@ -138,7 +138,7 @@ function Course (props) {
 
     return (
         <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
-            <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1"/>
+            <img src={photoURL} className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1"/>
             <div className="w-full flex flex-col items-center overflow-visible col-span-1 ">
                 <h2 className="md:text-xl break-words font-semibold m-2 text-center"
                 >
