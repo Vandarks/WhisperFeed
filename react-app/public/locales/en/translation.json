@@ -25,5 +25,34 @@
   "modal_button_upload_photo": "Upload photo",
   "modal_label_feedback_for": "Feedback for",
   "modal_label_feedback_average": "Feedback Average:",
-  "modal_label_feedback_ratio": "Feedback ratio"
+  "modal_label_feedback_ratio": "Feedback ratio",
+  "select_tag_language": "Language",
+
+  "sign_in_header": "Sign in with your account",
+  "your_email": "Your email",
+  "password": "Password",
+  "forgot_password": "Forgot password?",
+  "sign_in": "Sign in",
+  "no_account_yet": "Don't have an account yet?",
+  "sign_up": "Sign up",
+  "sign_in_with": "Sign in with",
+  "sign_up_header": "Sign up with a new account",
+  "first_name": "First name",
+  "last_name": "Last name",
+  "already_have_account": "Already have an account?",
+
+  "delete_all_keys": "Delete all keys",
+
+  "user_settings": "User Settings",
+  "change_email": "Change Email",
+  "change_password": "Change Password",
+  "save_changes": "Save Changes",
+
+  "contact_us": "Contact Us",
+  "contact_subheader": "Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.",
+  "subject": "Subject",
+  "how_can_we_help": "How can we help?",
+  "your_message": "Your message",
+  "leave_comment": "Leave a comment",
+  "send_message": "Send message"
 }

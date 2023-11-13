@@ -303,9 +303,9 @@ function CourseModal({
                             >
                                 <path
                                     stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
                                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                                 />
                             </svg>
@@ -367,7 +367,7 @@ function CourseModal({
                                     type="submit"
                                     className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-9"
                                 >
-                                    Create event
+                                    {t("button_create_event")}
                                 </button>
                             </div>
                         </div>
