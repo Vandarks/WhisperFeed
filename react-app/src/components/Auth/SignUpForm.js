@@ -1,7 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {useState} from "react";
+import { useState } from "react";
 import PasswordAlert from "../Alerts/PasswordAlert";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../Layout/LanguageSwitcher";
 
 function SignUpForm({ onSignInClick }) {
@@ -12,7 +12,7 @@ function SignUpForm({ onSignInClick }) {
     const auth = getAuth();
     const signUp = (e) => {
         e.preventDefault();
-        if(password.length >= 6 && email !== "" && firstName !== "" && lastName !== ""){
+        if (password.length >= 6 && email !== "" && firstName !== "" && lastName !== "") {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     // Signed up
@@ -25,11 +25,11 @@ function SignUpForm({ onSignInClick }) {
                     setError(errorMessage);
                     console.log(errorCode + " " + errorMessage)
                 });
-        }else {
-            if(password.length < 6){
+        } else {
+            if (password.length < 6) {
                 setError("Password should be at least 6 characters long")
                 console.log("Password should be at least 6 characters long");
-            }else{
+            } else {
                 setError("Please fill in all fields")
                 console.log("Please fill in all fields");
             }
@@ -66,27 +66,27 @@ function SignUpForm({ onSignInClick }) {
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("your_email")}</label>
                         <input type="email" name="email" id="email" value={email} onChange={handleEmailChange}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="name@company.com" required=""/>
+                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="name@company.com" required="" />
                     </div>
                     <div>
                         <label htmlFor="fname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("first_name")}</label>
                         <input type="text" name="fname" id="fname" value={firstName} onChange={handleFirstNameChange}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="First name" required=""/>
+                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="First name" required="" />
                     </div>
                     <div>
                         <label htmlFor="lname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("last_name")}</label>
                         <input type="text" name="lname" id="lname" value={lastName} onChange={handleLastNameChange}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="Last name" required=""/>
+                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Last name" required="" />
                     </div>
                     <div>
                         <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("password")}</label>
                         <input type="password" name="password" id="password" value={password} onChange={handlePasswordChange}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="••••••••" required=""/>
-                        {error && <PasswordAlert message={error}/>}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="••••••••" required="" />
+                        {error && <PasswordAlert message={error} />}
                     </div>
                     <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{t("sign_up")}</button>
                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">

@@ -71,7 +71,7 @@ function CoursesMain() {
                         doc.id +
                         " course name: " +
                         doc.data().courseName +
-                        " key: " + 
+                        " key: " +
                         doc.data().courseKey
                     );
                 });
@@ -85,12 +85,12 @@ function CoursesMain() {
     let generatedKey = "";
 
     const generateCourseKey = () => {
-        
+
         // Course key properties
         const symbols =
             "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
         const keyLength = 6;
-        
+
         //Retrieving all known keys from document
         coursesRef.get().then((querySnapshot) => {
             const keys = [];
@@ -103,7 +103,7 @@ function CoursesMain() {
             // put snapshot data to state
             setKnownKeys(keys);
         });
-        
+
         // Key creator and checker
         let counter = 0;
         let uniqueKeyGenerated = false;

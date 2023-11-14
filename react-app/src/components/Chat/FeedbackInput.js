@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import firebase from "firebase/compat/app";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 function FeedbackInput(props) {
 
@@ -97,9 +97,9 @@ function FeedbackInput(props) {
                         >{t("button_send_feedback")}</button>
                     </div>
                     <div className="flex flex-col items-end m-2">
-                        <button 
-                        onClick={leaveCourse}
-                        className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        <button
+                            onClick={leaveCourse}
+                            className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             {t("button_leave_course")}
                         </button>
