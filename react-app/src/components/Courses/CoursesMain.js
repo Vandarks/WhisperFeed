@@ -13,7 +13,7 @@ function CoursesMain() {
     // All known course keys
     const [knownKeys, setKnownKeys] = useState([""]);
 
-    const [userKeys, setUserKeys] = useState(["vZVV66"]);
+    const [userKeys, setUserKeys] = useState(["4fMUNN"]);
 
     const currentUserRef = usersRef.doc(auth.currentUser.uid);
 
@@ -48,7 +48,7 @@ function CoursesMain() {
                     );
                     currentUserRef
                         .set({
-                            courseCodes: ["vZVV66"],
+                            courseCodes: ["4fMUNN"],
                         })
                         .then(() => {
                             console.log("New document created succesfully.");
@@ -130,7 +130,7 @@ function CoursesMain() {
                     console.log("its a new key, ", comparable)
                 }
             });
-            if (isUnique > 0) {
+            if (isUnique === 0) {
                 uniqueKeyGenerated = true;
             }
 
