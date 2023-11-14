@@ -51,7 +51,10 @@ function FeedbackInput(props) {
 
     const leaveCourse = async (e) => {
         e.preventDefault();
-        console.log("Leave course");
+        console.log("Leave course CURRENTLY IN DEVELOPMENT");
+        // Get the user id
+        // Get the course key
+        // Remove the course key from user
     }
 
     return (
@@ -61,19 +64,22 @@ function FeedbackInput(props) {
                     <li className="w-full">
                         <div className="flex items-center pl-3">
                             <input onClick={() => handleRatingClick(2)} id="list-radio-good" type="radio" value="" name="list-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                            <label htmlFor="list-radio-good" className="w-1/2 py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t("grade_good")}</label>
+                            <label htmlFor="list-radio-good" className="w-1/2 py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >{t("grade_good")}</label>
                         </div>
                     </li>
                     <li className="w-full">
                         <div className="flex items-center pl-3">
                             <input onClick={() => handleRatingClick(1)} id="list-radio-ok" type="radio" value="" name="list-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                            <label htmlFor="list-radio-ok" className="w-1/2 py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t("grade_ok")}</label>
+                            <label htmlFor="list-radio-ok" className="w-1/2 py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >{t("grade_ok")}</label>
                         </div>
                     </li>
                     <li className="w-full">
                         <div className="flex items-center pl-3">
                             <input onClick={() => handleRatingClick(0)} id="list-radio-bad" type="radio" value="" name="list-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                            <label htmlFor="list-radio-bad" className="w-1/2 py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{t("grade_bad")}</label>
+                            <label htmlFor="list-radio-bad" className="w-1/2 py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >{t("grade_bad")}</label>
                         </div>
                     </li>
                 </ul>
