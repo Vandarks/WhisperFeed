@@ -138,7 +138,7 @@ function Course (props) {
 
     return (
         <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
-            <img src={photoURL} className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1"/>
+            <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1"/>
             <div className="w-full flex flex-col items-center overflow-visible col-span-1 ">
                 <h2 className="md:text-xl break-words font-semibold m-2 text-center"
                 >
@@ -263,7 +263,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                         <div className="">
                             <ul className="max-h-[420px] overflow-y-auto">
                                 {feedback.map((review, index) => (
-                                    <li key={index} className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
+                                    <li className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
                                         <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
                                         <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {convertNumberToRating(review.rating)}</p>
                                     </li>

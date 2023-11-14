@@ -39,7 +39,6 @@ function CoursesMain() {
                     const userData = doc.data();
                     if (userData.hasOwnProperty("courseCodes")) {
                         setUserKeys(userData.courseCodes);
-                        console.log("User keys: " + userKeys);
                     } else {
                         console.log("Field does not exist in the doc");
                     }
@@ -71,7 +70,9 @@ function CoursesMain() {
                         "Doc id: " +
                         doc.id +
                         " course name: " +
-                        doc.data().courseName
+                        doc.data().courseName +
+                        " key: " + 
+                        doc.data().courseKey
                     );
                 });
             })
@@ -80,15 +81,16 @@ function CoursesMain() {
             });
     };
 
-    let generatedKey = "";
     // For generating a unique key for course
+    let generatedKey = "";
+
     const generateCourseKey = () => {
-        const characters =
+        
+        // Course key properties
+        const symbols =
             "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
         const keyLength = 6;
-        let counter = 0;
-        let uniqueKeyGenerated = false;
-
+        
         //Retrieving all known keys from document
         coursesRef.get().then((querySnapshot) => {
             const keys = [];
@@ -98,25 +100,43 @@ function CoursesMain() {
                     keys.push(data.courseKey);
                 }
             });
+            // put snapshot data to state
             setKnownKeys(keys);
         });
-
+        
+        // Key creator and checker
+        let counter = 0;
+        let uniqueKeyGenerated = false;
         while (!uniqueKeyGenerated) {
+
+            // Generate a random key
             while (counter < keyLength) {
-                generatedKey += characters.charAt(
-                    Math.floor(Math.random() * characters.length)
+                generatedKey += symbols.charAt(
+                    Math.floor(Math.random() * symbols.length)
                 );
-                counter += 1;
+                counter++;
             }
+            // Reset key character counter for reuse
             counter = 0;
-            knownKeys.forEach((key, index) => {
-                if (generatedKey === key) {
-                    console.log("NOPE");
+
+            // Compare generated key to known keys
+            let comparable = generatedKey
+            let isUnique = 0;
+            knownKeys.forEach((key) => {
+                if (comparable === key) {
+                    console.log("Key is already known");
+                    isUnique++;
                 } else {
-                    console.log("its a new key! ", generatedKey);
-                    uniqueKeyGenerated = true;
+                    console.log("its a new key, ", comparable)
                 }
             });
+            if (isUnique > 0) {
+                uniqueKeyGenerated = true;
+            }
+
+            // Reset checker parametres for reuse
+            isUnique = 0;
+            comparable = "";
         }
     };
 
@@ -194,7 +214,7 @@ function CoursesMain() {
     }, []);
 
     const handleJoinClick = (param) => {
-        if (courseKeyText.length == 6) {
+        if (courseKeyText.length === 6) {
             console.log("testi");
             joinCourse(param);
         }
