@@ -13,9 +13,27 @@ function CoursesMain() {
     // All known course keys
     const [knownKeys, setKnownKeys] = useState([""]);
 
-    const [userKeys, setUserKeys] = useState(["4fMUNN"]);
+    const [userKeys, setUserKeys] = useState(["AlSVQ7"]);
 
     const currentUserRef = usersRef.doc(auth.currentUser.uid);
+
+    const currentCourses = [];
+
+    const getCurrentCourses = () => {
+        currentCourses.length = 0;
+        for (let i = 0; i < userKeys.length; i++) {
+            coursesRef
+                .where("courseKey", "==", userKeys[i])
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        currentCourses.push(data);
+                    });
+                })
+                console.log("Current courses: " + currentCourses);
+        }
+    }
 
     const codeQuery = coursesRef.where("courseKey", "in", userKeys);
 
@@ -39,6 +57,7 @@ function CoursesMain() {
                     const userData = doc.data();
                     if (userData.hasOwnProperty("courseCodes")) {
                         setUserKeys(userData.courseCodes);
+                        console.log("User keys: " + userKeys);
                     } else {
                         console.log("Field does not exist in the doc");
                     }
@@ -48,7 +67,7 @@ function CoursesMain() {
                     );
                     currentUserRef
                         .set({
-                            courseCodes: ["4fMUNN"],
+                            courseCodes: ["AlSVQ7"],
                         })
                         .then(() => {
                             console.log("New document created succesfully.");
@@ -62,35 +81,18 @@ function CoursesMain() {
                 console.error("Error fetching document: ", e);
             });
 
-        codeQuery
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    console.log(
-                        "Doc id: " +
-                        doc.id +
-                        " course name: " +
-                        doc.data().courseName +
-                        " key: " +
-                        doc.data().courseKey
-                    );
-                });
-            })
-            .catch((error) => {
-                console.error("Error getting user documents: ", error);
-            });
     };
 
-    // For generating a unique key for course
-    let generatedKey = "";
+        // For generating a unique key for course
+let generatedKey = "";
 
     const generateCourseKey = () => {
-
+        
         // Course key properties
         const symbols =
             "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
         const keyLength = 6;
-
+        
         //Retrieving all known keys from document
         coursesRef.get().then((querySnapshot) => {
             const keys = [];
@@ -100,11 +102,11 @@ function CoursesMain() {
                     keys.push(data.courseKey);
                 }
             });
-            // put snapshot data to state
+// put snapshot data to state
             setKnownKeys(keys);
         });
 
-        // Key creator and checker
+// Key creator and checker
         let counter = 0;
         let uniqueKeyGenerated = false;
         while (!uniqueKeyGenerated) {
@@ -116,24 +118,24 @@ function CoursesMain() {
                 );
                 counter++;
             }
-            // Reset key character counter for reuse
+// Reset key character counter for reuse
             counter = 0;
-
+            
             // Compare generated key to known keys
             let comparable = generatedKey
             let isUnique = 0;
             knownKeys.forEach((key) => {
                 if (comparable === key) {
                     console.log("Key is already known");
-                    isUnique++;
+isUnique++;
                 } else {
                     console.log("its a new key, ", comparable)
                 }
             });
             if (isUnique === 0) {
-                uniqueKeyGenerated = true;
-            }
-
+                    uniqueKeyGenerated = true;
+                }
+            
             // Reset checker parametres for reuse
             isUnique = 0;
             comparable = "";
@@ -220,6 +222,48 @@ function CoursesMain() {
         }
     };
 
+
+    const [ updatedKeys, setUpdatedKeys ] = useState([]);
+
+    const checkStaleKeys = async() => {
+        // get the ref for documents, add all courses to array
+        // get the ref for user keys, add all user keys to array
+        // iterate all user keys, if course key is the same as the user key, add it to updatedKeys
+        let oldKeys = 0;
+        let updatedKeysList = [];
+        coursesRef.get()
+            .then((querySnapshot) => {
+                for (let i = 0; i < userKeys.length; i++) {
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.courseKey === userKeys[i]) {
+                            console.log("found a match for " + userKeys[i] + " in courses");
+                            oldKeys++;
+                            setUpdatedKeys([...updatedKeys, userKeys[i]])
+                            updatedKeysList.push(userKeys[i]);
+                        }
+                    })
+                    if (oldKeys === 0) {
+                        console.log("no match found for " + userKeys[i] + " in courses");
+                    }
+                }
+                console.log("updatedKeys: " + updatedKeys);
+                console.log("oldKeys: " + oldKeys);
+                updateUserKeys(updatedKeysList);
+                setUpdatedKeys([]);
+            })
+    }
+
+    const updateUserKeys = async(updatedKeys) => {
+        currentUserRef.update({
+            courseCodes: updatedKeys
+        }).then(() => {
+            console.log("updated user keys to " + updatedKeys);
+        }).catch((e) => {
+            console.error("Error updating user keys: ", e);
+        })
+    }
+
     return (
         <>
             <div className="">
@@ -240,6 +284,22 @@ function CoursesMain() {
                             className="bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                         >
                             {t("button_delete_all_keys")}
+                        </button>
+                    </div>
+                    <div id="update_keys_btn" className="m-2">
+                        <button
+                            onClick={checkStaleKeys}
+                            className="bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                        >
+                            {t("button_update_all_keys")}
+                        </button>
+                    </div>
+                    <div id="update_courses_btn" className="m-2">
+                        <button
+                            onClick={getCurrentCourses}
+                            className="bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                        >
+                            {t("button_update_all_courses")}
                         </button>
                     </div>
                     <div id="join_btn" className="m-2 flex items-start">

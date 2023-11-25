@@ -4,6 +4,8 @@
   "button_signout": "Sign out",
   "button_create_event": "Create event",
   "button_delete_all_keys": "Delete all keys",
+  "button_update_all_keys": "Update all keys",
+  "button_update_all_courses": "Update all courses",
   "button_join_event": "Join event",
   "field_event_key": "Enter event key",
   "invite_code": "Invite code",
