@@ -1,0 +1,17 @@
+{
+  "name": "whisperfeed",
+  "version": "1.0.0",
+  "description": "An anonymous feedback School project for Fall 2023.\r ---\r Developed by Onni Alasaari, Tapio Humaljoki, Edvard Nivala and Miiko Majewski.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0"
+  }
+}

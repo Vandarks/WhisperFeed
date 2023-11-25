@@ -153,7 +153,7 @@ function Course (props) {
                     <div>
                         <div className="grid grid-cols-2">
                         <p className="m-2"><b>{t("invite_code")}: </b></p>
-                        <p className="m-2"><b>{courseKey}</b></p>
+                        <p className="m-2"><b className="invcode">{courseKey}</b></p>
                         </div>
                         <p className="m-2">[Weekday placeholder]</p>
                     </div>
