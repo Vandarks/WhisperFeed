@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import { auth, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
+import { auth, coursesRef, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
 import { Donut } from "./DonutChart";
@@ -48,7 +48,7 @@ function Course (props) {
 
         console.log("Deleted course: ", courseName, " creator: ", uid)
 
-        firestore.collection("courses")
+        coursesRef
             .where("courseName", "==", courseName)
             .get()
             .then(querySnapshot => {

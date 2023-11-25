@@ -3,11 +3,12 @@ import settingsLogo from '../../images/settings.png';
 import { Link } from "react-router-dom";
 import SignOut from "../Auth/SignOut";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../../firebaseConfig";
+import {auth, coursesRef, usersRef, firestore, feedbackRef} from "../../firebaseConfig";
 import Modal from "react-modal";
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { deleteDoc, doc } from 'firebase/firestore';
 
 function HeaderProfile() {
     const { t } = useTranslation();
@@ -108,6 +109,45 @@ function SettingsModal({ isOpen, onRequestClose }) {
         console.log('Password::', password);
     };
 
+    const deleteUser = async() => {
+        
+        
+        // delete feedback from users courses
+        const myFeedbacks = feedbackRef.where("uid", "==", auth.currentUser.uid);
+
+        myFeedbacks.get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log("Deleting feedback: ", doc.id);
+                    doc.ref.delete();
+                });
+            })
+            .catch((error) => {
+                console.error("Error deleting feedback: ", error);
+            });
+        
+        // delete courses owned by user
+        const myCourses = coursesRef.where("uid", "==", auth.currentUser.uid);
+        
+        
+        myCourses.get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log("Deleting course: ", doc.id);
+                    doc.ref.delete();
+                });
+            })
+            .catch((error) => {
+                console.error("Error deleting courses: ", error);
+            });
+        // delete user document
+
+        usersRef.doc(auth.currentUser.uid).delete()
+
+        auth.currentUser.delete();
+
+    }
+
     return (
         <Modal
             isOpen={isOpen}
@@ -163,6 +203,15 @@ function SettingsModal({ isOpen, onRequestClose }) {
                             onClick={null} // {handleSaveChanges}
                         >
                             {t("save_changes")}
+
+                        </button>
+                    </div>
+                    <div className="grid grid-cols-2 justify-center mt-5">
+                        <button
+                            className="text-white m-auto max-w-[200px] col-span-2 m-2 bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                            onClick={deleteUser} // {handleSaveChanges}
+                        >
+                            {t("delete_user")}
 
                         </button>
                     </div>
