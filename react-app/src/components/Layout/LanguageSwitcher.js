@@ -21,7 +21,7 @@ function LanguageSwitcher() {
                     updateLanguage(e)
                 }
             >
-                <option selected>{t("select_tag_language")}</option>
+                <option disabled selected>{t("select_tag_language")}</option>
                 <option value="en">English</option>
                 <option value="fi">Finnish</option>
                 <option value="ar">عربي</option>
