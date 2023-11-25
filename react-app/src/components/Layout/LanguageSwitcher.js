@@ -6,8 +6,10 @@ function LanguageSwitcher() {
 
     const {i18n} = useTranslation();
     const { t } = useTranslation();
-
-    const currentUserRef = usersRef.doc(auth.currentUser.uid);
+    let currentUserRef = null;
+    if(auth.currentUser != null){
+        currentUserRef = usersRef.doc(auth.currentUser.uid);
+    }
 
     return (
 
@@ -29,7 +31,7 @@ function LanguageSwitcher() {
 
     function updateLanguage(e) {
         i18n.changeLanguage(e.target.value)
-        if (auth.currentUser != null) {
+        if (currentUserRef != null) {
             currentUserRef.update({
                 languagePreference: e.target.value
             })
