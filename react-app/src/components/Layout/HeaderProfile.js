@@ -46,7 +46,7 @@ function HeaderProfile() {
                         {user ? <p className="text-gray-800 dark:text-white font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">{user.displayName}</p> : null}
                             {user.providerData[0].providerId === "password" && (
                                 
-                            <button className="mr-5" onClick={openModal}>
+                            <button testId="settings_button" className="mr-5" onClick={openModal}>
                                 <img src={settingsLogo} alt="settings logo" className="max-w-[30px]"/>
                             </button>
                             )}
@@ -208,6 +208,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
                     </div>
                     <div className="grid grid-cols-2 justify-center mt-5">
                         <button
+                            testId="delete_user_button"
                             className="text-white m-auto max-w-[200px] col-span-2 m-2 bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                             onClick={deleteUser} // {handleSaveChanges}
                         >

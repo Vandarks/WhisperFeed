@@ -271,6 +271,7 @@ isUnique++;
                     <div className="flex">
                         <div id="create_btn" className="m-2">
                             <button
+                                testId="create_event_button"
                                 onClick={openModal}
                                 className="btn-open-modalbg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
@@ -304,6 +305,7 @@ isUnique++;
                     </div>
                     <div id="join_btn" className="m-2 flex items-start">
                         <input
+                            testId="join_event_input"
                             type="text"
                             value={courseKeyText}
                             onChange={(e) => setCourseKeyText(e.target.value)}
@@ -311,6 +313,7 @@ isUnique++;
                             className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         />
                         <button
+                            testId="join_event_button"
                             onClick={() => handleJoinClick(courseKeyText)}
                             className="ml-2 btn-open-modal bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
@@ -365,10 +368,11 @@ function CourseModal({
             >
                 <div className="relative w-auto p-4 border-b rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
-                        <h2 className="text-2xl font-semibold text-white mb-5">
+                        <h2 testId="create_event_header" className="text-2xl font-semibold text-white mb-5">
                             {t("button_create_event")}
                         </h2>
                         <button
+                            testId="close_modal_button"
                             type="button"
                             onClick={onRequestClose}
                             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -413,6 +417,7 @@ function CourseModal({
                                 {t("modal_event_name")}:{" "}
                             </label>
                             <input
+                                testId="event_name_input"
                                 value={formCourseName}
                                 placeholder={t("modal_field_event_name")}
                                 onChange={(e) =>
@@ -427,6 +432,7 @@ function CourseModal({
                                 {t("modal_event_type")}:
                             </label>
                             <select
+                                testId="event_type_selection"
                                 value={formCourseType}
                                 onChange={(e) =>
                                     setFormCourseType(e.target.value)
@@ -435,15 +441,16 @@ function CourseModal({
                                 className="mb-5 col-span-3 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                                 <option selected>{t("modal_selection_choose")}</option>
-                                <option value="Course" id="option1">
+                                <option testId="option_course" value="Course" id="option1">
                                     {t("modal_selection_course")}
                                 </option>
-                                <option value="Event" id="option2">
+                                <option testId="option_event" value="Event" id="option2">
                                     {t("modal_selection_event")}
                                 </option>
                             </select>
                             <div className="col-span-4 flex items-center justify-center">
                                 <button
+                                    testId="create_event_modal_button"
                                     type="submit"
                                     className="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-9"
                                 >
