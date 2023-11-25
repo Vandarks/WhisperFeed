@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+
 test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:3000/');
     await page.getByPlaceholder('name@company.com').click();
@@ -10,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 
 test('Join Event', async ({ page }) => {
     await page.getByPlaceholder('Enter event key').click();
-    await page.getByPlaceholder('Enter event key').fill('Y6l2TW');
+    await page.getByPlaceholder('Enter event key').fill('IVJPq9');
     await page.getByRole('button', { name: 'Join event' }).click();
     await expect(page.getByText('PlayWright Test')).toBeVisible();
 });
