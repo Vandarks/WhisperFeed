@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test';
 
-test('Sign in with valid credentials', async ({ page }) => {
+test.beforeEach('Sign in before each test', async ({ page }) => {
   await page.goto('http://localhost:3000/');
+  await page.getByRole('combobox').selectOption('ar');
+});
+
+test('Sign in with valid credentials', async ({ page }) => {
   await expect(page.getByTestId('sign_in_header')).toBeVisible();
   await page.getByTestId('email_input').click();
   await page.getByTestId('email_input').fill('teacherwhisperfeed@gmail.com');
@@ -12,7 +16,6 @@ test('Sign in with valid credentials', async ({ page }) => {
 });
 
 test('Sign out', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
   await expect(page.getByTestId('sign_in_header')).toBeVisible();
   await page.getByTestId('email_input').click();
   await page.getByTestId('email_input').fill('teacherwhisperfeed@gmail.com');
@@ -25,7 +28,6 @@ test('Sign out', async ({ page }) => {
 });
 
 test('Invalid credentials', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
   await expect(page.getByTestId('sign_in_header')).toBeVisible();
   await page.getByTestId('email_input').click();
   await page.getByTestId('email_input').fill('jakakak@gml.com');

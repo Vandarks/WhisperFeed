@@ -13,7 +13,7 @@ function CoursesMain() {
     // All known course keys
     const [knownKeys, setKnownKeys] = useState([""]);
 
-    const [userKeys, setUserKeys] = useState(["AlSVQ7"]);
+    const [userKeys, setUserKeys] = useState([""]);
 
     const currentUserRef = usersRef.doc(auth.currentUser.uid);
 
@@ -67,7 +67,7 @@ function CoursesMain() {
                     );
                     currentUserRef
                         .set({
-                            courseCodes: ["AlSVQ7"],
+                            default: ["1"],
                         })
                         .then(() => {
                             console.log("New document created succesfully.");
