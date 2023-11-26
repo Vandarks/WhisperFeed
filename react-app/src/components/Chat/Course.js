@@ -153,18 +153,18 @@ function Course (props) {
                     <div>
                         <div className="grid grid-cols-2">
                         <p className="m-2"><b>{t("invite_code")}: </b></p>
-                        <p className="m-2"><b className="invcode">{courseKey}</b></p>
+                        <p data-testid="invite_code" className="m-2"><b className="invcode">{courseKey}</b></p>
                         </div>
                         <p className="m-2">[Weekday placeholder]</p>
                     </div>
                     <div className="flex flex-col">
                         <div className="ml-auto">
-                            <button testId="show_feedback_button" onClick={openModal} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <button data-testid="show_feedback_button" onClick={openModal} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 {t("button_show_feedback")}
                             </button>
                         </div>
                         <div className="ml-auto">
-                            <button testId="remove_event_button" onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <button data-testid="remove_event_button" onClick={handleRemoveCourseButton} className="m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 {t("button_remove_event")}
                             </button>
                         </div>

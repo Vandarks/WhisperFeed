@@ -59,39 +59,87 @@ function SignUpForm({ onSignInClick }) {
     return (
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                <h1 
+                    data-testid="sign_up_header"
+                    className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+                >
                     {t("sign_up_header")}
                 </h1>
                 <form onSubmit={signUp} className="space-y-4 md:space-y-6" action="#">
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("your_email")}</label>
-                        <input type="email" name="email" id="email" value={email} onChange={handleEmailChange}
+                        <input
+                            data-testid="email_input" 
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={email} 
+                            onChange={handleEmailChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="name@company.com" required="" />
+                            placeholder="name@company.com"
+                            required=""
+                        />
                     </div>
                     <div>
                         <label htmlFor="fname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("first_name")}</label>
-                        <input type="text" name="fname" id="fname" value={firstName} onChange={handleFirstNameChange}
+                        <input
+                            data-testid="first_name_input"
+                            type="text"
+                            name="fname"
+                            id="fname"
+                            value={firstName}
+                            onChange={handleFirstNameChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="First name" required="" />
+                            placeholder="First name"
+                            required=""
+                        />
                     </div>
                     <div>
                         <label htmlFor="lname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("last_name")}</label>
-                        <input type="text" name="lname" id="lname" value={lastName} onChange={handleLastNameChange}
+                        <input
+                            data-testid="last_name_input"
+                            type="text"
+                            name="lname"
+                            id="lname"
+                            value={lastName}
+                            onChange={handleLastNameChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Last name" required="" />
+                            placeholder="Last name"
+                            required=""
+                        />
                     </div>
                     <div>
                         <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t("password")}</label>
-                        <input type="password" name="password" id="password" value={password} onChange={handlePasswordChange}
+                        <input
+                            data-testid="password_input"
+                            type="password"
+                            name="password"
+                            id="password"
+                            value={password}
+                            onChange={handlePasswordChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="••••••••" required="" />
+                            placeholder="••••••••"
+                            required=""
+                        />
                         {error && <PasswordAlert message={error} />}
                     </div>
-                    <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{t("sign_up")}</button>
+                    <button
+                        data-testid="sign_up_button"
+                        type="submit"
+                        className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    >
+                        {t("sign_up")}
+                    </button>
                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                         {t("already_have_account")}
-                        <a href="#" onClick={onSignInClick} className="font-medium text-primary-600 hover:underline dark:text-primary-500"> {t("sign_in")}</a>
+                        <a
+                            data-testid="sign_in_link"
+                            href="#"
+                            onClick={onSignInClick}
+                            className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                        > 
+                            {t("sign_in")}
+                        </a>
                     </p>
                     <div className="text-black w-1/3">
                         <LanguageSwitcher />

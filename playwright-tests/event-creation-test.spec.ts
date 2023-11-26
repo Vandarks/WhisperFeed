@@ -1,47 +1,50 @@
 import { test, expect } from '@playwright/test';
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach('Sign in before each test', async ({ page }) => {
     await page.goto('http://localhost:3000/');
-    await page.getByPlaceholder('name@company.com').click();
-    await page.getByPlaceholder('name@company.com').fill('teacherwhisperfeed@gmail.com');
-    await page.getByPlaceholder('name@company.com').press('Tab');
-    await page.getByPlaceholder('••••••••').fill('admin11!');
-    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await expect(page.getByTestId('sign_in_header')).toBeVisible();
+    await page.getByTestId('email_input').click();
+    await page.getByTestId('email_input').fill('teacherwhisperfeed@gmail.com');
+    await page.getByTestId('email_input').press('Tab');
+    await page.getByTestId('password_input').fill('admin11!');
+    await page.getByTestId('sign_in_button').click();
+    await expect(page.getByTestId('create_event_button')).toBeVisible();
 });
 
-test('Create event', async ({ page }) => {
-    await page.getByRole('button', { name: 'Create event' }).click();
-    await expect(page.getByRole('heading', { name: 'Create event' })).toBeVisible();
-    await page.getByPlaceholder('Enter a name - min. 5').click();
-    await page.getByPlaceholder('Enter a name - min. 5').fill('testipw');
-    await page.getByLabel('Type:').selectOption('Event');
-    await page.locator('#defaultModal').getByRole('button', { name: 'Create event' }).click();
-    await page.getByRole('button', { name: 'Close modal' }).click();
+test('Create event - valid details', async ({ page }) => {
+    await page.getByTestId('create_event_button').click();
+    await expect(page.getByTestId('create_event_header')).toBeVisible();
+    await page.getByTestId('event_name_input').click();
+    await page.getByTestId('event_name_input').fill('testipw');
+    await page.getByTestId('event_type_selection').selectOption('Event');
+    await page.getByTestId('create_event_modal_button').click();
+    await page.getByTestId('close_modal_button').click();
     await expect(page.getByText('testipw')).toBeVisible();
-    await page.getByRole('button', { name: 'Remove Event' }).click();
+    await page.getByTestId('remove_event_button').click();
 });
 
-test('Invalid event name', async ({ page }) => {
-    await page.getByRole('button', { name: 'Create event' }).click();
-    await page.getByLabel('Type:').selectOption('Course');
-    await page.getByPlaceholder('Enter a name - min. 5').click();
-    await page.getByPlaceholder('Enter a name - min. 5').fill('äää');
-    await page.locator('#defaultModal').getByRole('button', { name: 'Create event' }).click();
-    await page.getByRole('button', { name: 'Close modal' }).click();
+test('Create event - invalid name', async ({ page }) => {
+    await page.getByTestId('create_event_button').click();
+    await expect(page.getByTestId('create_event_header')).toBeVisible();
+    await page.getByTestId('event_name_input').click();
+    await page.getByTestId('event_name_input').fill('äää');
+    await page.getByTestId('event_type_selection').selectOption('Course');
+    await page.getByTestId('create_event_modal_button').click();
+    await page.getByTestId('close_modal_button').click();
     await expect(page.getByText('äää')).toBeHidden();
 });
 
 test('Check invite code', async ({ page }) => {
-    await page.getByRole('button', { name: 'Create event' }).click();
-    await expect(page.getByRole('heading', { name: 'Create event' })).toBeVisible();
-    await page.getByPlaceholder('Enter a name - min. 5').click();
-    await page.getByPlaceholder('Enter a name - min. 5').fill('testipw');
-    await page.getByLabel('Type:').selectOption('Event');
-    await page.locator('#defaultModal').getByRole('button', { name: 'Create event' }).click();
-    await page.getByRole('button', { name: 'Close modal' }).click();
+    await page.getByTestId('create_event_button').click();
+    await expect(page.getByTestId('create_event_header')).toBeVisible();
+    await page.getByTestId('event_name_input').click();
+    await page.getByTestId('event_name_input').fill('testipw');
+    await page.getByTestId('event_type_selection').selectOption('Event');
+    await page.getByTestId('create_event_modal_button').click();
+    await page.getByTestId('close_modal_button').click();
     await expect(page.getByText('testipw')).toBeVisible();
     await expect(page.locator('css=.invcode').first()).not.toHaveText('');
-    await page.getByRole('button', { name: 'Remove Event' }).click();
+    await page.getByTestId('remove_event_button').click();
 });
 
 test.afterEach(async ({ page }) => {
