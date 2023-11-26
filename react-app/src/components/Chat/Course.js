@@ -231,7 +231,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                 <div className="relative p-4 rounded-t dark:border-gray-600">
                     <div className="flex items-center justify-center mb-2">
                         <h2 className="text-2xl font-semibold text-white mb-5">{t("modal_label_feedback_for")} {courseName}</h2>
-                        <button type="button"
+                        <button data-testid="close_modal_button" type="button"
                                 onClick={onRequestClose}
                                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                 data-modal-hide="authentication-modal">
@@ -246,7 +246,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                     <div className="m-2 grid grid-cols-2">
                         <div className="">
                             <p className="ml-2 mt-2 mr-2 text-gray-50 ">{t("modal_label_feedback_average")} {convertRatingAverage(feedbackAvg)} ({feedbackAvg})</p>
-                            <p className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">{t("grade_good")}: {good}</p>
+                            <p data-testid="modal_good_text" className="ml-2 mt-2 mr-2 text-gray-50 bg-green-500">{t("grade_good")}: {good}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-yellow-500">{t("grade_ok")}: {ok}</p>
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">{t("grade_bad")}: {bad}</p>
                             <div className="">
@@ -264,7 +264,7 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                             <ul className="max-h-[420px] overflow-y-auto">
                                 {feedback.map((review, index) => (
                                     <li className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
-                                        <p className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
+                                        <p data-testid="modal_review_text" className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
                                         <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {convertNumberToRating(review.rating)}</p>
                                     </li>
                                 ))}

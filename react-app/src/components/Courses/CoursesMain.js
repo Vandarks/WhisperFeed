@@ -444,10 +444,10 @@ function CourseModal({
                                 className="mb-5 col-span-3 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                                 <option disabled selected>{t("modal_selection_choose")}</option>
-                                <option data-testid="option_course" value="Course" id="option1">
+                                <option value="Course" id="option1">
                                     {t("modal_selection_course")}
                                 </option>
-                                <option data-testid="option_event" value="Event" id="option2">
+                                <option value="Event" id="option2">
                                     {t("modal_selection_event")}
                                 </option>
                             </select>
