@@ -64,3 +64,13 @@ Testing is done with RobotFrameWork. Make sure to open the website to a server f
 Create the virtual environment for the project by opening WhisperFeed folder in the command prompt as an administrator, and typing the command `pip install virtualenv`, and then `virtualenv venv`. Activate venv by moving to the `venv\Scrpts` foldeir and type `activate`. Once that is done install RobotFrameWork with the commands `pip install robotframework` and `pip install robotframework-browser`. Installation can be verified with `robot -h`. If no errors appear, the installation is done.
 Next type command `rfbrowser init`. This will initialize a browser for the test. If this does not work, don't worry and move to the next step.
 Finally, to begin the test, navigate back to `/WhisperFeed` and run `robot tests\robot\auto_robot.robot`. Make sure that you have the server running in port 3000 as instructed above.
+
+## Playwright Testing
+Functionality testing is done with Playwright. Make sure to open the website to a server first. Refer to "Packages" for instructions. Installation and testing instructions can be found from the Playwright documentation at https://playwright.dev/docs/intro
+
+
+
+
+
+
+
