@@ -48,5 +48,5 @@ test('Check invite code', async ({ page }) => {
 });
 
 test.afterEach(async ({ page }) => {
-    await page.getByRole('button', { name: 'Delete all keys' }).click();
+    await page.getByTestId('delete_all_keys_button').click();
 });
