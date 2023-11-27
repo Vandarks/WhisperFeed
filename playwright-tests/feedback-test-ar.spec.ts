@@ -1,4 +1,4 @@
-import { test, expect, Fixtures } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test('create_event_and_save_key', async ({ page }) => {
   await page.goto('http://localhost:3000/');

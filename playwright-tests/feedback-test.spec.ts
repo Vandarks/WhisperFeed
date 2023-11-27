@@ -1,6 +1,6 @@
-import { test, expect, Fixtures } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-test('create_event_and_save_key', async ({ page }) => {
+test('Create event and save key', async ({ page }) => {
   await page.goto('http://localhost:3000/');
   await page.getByTestId('email_input').click();
   await page.getByTestId('email_input').fill('play@test.fi');
