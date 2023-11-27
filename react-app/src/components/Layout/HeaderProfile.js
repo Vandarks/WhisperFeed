@@ -79,11 +79,11 @@ function HeaderProfile() {
                         <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                             <li>
                                 <Link to="/"
-                                      className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:text-orange-400 lg:border-0 lg:p-0 text-gray-100 dark:border-gray-800">{t("nav_home")}</Link>
+                                      className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:text-orange-400 lg:border-0 lg:p-0">{t("nav_home")}</Link>
                             </li>
                             <li>
                                 <Link to="/contact"
-                                      className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:text-orange-400 lg:border-0 lg:p-0 text-gray-100 dark:border-gray-800">{t("nav_contact")}</Link>
+                                      className="block py-2 pr-4 pl-3 text-gray-100 border-b border-gray-100 hover:text-orange-400 lg:border-0 lg:p-0">{t("nav_contact")}</Link>
                             </li>
                         </ul>
                     </div>
