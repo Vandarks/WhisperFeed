@@ -1,11 +1,15 @@
 import React, { useState} from "react";
-import { auth, coursesRef, firestore } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
+import { auth, coursesRef, usersRef, feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
+import firebase from "firebase/compat/app";
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
 import { Donut } from "./DonutChart";
 import {useTranslation} from "react-i18next";
 
 function Course (props) {
+
+    // Translation hook
+    const { t } = useTranslation();
 
     // Modal settings
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,38 +28,35 @@ function Course (props) {
     const [okRating, setOkRating] = useState(0);
     const [badRating, setBadRating] = useState(0);
 
+    const currentUserRef = usersRef.doc(auth.currentUser.uid);
 
-    const { courseName, uid, photoURL, creatorName, courseKey  } = props.message;
-        
-
-    // Reference to the feedback collection
-    const feedbackRef = firestore.collection("feedback");
-
+    const { courseName, creatorId, photoURL, creatorName, courseKey, courseId } = props.message;
+    
     // For checking out feedback on certain courses
     const courseFeedbackRef = feedbackRef
-        .where("courseName", "==", courseName)
-        .where("uid", "==", uid);
-    const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
+        .where("courseKey", "==", courseKey)
+
+    const messageClass = creatorId === auth.currentUser.uid ? "sent" : "received";
+
     const [feedback, setFeedback] = useState([]);
 
     // Average feedback of a course
     const [feedbackAvg, setFeedbackAvg] = useState("Currently none");
 
-    const { t } = useTranslation();
 
     // Remove course and feedback from database
-    const handleRemoveCourseButton = () => {
+    const handleRemoveCourseButton = async() => {
 
-        console.log("Deleted course: ", courseName, " creator: ", uid)
+        console.log("Deleted course: ", courseName, " creator id: ", creatorId)
 
-        coursesRef
+        await coursesRef
             .where("courseName", "==", courseName)
             .get()
             .then(querySnapshot => {
                 querySnapshot.docs[0].ref.delete();
             });
 
-        courseFeedbackRef
+        await courseFeedbackRef
             .get()
             .then(querySnapshot => {
                 console.log(querySnapshot.docs)
@@ -63,13 +64,21 @@ function Course (props) {
                     querySnapshot.docs[i].ref.delete();
                 }
             });
+
+        // Get the current user's courseCodes
+        // then remove courseCode from the array
+        await currentUserRef.update({
+            courseCodes: firebase.firestore.FieldValue.arrayRemove(courseId)
+        })
+
+        
     }
 
     // View course feedback from database
     const viewFeedback = async () => {
 
         try {
-            const ratingQuerySnap = await courseFeedbackRef.where("rating", "!=", null).get();
+            const ratingQuerySnap = await courseFeedbackRef.get();
 
             const ratingData = [];
             let sum = 0;
@@ -107,16 +116,14 @@ function Course (props) {
             const avg = count === 0 ? 0 : sum / count;
 
 
-            // set things
+            // set ratings
             setGoodRating(good);
             setOkRating(ok);
             setBadRating(bad);
 
             setFeedbackAvg(avg.toFixed(2));
 
-            console.log(goodRating);
-
-            console.log("course: ", courseName, " uid: ", uid);
+            console.log("course: ", courseName, " creator id: ", creatorId);
             
             
             // Fetch feedback for the course and put into feedback hook
@@ -127,8 +134,6 @@ function Course (props) {
             });
 
             setFeedback(reviewData);
-
-            console.log("Feedback text: ", reviewData.text);
 
         } catch (e) {
             console.error("Error getting feedback documents: ", e);
@@ -174,6 +179,7 @@ function Course (props) {
                         onRequestClose={closeModal}
                         feedback = {feedback}
                         courseName = {courseName}
+                        courseKey = {courseKey}
                         feedbackAvg={feedbackAvg}
                         good={goodRating}
                         ok={okRating}
@@ -184,7 +190,7 @@ function Course (props) {
             {/* Only show the next part if not the owner */}
             {messageClass === "received" && (
                 <div className="col-span-3">
-                    <FeedbackInput course={courseName} creator={uid} />
+                    <FeedbackInput course={courseName} creator={creatorId} courseId={courseId} courseKey={courseKey} />
                 </div>
             )}
         </div>
@@ -262,9 +268,9 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                         </div>
                         <div className="">
                             <ul className="max-h-[420px] overflow-y-auto">
-                                {feedback.map((review, index) => (
+                                {feedback.map((review) => (
                                     <li className="mb-2 border border-gray-300 rounded-lg bg-gray-600">
-                                        <p data-testid="modal_review_text" className="ml-2 mt-2 mr-2 text-gray-50">{review.text}</p>
+                                        <p data-testid="modal_review_text" className="ml-2 mt-2 mr-2 text-gray-50">{review.feedbackText}</p>
                                         <p className="ml-2 mb-2 text-gray-50 text-sm">Feedback rating: {convertNumberToRating(review.rating)}</p>
                                     </li>
                                 ))}

@@ -62,7 +62,6 @@ function CoursesMain() {
                     const userData = doc.data();
                     if (userData.hasOwnProperty("courseCodes")) {
                         setUserKeys(userData.courseCodes);
-                        console.log("User keys: " + userKeys);
                     } else {
                         console.log("Field does not exist in the doc");
                     }
@@ -85,7 +84,6 @@ function CoursesMain() {
             .catch((e) => {
                 console.error("Error fetching document: ", e);
             });
-
     };
 
     // Key generator for new courses
@@ -147,6 +145,8 @@ function CoursesMain() {
     };
 
     // Create a course to the database and for others to see, updates asynchronously
+    let courseId = "";
+
     const createCourse = async (e) => {
         e.preventDefault();
 
@@ -169,15 +169,17 @@ function CoursesMain() {
                     creatorId: uid,
                     photoURL,
                     creatorName: displayName,
-                    courseKey: generatedKey,
+                    courseKey: generatedKey
                 })
                 .then((docRef) => {
                     console.log("Document ID: ", docRef.id);
+                    courseId = docRef.id;
                     joinCourse(generatedKey);
                 })
                 .catch((e) => {
                     console.error("Error adding document: ", e);
                 });
+            console.log("Course created with ID: ", courseId);
 
             setFormCourseName("");
         } else {
@@ -219,8 +221,10 @@ function CoursesMain() {
 
     const handleJoinClick = (param) => {
         if (courseKeyText.length === 6) {
-            console.log("testi");
             joinCourse(param);
+            console.log("joined course " + param);
+        } else {
+            console.log("invalid course key");
         }
     };
 
@@ -357,7 +361,7 @@ function CoursesMain() {
                             <Course
                                 message={course}
                                 courseCreator={course.creatorId}
-                                courseId={course.courseId}
+                                courseId={courseId}
                             />
                         ))}
                 </div>
