@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
+import { coursesRef, feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import firebase from "firebase/compat/app";
 import { useTranslation } from "react-i18next";
 
@@ -8,9 +8,10 @@ function FeedbackInput(props) {
     const { t } = useTranslation();
 
     const course = props.course;
-    const courseCreator = props.creator;
 
-    // Reference to the feedback collection
+    const courseId = props.courseId;
+
+    const courseKey = props.courseKey;
 
     const [feedbackText, setFeedbackText] = useState("");
 
@@ -26,22 +27,18 @@ function FeedbackInput(props) {
 
             await feedbackRef.add({
                 courseName: course,
+                courseKey: courseKey,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                text: feedbackText,
-                uid: courseCreator,
-                rating: feedbackRating
+                feedbackText: feedbackText,
+                rating: feedbackRating,
+                feedbackUser: firebase.auth().currentUser.uid
             })
-                .then((docRef) => {
-                    console.log("Feedback Document ID: ", docRef.id);
-                })
-                .catch((e) => {
-                    console.error("Error adding document: ", e);
-                });
+            .then(() => {
+                console.log("Feedback sent succesfully");
+                setFeedbackText("");
+                setFeedbackRating(null);
+            })
 
-            setFeedbackText("");
-            setFeedbackRating(null);
-        } else {
-            console.log("Feedback not sent: add feedback rating")
         }
     }
     // Handles feedback button onclick event to pass value to feedbackRating hook
