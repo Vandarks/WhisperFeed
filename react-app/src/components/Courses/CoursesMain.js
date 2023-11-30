@@ -43,6 +43,7 @@ function CoursesMain() {
     // Code query for filtering active courses
     let codeQuery;
 
+    // Only show if user has joined a course
     if (userKeys.length > 0) {
         codeQuery = coursesRef.where("courseKey", "in", userKeys);
     }
