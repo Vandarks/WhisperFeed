@@ -15,10 +15,10 @@ firebase.initializeApp({
 });
 
 const auth = firebase.auth();
-const firestore = firebase.firestore();
-const feedbackRef = firestore.collection("feedback");
-const coursesRef = firestore.collection("courses");
-const usersRef = firestore.collection("users");
+const db = firebase.firestore();
+const feedbackRef = db.collection("feedback");
+const coursesRef = db.collection("courses");
+const usersRef = db.collection("users");
 
 
-export { auth, firestore, feedbackRef, coursesRef, usersRef };
+export { auth, feedbackRef, coursesRef, usersRef };
