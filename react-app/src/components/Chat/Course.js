@@ -47,14 +47,15 @@ function Course (props) {
     // Remove course and feedback from database
     const handleRemoveCourseButton = async() => {
 
-        console.log("Deleted course: ", courseName, " creator id: ", creatorId)
+        console.log("Deleted course: ", courseName, " Key: ", courseKey)
 
         await coursesRef
-            .where("courseName", "==", courseName)
+            .where("courseKey", "==", courseKey)
             .get()
             .then(querySnapshot => {
                 querySnapshot.docs[0].ref.delete();
             });
+            console.log("Deleted course from courses collection")
 
         await courseFeedbackRef
             .get()
@@ -64,14 +65,7 @@ function Course (props) {
                     querySnapshot.docs[i].ref.delete();
                 }
             });
-
-        // Get the current user's courseCodes
-        // then remove courseCode from the array
-        await currentUserRef.update({
-            courseCodes: firebase.firestore.FieldValue.arrayRemove(courseId)
-        })
-
-        
+            console.log("Deleted course feedback from feedback collection")        
     }
 
     // View course feedback from database
