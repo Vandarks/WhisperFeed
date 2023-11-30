@@ -10,13 +10,18 @@ import { useTranslation } from "react-i18next";
 // Students should be able to comment or give a rating to the course created by the teacher.
 // The creator of the course should see the feedback on the course, maybe as a 0-5 star system?
 function CoursesMain() {
+
+    // Translation
+    const { t } = useTranslation();
+
+    // Modal functions
+    const openModal = () => { setIsModalOpen(true); };
+    const closeModal = () => { setIsModalOpen(false); };
+
     // All known course keys
     const [knownKeys, setKnownKeys] = useState([""]);
-
     const [userKeys, setUserKeys] = useState([""]);
-
     const currentUserRef = usersRef.doc(auth.currentUser.uid);
-
     const currentCourses = [];
 
     const getCurrentCourses = () => {
@@ -31,23 +36,23 @@ function CoursesMain() {
                         currentCourses.push(data);
                     });
                 })
-                console.log("Current courses: " + currentCourses);
+            console.log("Current courses: " + currentCourses);
         }
     }
 
-    const codeQuery = coursesRef.where("courseKey", "in", userKeys);
+    // Code query for filtering active courses
+    let codeQuery;
 
-    const [courseKeyText, setCourseKeyText] = useState("");
+    if (userKeys.length > 0) {
+        codeQuery = coursesRef.where("courseKey", "in", userKeys);
+    }
 
     const [courses] = useCollectionData(codeQuery, { idField: "id" });
 
+    // Form states for creating a new course
     const [formCourseName, setFormCourseName] = useState("");
-
     const [formCourseType, setFormCourseType] = useState("");
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const { t } = useTranslation();
 
     const refreshCourses = () => {
         currentUserRef
@@ -67,7 +72,7 @@ function CoursesMain() {
                     );
                     currentUserRef
                         .set({
-                            default: ["1"],
+                            email: auth.currentUser.email
                         })
                         .then(() => {
                             console.log("New document created succesfully.");
@@ -83,16 +88,15 @@ function CoursesMain() {
 
     };
 
-        // For generating a unique key for course
-let generatedKey = "";
-
+    // Key generator for new courses
+    let generatedKey = "";
     const generateCourseKey = () => {
-        
+
         // Course key properties
         const symbols =
             "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
         const keyLength = 6;
-        
+
         //Retrieving all known keys from document
         coursesRef.get().then((querySnapshot) => {
             const keys = [];
@@ -102,11 +106,11 @@ let generatedKey = "";
                     keys.push(data.courseKey);
                 }
             });
-// put snapshot data to state
+            // put snapshot data to state
             setKnownKeys(keys);
         });
 
-// Key creator and checker
+        // Key creator and checker
         let counter = 0;
         let uniqueKeyGenerated = false;
         while (!uniqueKeyGenerated) {
@@ -118,54 +122,51 @@ let generatedKey = "";
                 );
                 counter++;
             }
-// Reset key character counter for reuse
+            // Reset key character counter for reuse
             counter = 0;
-            
+
             // Compare generated key to known keys
             let comparable = generatedKey
             let isUnique = 0;
             knownKeys.forEach((key) => {
                 if (comparable === key) {
                     console.log("Key is already known");
-isUnique++;
+                    isUnique++;
                 } else {
                     console.log("its a new key, ", comparable)
                 }
             });
             if (isUnique === 0) {
-                    uniqueKeyGenerated = true;
-                }
-            
+                uniqueKeyGenerated = true;
+            }
+
             // Reset checker parametres for reuse
             isUnique = 0;
             comparable = "";
         }
     };
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-
     // Create a course to the database and for others to see, updates asynchronously
     const createCourse = async (e) => {
         e.preventDefault();
+
         // Only when course name > 5 characters
         if (formCourseName.length > 5 && formCourseType !== "") {
             let { uid, photoURL, displayName } = auth.currentUser;
+
             // If not logged in via google
             if (displayName == null && photoURL == null) {
                 displayName = auth.currentUser.email;
             }
+
             generateCourseKey();
+
             await coursesRef
                 .add({
                     courseName: formCourseName,
                     courseType: formCourseType,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    uid,
+                    creatorId: uid,
                     photoURL,
                     creatorName: displayName,
                     courseKey: generatedKey,
@@ -198,6 +199,7 @@ isUnique++;
         }
     };
 
+    // Delete all course codes from user
     const deleteAllCourseCodes = async () => {
         try {
             // get all course codes from user and remove them
@@ -211,9 +213,9 @@ isUnique++;
         }
     }
 
-    useEffect(() => {
-        refreshCourses();
-    }, []);
+
+    // Join a course by key
+    const [courseKeyText, setCourseKeyText] = useState("");
 
     const handleJoinClick = (param) => {
         if (courseKeyText.length === 6) {
@@ -222,14 +224,13 @@ isUnique++;
         }
     };
 
+    // Check if user keys are up to date
+    const [updatedKeys, setUpdatedKeys] = useState([]);
 
-    const [ updatedKeys, setUpdatedKeys ] = useState([]);
-
-    const checkStaleKeys = async() => {
+    const checkStaleKeys = async () => {
         // get the ref for documents, add all courses to array
         // get the ref for user keys, add all user keys to array
         // iterate all user keys, if course key is the same as the user key, add it to updatedKeys
-        let oldKeys = 0;
         let updatedKeysList = [];
         coursesRef.get()
             .then((querySnapshot) => {
@@ -238,23 +239,19 @@ isUnique++;
                         const data = doc.data();
                         if (data.courseKey === userKeys[i]) {
                             console.log("found a match for " + userKeys[i] + " in courses");
-                            oldKeys++;
                             setUpdatedKeys([...updatedKeys, userKeys[i]])
                             updatedKeysList.push(userKeys[i]);
                         }
                     })
-                    if (oldKeys === 0) {
-                        console.log("no match found for " + userKeys[i] + " in courses");
-                    }
                 }
                 console.log("updatedKeys: " + updatedKeys);
-                console.log("oldKeys: " + oldKeys);
                 updateUserKeys(updatedKeysList);
                 setUpdatedKeys([]);
             })
     }
 
-    const updateUserKeys = async(updatedKeys) => {
+    // Update user keys to match the courses
+    const updateUserKeys = async (updatedKeys) => {
         currentUserRef.update({
             courseCodes: updatedKeys
         }).then(() => {
@@ -263,6 +260,26 @@ isUnique++;
             console.error("Error updating user keys: ", e);
         })
     }
+
+    const joinOwnCourses = () => {
+        coursesRef
+            .where("creatorId", "==", auth.currentUser.uid)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    joinCourse(data.courseKey);
+                    console.log("joined own course " + data.courseKey);
+                });
+            })
+    }
+
+    // Refresh courses on mount
+    useEffect(() => {
+        refreshCourses();
+        checkStaleKeys();
+        joinOwnCourses();
+    }, []);
 
     return (
         <>
@@ -339,6 +356,8 @@ isUnique++;
                         courses.map((course) => (
                             <Course
                                 message={course}
+                                courseCreator={course.creatorId}
+                                courseId={course.courseId}
                             />
                         ))}
                 </div>
