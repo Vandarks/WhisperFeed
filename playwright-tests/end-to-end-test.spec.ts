@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { login } from './loginconfig';
 
 
 test('end-to-end-test', async ({ page }) => {
@@ -27,12 +28,7 @@ test('end-to-end-test', async ({ page }) => {
     await page.getByTestId('sign_out_button').click();
 
     //Sign in with new user
-    await page.getByTestId('sign_in_link').click();
-    await page.getByTestId('email_input').click();
-    await page.getByTestId('email_input').fill('wright@test.fi');
-    await page.getByTestId('email_input').press('Tab');
-    await page.getByTestId('password_input').fill('admin11');
-    await page.getByTestId('password_input').press('Enter');
+    login(page, "wright@test.fi", "admin11");
 
     //Join event with invite code
     await page.getByTestId('join_event_input').click();
@@ -48,11 +44,9 @@ test('end-to-end-test', async ({ page }) => {
     await page.getByTestId('sign_out_button').click();
 
     //Sign in with event creator and check feedback
-    await page.getByTestId('email_input').click();
-    await page.getByTestId('email_input').fill('e2e@test.fi');
-    await page.getByTestId('email_input').press('Tab');
-    await page.getByTestId('password_input').fill('admin11!');
-    await page.getByTestId('password_input').press('Enter');
+    login(page, "e2e@test.fi", "admin11!");
+    
+    // check feedback
     await page.getByTestId('show_feedback_button').click();
     await expect(page.getByTestId('modal_good_text')).toHaveText('Good: 1');
     await expect(page.getByTestId('modal_review_text')).toHaveText('Works!');

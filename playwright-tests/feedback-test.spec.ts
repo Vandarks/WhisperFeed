@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { login } from './loginconfig.spec';
+import { login } from './loginconfig';
 
 test('Create event and save key', async ({ page }) => {
 

@@ -1,13 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { login } from './loginconfig';
 
 test('create_event_and_save_key', async ({ page }) => {
   await page.goto('http://localhost:3000/');
   await page.getByRole('combobox').selectOption('ar');
-  await page.getByTestId('email_input').click();
-  await page.getByTestId('email_input').fill('play@test.fi');
-  await page.getByTestId('email_input').press('Tab');
-  await page.getByTestId('password_input').fill('admin11!');
-  await page.getByTestId('password_input').press('Enter');
+  login(page, "play@test.fi", "admin11!");
   await page.getByTestId('create_event_button').click();
   await page.getByTestId('event_name_input').click();
   await page.getByTestId('event_name_input').fill('Feedback Test');
@@ -20,11 +17,7 @@ test('create_event_and_save_key', async ({ page }) => {
 
   await page.goto('http://localhost:3000/');
   await page.getByRole('combobox').selectOption('ar');
-  await page.getByTestId('email_input').click();
-  await page.getByTestId('email_input').fill('wright@test.fi');
-  await page.getByTestId('email_input').press('Tab');
-  await page.getByTestId('password_input').fill('admin11');
-  await page.getByTestId('password_input').press('Enter');
+  login(page, "wright@test.fi", "admin11");
   await page.getByTestId('join_event_input').click();
   await page.getByTestId('join_event_input').fill(key);
   await page.getByTestId('join_event_button').click();
@@ -37,11 +30,7 @@ test('create_event_and_save_key', async ({ page }) => {
 
   await page.goto('http://localhost:3000/');
   await page.getByRole('combobox').selectOption('ar');
-  await page.getByTestId('email_input').click();
-  await page.getByTestId('email_input').fill('play@test.fi');
-  await page.getByTestId('email_input').press('Tab');
-  await page.getByTestId('password_input').fill('admin11!');
-  await page.getByTestId('password_input').press('Enter');
+  login(page, "play@test.fi", "admin11!");
   await page.getByTestId('show_feedback_button').click();
   await expect(page.getByTestId('modal_good_text')).toHaveText('جيد: 1');
   await expect(page.getByTestId('modal_review_text')).toHaveText('Works!'); 
