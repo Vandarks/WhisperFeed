@@ -49,8 +49,8 @@ WhisperFeed can be accessed via an email account. As a teacher, the website can 
 - Anonymous feedback input with a rating system and optional comment
 - Feedback analysis
 - Course removal
-### Upcoming features
 - Localization
+### Upcoming features
 - Custom images for events/courses
 - Lecture/day specific feedback
 - Responsive UI/UX
