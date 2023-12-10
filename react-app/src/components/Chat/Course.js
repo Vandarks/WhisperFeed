@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { auth, coursesRef, usersRef, feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
-import firebase from "firebase/compat/app";
+import { auth, coursesRef, feedbackRef } from '../../firebaseConfig';
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
 import { Donut } from "./DonutChart";
@@ -13,12 +12,10 @@ function Course(props) {
 
     // Modal settings
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const openModal = () => {
         setIsModalOpen(true);
         viewFeedback();
     }
-
     const closeModal = () => {
         setIsModalOpen(false);
     }
@@ -28,11 +25,10 @@ function Course(props) {
     const [okRating, setOkRating] = useState(0);
     const [badRating, setBadRating] = useState(0);
 
-    const currentUserRef = usersRef.doc(auth.currentUser.uid);
-
+    // Course data from parent
     const { courseName, creatorId, photoURL, creatorName, courseKey, courseId } = props.message;
 
-    // For checking out feedback on certain courses
+    // Feedback with the same key as the course
     const courseFeedbackRef = feedbackRef
         .where("courseKey", "==", courseKey)
 
@@ -46,7 +42,6 @@ function Course(props) {
 
     // Remove course and feedback from database
     const handleRemoveCourseButton = async () => {
-
 
         await coursesRef
             .where("courseKey", "==", courseKey)
@@ -73,7 +68,6 @@ function Course(props) {
             const ratingData = [];
             let sum = 0;
             let count = 0;
-
             let good = 0;
             let ok = 0;
             let bad = 0;
@@ -105,7 +99,6 @@ function Course(props) {
 
             const avg = count === 0 ? 0 : sum / count;
 
-
             // set ratings
             setGoodRating(good);
             setOkRating(ok);
@@ -127,7 +120,6 @@ function Course(props) {
         }
     }
 
-
     return (
         <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
             <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1" />
@@ -138,7 +130,6 @@ function Course(props) {
                 </h2>
                 <p className="mb-2">{creatorName}</p>
             </div>
-
             {/* Only show this if user is the owner of the course */}
             {messageClass === "sent" && (
                 <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
@@ -185,7 +176,6 @@ function Course(props) {
 }
 
 function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg, good, ok, bad }) {
-
 
     // Data for donut chart
     const data = [
@@ -266,7 +256,6 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                     </div>
                 </div>
             </div>
-
         </Modal>
     );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
-
+// Donut chart for feedback
 function Donut(props) {
   const pieData = props.data;
   const pieOptions = props.options
