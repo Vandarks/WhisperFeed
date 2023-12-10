@@ -22,22 +22,6 @@ function CoursesMain() {
     const [knownKeys, setKnownKeys] = useState([""]);
     const [userKeys, setUserKeys] = useState([""]);
     const currentUserRef = usersRef.doc(auth.currentUser.uid);
-    const currentCourses = [];
-
-    const getCurrentCourses = () => {
-        currentCourses.length = 0;
-        for (let i = 0; i < userKeys.length; i++) {
-            coursesRef
-                .where("courseKey", "==", userKeys[i])
-                .get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        currentCourses.push(data);
-                    });
-                })
-        }
-    }
 
     // Code query for filtering active courses
     let codeQuery;
@@ -183,18 +167,6 @@ function CoursesMain() {
         }
     };
 
-    // Delete all course codes from user
-    const deleteAllCourseCodes = async () => {
-        try {
-            // get all course codes from user and remove them
-            currentUserRef.update({
-                courseCodes: firebase.firestore.FieldValue.delete()
-            });
-            refreshCourses();
-        } catch (e) {
-        }
-    }
-
 
     // Join a course by key
     const [courseKeyText, setCourseKeyText] = useState("");
@@ -253,6 +225,7 @@ function CoursesMain() {
         refreshCourses();
         checkStaleKeys();
         joinOwnCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
