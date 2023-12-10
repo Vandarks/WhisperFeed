@@ -23,15 +23,12 @@ function SignUpForm({ onSignInClick }) {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     setError(errorMessage);
-                    console.log(errorCode + " " + errorMessage)
                 });
         } else {
             if (password.length < 6) {
                 setError("Password should be at least 6 characters long")
-                console.log("Password should be at least 6 characters long");
             } else {
                 setError("Please fill in all fields")
-                console.log("Please fill in all fields");
             }
         }
     };

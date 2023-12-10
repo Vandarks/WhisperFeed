@@ -11,7 +11,6 @@ function SignIn() {
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider).then(r => {
-            console.log("logged in", r);
         }).catch((error) => {
             console.error(error)
         });

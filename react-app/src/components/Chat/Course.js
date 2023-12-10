@@ -1,12 +1,12 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { auth, coursesRef, usersRef, feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import firebase from "firebase/compat/app";
 import FeedbackInput from "./FeedbackInput";
 import Modal from "react-modal";
 import { Donut } from "./DonutChart";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
-function Course (props) {
+function Course(props) {
 
     // Translation hook
     const { t } = useTranslation();
@@ -31,7 +31,7 @@ function Course (props) {
     const currentUserRef = usersRef.doc(auth.currentUser.uid);
 
     const { courseName, creatorId, photoURL, creatorName, courseKey, courseId } = props.message;
-    
+
     // For checking out feedback on certain courses
     const courseFeedbackRef = feedbackRef
         .where("courseKey", "==", courseKey)
@@ -45,9 +45,8 @@ function Course (props) {
 
 
     // Remove course and feedback from database
-    const handleRemoveCourseButton = async() => {
+    const handleRemoveCourseButton = async () => {
 
-        console.log("Deleted course: ", courseName, " Key: ", courseKey)
 
         await coursesRef
             .where("courseKey", "==", courseKey)
@@ -55,17 +54,14 @@ function Course (props) {
             .then(querySnapshot => {
                 querySnapshot.docs[0].ref.delete();
             });
-            console.log("Deleted course from courses collection")
 
         await courseFeedbackRef
             .get()
             .then(querySnapshot => {
-                console.log(querySnapshot.docs)
                 for (let i = 0; i < querySnapshot.docs.length; i++) {
                     querySnapshot.docs[i].ref.delete();
                 }
             });
-            console.log("Deleted course feedback from feedback collection")        
     }
 
     // View course feedback from database
@@ -86,11 +82,11 @@ function Course (props) {
                 const feedbackData = doc.data();
                 const rating = feedbackData.rating;
 
-                switch(rating) {
+                switch (rating) {
                     case 2:
                         good++;
                         break;
-                        
+
                     case 1:
                         ok++;
                         break;
@@ -102,7 +98,7 @@ function Course (props) {
                 }
 
                 sum += rating;
-                count ++;
+                count++;
 
                 ratingData.push(feedbackData);
             });
@@ -117,12 +113,9 @@ function Course (props) {
 
             setFeedbackAvg(avg.toFixed(2));
 
-            console.log("course: ", courseName, " creator id: ", creatorId);
-            
-            
             // Fetch feedback for the course and put into feedback hook
             const reviewData = [];
-            
+
             ratingQuerySnap.forEach((doc) => {
                 reviewData.push(doc.data());
             });
@@ -137,7 +130,7 @@ function Course (props) {
 
     return (
         <div className="grid grid-cols-5 place-content-stretch rounded-lg bg-gray-900 items-center">
-            <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1"/>
+            <img src={photoURL} alt="Creator" className="rounded-lg m-2 w-full h-full max-h-[175px] max-w-[175px] col-span-1" />
             <div className="w-full flex flex-col items-center overflow-visible col-span-1 ">
                 <h2 className="md:text-xl break-words font-semibold m-2 text-center"
                 >
@@ -151,8 +144,8 @@ function Course (props) {
                 <div className="grid rounded-lg m-2 col-span-3 items-center grid-cols-2">
                     <div>
                         <div className="grid grid-cols-2">
-                        <p className="m-2"><b>{t("invite_code")}: </b></p>
-                        <p data-testid="invite_code" className="m-2"><b className="invcode">{courseKey}</b></p>
+                            <p className="m-2"><b>{t("invite_code")}: </b></p>
+                            <p data-testid="invite_code" className="m-2"><b className="invcode">{courseKey}</b></p>
                         </div>
                         <p className="m-2">[Weekday placeholder]</p>
                     </div>
@@ -171,14 +164,14 @@ function Course (props) {
                     <CourseModal
                         isOpen={isModalOpen}
                         onRequestClose={closeModal}
-                        feedback = {feedback}
-                        courseName = {courseName}
-                        courseKey = {courseKey}
+                        feedback={feedback}
+                        courseName={courseName}
+                        courseKey={courseKey}
                         feedbackAvg={feedbackAvg}
                         good={goodRating}
                         ok={okRating}
                         bad={badRating}
-                        />
+                    />
                 </div>
             )}
             {/* Only show the next part if not the owner */}
@@ -191,7 +184,7 @@ function Course (props) {
     )
 }
 
-function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg, good, ok, bad}) {
+function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg, good, ok, bad }) {
 
 
     // Data for donut chart
@@ -200,11 +193,11 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
         ["Bad", bad],
         ["OK", ok],
         ["Good", good]
-      ];
+    ];
 
     // Options for donut chart
     const options = {
-        title: {courseName},
+        title: { courseName },
         pieHole: 0.4,
         is3D: false,
         backgroundColor: "transparent",
@@ -212,9 +205,9 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
         width: 250,
         height: 400,
         slices: {
-            0: {color: "ef4444"},
-            1: {color: "eab308"},
-            2: {color: "22c55e"}
+            0: { color: "ef4444" },
+            1: { color: "eab308" },
+            2: { color: "22c55e" }
         }
     };
 
@@ -232,13 +225,13 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                     <div className="flex items-center justify-center mb-2">
                         <h2 className="text-2xl font-semibold text-white mb-5">{t("modal_label_feedback_for")} {courseName}</h2>
                         <button data-testid="close_modal_button" type="button"
-                                onClick={onRequestClose}
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                data-modal-hide="authentication-modal">
+                            onClick={onRequestClose}
+                            className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="authentication-modal">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 14 14">
+                                viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                             </svg>
                             <span className="sr-only">Close modal</span>
                         </button>
@@ -251,12 +244,12 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
                             <p className="ml-2 mt-2 mr-2 text-gray-50 bg-red-500">{t("grade_bad")}: {bad}</p>
                             <div className="">
                                 <Donut className=""
-                                       bad={bad}
-                                       ok={ok}
-                                       good={good}
-                                       courseName = {courseName}
-                                       data = {data}
-                                       options = {options}
+                                    bad={bad}
+                                    ok={ok}
+                                    good={good}
+                                    courseName={courseName}
+                                    data={data}
+                                    options={options}
                                 />
                             </div>
                         </div>
@@ -278,8 +271,8 @@ function CourseModal({ isOpen, onRequestClose, feedback, courseName, feedbackAvg
     );
 }
 
-function convertNumberToRating(number){
-    switch (number){
+function convertNumberToRating(number) {
+    switch (number) {
         case 2:
             return "Good";
         case 1:
@@ -291,11 +284,11 @@ function convertNumberToRating(number){
     }
 }
 
-function convertRatingAverage(average){
-    if(average >= 1.33){return "Good"}
-    else if(average < 1.33 && average > 0.66){return "Ok";}
-    else if(average <= 0.66){return "Bad";}
-    else{return "Unknown";}
+function convertRatingAverage(average) {
+    if (average >= 1.33) { return "Good" }
+    else if (average < 1.33 && average > 0.66) { return "Ok"; }
+    else if (average <= 0.66) { return "Bad"; }
+    else { return "Unknown"; }
 }
 
 export default Course;

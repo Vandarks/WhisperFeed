@@ -20,7 +20,6 @@ function SignInForm({ onSignUpClick }) {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(errorCode + " " + errorMessage)
                 setError("Invalid username or password");
             });
     }

@@ -36,7 +36,6 @@ function CoursesMain() {
                         currentCourses.push(data);
                     });
                 })
-            console.log("Current courses: " + currentCourses);
         }
     }
 
@@ -63,27 +62,19 @@ function CoursesMain() {
                     const userData = doc.data();
                     if (userData.hasOwnProperty("courseCodes")) {
                         setUserKeys(userData.courseCodes);
-                    } else {
-                        console.log("Field does not exist in the doc");
                     }
                 } else {
-                    console.log(
-                        "Document does not exist in collection, creating"
-                    );
                     currentUserRef
                         .set({
                             email: auth.currentUser.email
                         })
                         .then(() => {
-                            console.log("New document created succesfully.");
                         })
                         .catch((e) => {
-                            console.error("Error creating a new document: ", e);
                         });
                 }
             })
             .catch((e) => {
-                console.error("Error fetching document: ", e);
             });
     };
 
@@ -129,10 +120,7 @@ function CoursesMain() {
             let isUnique = 0;
             knownKeys.forEach((key) => {
                 if (comparable === key) {
-                    console.log("Key is already known");
                     isUnique++;
-                } else {
-                    console.log("its a new key, ", comparable)
                 }
             });
             if (isUnique === 0) {
@@ -173,18 +161,13 @@ function CoursesMain() {
                     courseKey: generatedKey
                 })
                 .then((docRef) => {
-                    console.log("Document ID: ", docRef.id);
                     courseId = docRef.id;
                     joinCourse(generatedKey);
                 })
                 .catch((e) => {
-                    console.error("Error adding document: ", e);
                 });
-            console.log("Course created with ID: ", courseId);
 
             setFormCourseName("");
-        } else {
-            console.log("Course not created, add valid course name!");
         }
     };
 
@@ -195,10 +178,8 @@ function CoursesMain() {
                 courseCodes:
                     firebase.firestore.FieldValue.arrayUnion(newCourseKey),
             });
-            console.log("joined course " + newCourseKey);
             refreshCourses();
         } catch (e) {
-            console.error("Error joining the course ", e);
         }
     };
 
@@ -209,10 +190,8 @@ function CoursesMain() {
             currentUserRef.update({
                 courseCodes: firebase.firestore.FieldValue.delete()
             });
-            console.log("deleted all course codes for user " + auth.currentUser.uid);
             refreshCourses();
         } catch (e) {
-            console.error("Error deleting all courses ", e);
         }
     }
 
@@ -223,9 +202,6 @@ function CoursesMain() {
     const handleJoinClick = (param) => {
         if (courseKeyText.length === 6) {
             joinCourse(param);
-            console.log("joined course " + param);
-        } else {
-            console.log("invalid course key");
         }
     };
 
@@ -243,13 +219,11 @@ function CoursesMain() {
                     querySnapshot.forEach((doc) => {
                         const data = doc.data();
                         if (data.courseKey === userKeys[i]) {
-                            console.log("found a match for " + userKeys[i] + " in courses");
                             setUpdatedKeys([...updatedKeys, userKeys[i]])
                             updatedKeysList.push(userKeys[i]);
                         }
                     })
                 }
-                console.log("updatedKeys: " + updatedKeys);
                 updateUserKeys(updatedKeysList);
                 setUpdatedKeys([]);
             })
@@ -259,11 +233,7 @@ function CoursesMain() {
     const updateUserKeys = async (updatedKeys) => {
         currentUserRef.update({
             courseCodes: updatedKeys
-        }).then(() => {
-            console.log("updated user keys to " + updatedKeys);
-        }).catch((e) => {
-            console.error("Error updating user keys: ", e);
-        })
+        });
     }
 
     const joinOwnCourses = () => {
@@ -274,7 +244,6 @@ function CoursesMain() {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     joinCourse(data.courseKey);
-                    console.log("joined own course " + data.courseKey);
                 });
             })
     }
@@ -300,33 +269,6 @@ function CoursesMain() {
                                 {t("button_create_event")}
                             </button>
                         </div>
-                    </div>
-                    <div id="delete_keys_btn" className="m-2">
-                        <button
-                            data-testid="delete_all_keys_button"
-                            onClick={deleteAllCourseCodes}
-                            className="bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                        >
-                            {t("button_delete_all_keys")}
-                        </button>
-                    </div>
-                    <div id="update_keys_btn" className="m-2">
-                        <button
-                            data-testid="update_all_keys_button"
-                            onClick={checkStaleKeys}
-                            className="bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                        >
-                            {t("button_update_all_keys")}
-                        </button>
-                    </div>
-                    <div id="update_courses_btn" className="m-2">
-                        <button
-                            data-testid="update_all_courses_button"
-                            onClick={getCurrentCourses}
-                            className="bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                        >
-                            {t("button_update_all_courses")}
-                        </button>
                     </div>
                     <div id="join_btn" className="m-2 flex items-start">
                         <input

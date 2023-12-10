@@ -105,8 +105,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
         setPassword(e.target.value);
     };
     const handleSaveChanges = () => {
-        console.log('Email:', email);
-        console.log('Password::', password);
+        // in development
     };
 
     const deleteUser = async() => {
@@ -118,13 +117,9 @@ function SettingsModal({ isOpen, onRequestClose }) {
         myFeedbacks.get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log("Deleting feedback: ", doc.id);
                     doc.ref.delete();
                 });
             })
-            .catch((error) => {
-                console.error("Error deleting feedback: ", error);
-            });
         
         // delete courses owned by user
         const myCourses = coursesRef.where("uid", "==", auth.currentUser.uid);
@@ -133,13 +128,9 @@ function SettingsModal({ isOpen, onRequestClose }) {
         myCourses.get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log("Deleting course: ", doc.id);
                     doc.ref.delete();
                 });
             })
-            .catch((error) => {
-                console.error("Error deleting courses: ", error);
-            });
         // delete user document
 
         usersRef.doc(auth.currentUser.uid).delete()

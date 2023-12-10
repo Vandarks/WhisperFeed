@@ -34,7 +34,6 @@ function FeedbackInput(props) {
                 feedbackUser: firebase.auth().currentUser.uid
             })
             .then(() => {
-                console.log("Feedback sent succesfully");
                 setFeedbackText("");
                 setFeedbackRating(null);
             })
@@ -48,7 +47,6 @@ function FeedbackInput(props) {
 
     const leaveCourse = async (e) => {
         e.preventDefault();
-        console.log("Leave course CURRENTLY IN DEVELOPMENT");
         // Get the user id
         // Get the course key
         // Remove the course key from user

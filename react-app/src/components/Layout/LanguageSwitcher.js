@@ -34,13 +34,7 @@ function LanguageSwitcher() {
         if (currentUserRef != null) {
             currentUserRef.update({
                 languagePreference: e.target.value
-            })
-                .then(function() {
-                    console.log("Document successfully updated!");
-                })
-                .catch(function(error) {
-                    console.error("Error updating document: ", error);
-                });
+            });
         }
     }
 }
