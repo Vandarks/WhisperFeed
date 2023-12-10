@@ -3,12 +3,11 @@ import settingsLogo from '../../images/settings.png';
 import { Link } from "react-router-dom";
 import SignOut from "../Auth/SignOut";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {auth, coursesRef, usersRef, firestore, feedbackRef} from "../../firebaseConfig";
+import {auth, coursesRef, usersRef, feedbackRef} from "../../firebaseConfig";
 import Modal from "react-modal";
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { deleteDoc, doc } from 'firebase/firestore';
 
 function HeaderProfile() {
     const { t } = useTranslation();
@@ -99,9 +98,11 @@ function SettingsModal({ isOpen, onRequestClose }) {
     const { t } = useTranslation();
 
     const handleEmailChange = (e) => {
+        // in development
         setEmail(e.target.value);
     };
     const handlePasswordChange = (e) => {
+        // in development
         setPassword(e.target.value);
     };
     const handleSaveChanges = () => {
@@ -190,7 +191,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
                     </div>
                     <div className="grid grid-cols-2 justify-center mt-5">
                         <button
-                            className="text-white m-auto max-w-[200px] col-span-2 m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            className="text-white max-w-[200px] col-span-2 m-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             onClick={null} // {handleSaveChanges}
                         >
                             {t("save_changes")}
@@ -200,7 +201,7 @@ function SettingsModal({ isOpen, onRequestClose }) {
                     <div className="grid grid-cols-2 justify-center mt-5">
                         <button
                             data-testid="delete_user_button"
-                            className="text-white m-auto max-w-[200px] col-span-2 m-2 bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                            className="text-white max-w-[200px] col-span-2 m-2 bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                             onClick={deleteUser} // {handleSaveChanges}
                         >
                             {t("delete_user")}
