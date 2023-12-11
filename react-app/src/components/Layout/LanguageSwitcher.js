@@ -7,8 +7,15 @@ function LanguageSwitcher() {
     const {i18n} = useTranslation();
     const { t } = useTranslation();
     let currentUserRef = null;
+
     if(auth.currentUser != null){
         currentUserRef = usersRef.doc(auth.currentUser.uid);
+        currentUserRef.get().then((doc) => {
+            if (doc.exists) {
+                const languagePref = doc.data().languagePreference;
+                i18n.changeLanguage(languagePref)
+            }
+        })
     }
 
     return (
