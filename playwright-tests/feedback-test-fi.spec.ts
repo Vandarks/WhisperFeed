@@ -17,7 +17,7 @@ test('create_event_and_save_key', async ({ page }) => {
 
   await page.goto('http://localhost:3000/');
   await page.getByRole('combobox').selectOption('fi');
-  login(page, "wirght@test.fi", "admin11!");
+  login(page, "wright@test.fi", "admin11");
   await page.getByTestId('join_event_input').click();
   await page.getByTestId('join_event_input').fill(key);
   await page.getByTestId('join_event_button').click();

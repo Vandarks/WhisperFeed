@@ -58,15 +58,14 @@ WhisperFeed can be accessed via an email account. As a teacher, the website can 
 - Course abandoning
 - Feedback limitations and spam protection
 
-## Testing
-Testing is done with RobotFrameWork. Make sure to open the website to a server first. Refer to "Packages" for instructions.  
-
-Create the virtual environment for the project by opening WhisperFeed folder in the command prompt as an administrator, and typing the command `pip install virtualenv`, and then `virtualenv venv`. Activate venv by moving to the `venv\Scrpts` foldeir and type `activate`. Once that is done install RobotFrameWork with the commands `pip install robotframework` and `pip install robotframework-browser`. Installation can be verified with `robot -h`. If no errors appear, the installation is done.
-Next type command `rfbrowser init`. This will initialize a browser for the test. If this does not work, don't worry and move to the next step.
-Finally, to begin the test, navigate back to `/WhisperFeed` and run `robot tests\robot\auto_robot.robot`. Make sure that you have the server running in port 3000 as instructed above.
-
 ## Playwright Testing
-Functionality testing is done with Playwright. Make sure to open the website to a server first. Refer to "Packages" for instructions. Installation and testing instructions can be found from the Playwright documentation at https://playwright.dev/docs/intro
+Functionality testing is done with Playwright. Make sure to open the website to a server before starting any tests Refer to "Packages" for instructions. 
+
+### Installation
+Fists run `npm init playwright@latest` and install the packed offered. then choose TypeScript and let the end-to-end folder name remain as it is. Do not add Github actions to the workflow. Install Playwright browser and do not override the config file. Finally delete the e2e folder.
+### Running tests
+While in Whisperfeed directory, you can run tests by running `npx playwright test` followed by the name of the test.
+Important!: NEVER RUN MORE THAN ONE TEST AT A TIME AND ALL THE TEST IN A TEST FILE ARE TO BE RUN FROM TOP TO BUTTOM. If a test fails run test named 'clean_up.spec.ts' and try again
 
 
 

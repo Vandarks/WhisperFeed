@@ -26,6 +26,7 @@ test('end-to-end-test', async ({ page }) => {
     await expect(page.getByText('End-to-end Test')).toBeVisible();
     let key = await page.locator('css=.invcode').first().innerText();
     await page.getByTestId('sign_out_button').click();
+    await page.getByTestId('sign_in_link').click();
 
     //Sign in with new user
     login(page, "wright@test.fi", "admin11");

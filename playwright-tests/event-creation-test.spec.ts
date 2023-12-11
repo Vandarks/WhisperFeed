@@ -1,14 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { login } from './loginconfig';
 
-test.beforeEach('Sign in before each test', async ({ page }) => {
+const loginAsTeacher = async (page: any) => {
     await page.goto('http://localhost:3000/');
+    await page.getByRole('combobox').selectOption('en');
     await expect(page.getByTestId('sign_in_header')).toBeVisible();
     login(page, "teacherwhisperfeed@gmail.com", "admin11!");
     await expect(page.getByTestId('create_event_button')).toBeVisible();
-});
+}
 
-test('Create event - valid details', async ({ page }) => {
+test('Create event', async ({ page }) => {
+    //creates an event with valid details
+    await loginAsTeacher(page);
     await page.getByTestId('create_event_button').click();
     await expect(page.getByTestId('create_event_header')).toBeVisible();
     await page.getByTestId('event_name_input').click();
@@ -18,9 +21,19 @@ test('Create event - valid details', async ({ page }) => {
     await page.getByTestId('close_modal_button').click();
     await expect(page.getByText('testipw')).toBeVisible();
     await page.getByTestId('remove_event_button').click();
-});
+    await expect(page.getByText('testipw')).toBeHidden();
+    let hidden = false
+    while(hidden == false){
+        await page.goto('http://localhost:3000/');
+        if(await page.locator('text=testipw').isHidden()){
+            hidden = true
+        } else {
+            await page.getByTestId('remove_event_button').first().click();
+        }
+    }
 
-test('Create event - invalid name', async ({ page }) => {
+    //tries to create an event with invalid details
+    await loginAsTeacher(page);
     await page.getByTestId('create_event_button').click();
     await expect(page.getByTestId('create_event_header')).toBeVisible();
     await page.getByTestId('event_name_input').click();
@@ -29,9 +42,9 @@ test('Create event - invalid name', async ({ page }) => {
     await page.getByTestId('create_event_modal_button').click();
     await page.getByTestId('close_modal_button').click();
     await expect(page.getByText('äää')).toBeHidden();
-});
 
-test('Check invite code', async ({ page }) => {
+    //creates an event and checks that the event key is not empty
+    await loginAsTeacher(page);
     await page.getByTestId('create_event_button').click();
     await expect(page.getByTestId('create_event_header')).toBeVisible();
     await page.getByTestId('event_name_input').click();
@@ -39,11 +52,17 @@ test('Check invite code', async ({ page }) => {
     await page.getByTestId('event_type_selection').selectOption('Event');
     await page.getByTestId('create_event_modal_button').click();
     await page.getByTestId('close_modal_button').click();
-    await expect(page.getByText('testipw')).toBeVisible();
+    await expect(page.getByText('testipw').first()).toBeVisible();
     await expect(page.locator('css=.invcode').first()).not.toHaveText('');
     await page.getByTestId('remove_event_button').click();
-});
-
-test.afterEach(async ({ page }) => {
-    await page.getByTestId('delete_all_keys_button').click();
+    await expect(page.getByText('testipw')).toBeHidden();
+    hidden = false
+    while(hidden == false){
+        await page.goto('http://localhost:3000/');
+        if(await page.locator('text=testipw').isHidden()){
+            hidden = true
+        } else {
+            await page.getByTestId('remove_event_button').first().click();
+        }
+    }
 });

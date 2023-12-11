@@ -5,7 +5,7 @@ const login = async (page: Page, email: string, password: string) => {
   await page.getByTestId('email_input').fill(email);
   await page.getByTestId('email_input').press('Tab');
   await page.getByTestId('password_input').fill(password);
-  await page.getByTestId('password_input').press('Enter');
+  await page.getByTestId('sign_in_button').click();
 }
 
 export { login }
