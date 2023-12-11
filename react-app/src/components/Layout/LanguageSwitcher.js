@@ -13,7 +13,10 @@ function LanguageSwitcher() {
         currentUserRef.get().then((doc) => {
             if (doc.exists) {
                 const languagePref = doc.data().languagePreference;
-                i18n.changeLanguage(languagePref)
+                console.log("Fetched language (" + languagePref + ") from DB")
+                if(languagePref != i18n.language){
+                    i18n.changeLanguage(languagePref)
+                }
             }
         })
     }
@@ -37,6 +40,7 @@ function LanguageSwitcher() {
     );
 
     function updateLanguage(e) {
+        console.log("Updating language to " + e.target.value)
         i18n.changeLanguage(e.target.value)
         if (currentUserRef != null) {
             currentUserRef.update({
