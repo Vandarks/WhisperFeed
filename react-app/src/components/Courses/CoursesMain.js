@@ -65,7 +65,7 @@ function CoursesMain() {
     // Key generator for new courses
     let generatedKey = "";
     const generateCourseKey = () => {
-
+        console.log("Generating course key...")
         // Course key properties
         const symbols =
             "1234567890qwertyuiopsdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZCVNM";
@@ -122,11 +122,12 @@ function CoursesMain() {
 
     const createCourse = async (e) => {
         e.preventDefault();
-
+        console.log("Entered createCourse method with length: " + formCourseName.length
+                    + " and type: " + formCourseType)
         // Only when course name > 5 characters
         if (formCourseName.length > 5 && formCourseType !== "") {
             let { uid, photoURL, displayName } = auth.currentUser;
-
+            console.log("Passed form check")
             // If not logged in via google
             if (displayName == null && photoURL == null) {
                 displayName = auth.currentUser.email;
@@ -153,6 +154,7 @@ function CoursesMain() {
 
             setFormCourseName("");
         }
+        else{console.log("Failed form check")}
     };
 
     // This can be called whenever needed to join a new course, is automatically called when creating a new course
@@ -382,7 +384,9 @@ function CourseModal({
                                 id="event-types"
                                 className="mb-5 col-span-3 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
-                                <option disabled selected>{t("modal_selection_choose")}</option>
+                                <option value="" disabled defaultValue>
+                                    {t("modal_selection_choose")}
+                                </option>
                                 <option value="Course" id="option1">
                                     {t("modal_selection_course")}
                                 </option>
