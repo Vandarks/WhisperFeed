@@ -27,7 +27,7 @@ test("clear all", async ({ page }) => {
     await expect(page.getByTestId('create_event_button')).toBeVisible();
     while(!hidden){
         try {
-            await page.waitForSelector('[data-testid="remove_event_button"]', { state: 'attached', timeout: 5000 });
+            await page.waitForSelector('[data-testid="remove_event_button"]', { state: 'attached', timeout: 3000 });
             await page.getByTestId('remove_event_button').first().click();
             await new Promise(resolve => setTimeout(resolve, 1000));
             await expect(page.getByTestId('create_event_button')).toBeVisible();
@@ -44,7 +44,7 @@ test("clear all", async ({ page }) => {
     await expect(page.getByTestId('create_event_button')).toBeVisible();
     while(!hidden){
         try {
-            await page.waitForSelector('[data-testid="remove_event_button"]', { state: 'attached', timeout: 5000 });
+            await page.waitForSelector('[data-testid="remove_event_button"]', { state: 'attached', timeout: 3000 });
             await page.getByTestId('remove_event_button').first().click();
             await new Promise(resolve => setTimeout(resolve, 1000));
             await expect(page.getByTestId('create_event_button')).toBeVisible();
@@ -61,7 +61,7 @@ test("clear all", async ({ page }) => {
     await expect(page.getByTestId('create_event_button')).toBeVisible();
     while(!hidden){
         try {
-            await page.waitForSelector('[data-testid="remove_event_button"]', { state: 'attached', timeout: 5000 });
+            await page.waitForSelector('[data-testid="remove_event_button"]', { state: 'attached', timeout: 3000 });
             await page.getByTestId('remove_event_button').first().click();
             await new Promise(resolve => setTimeout(resolve, 1000));
             await expect(page.getByTestId('create_event_button')).toBeVisible();
@@ -75,11 +75,20 @@ test("clear all", async ({ page }) => {
 
     //poistaa tarvittava testikäyttäjät
     await page.goto('http://localhost:3000/');
-    await login(page, "e2e@test,fii", "admin11!");
-    if(await page.isVisible('data-testid=settings_button')){
+    await login(page, "e2e@test.fi", "admin11!");
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    try{
+        console.log("finding settings button");
+        await page.waitForSelector('[data-testid="settings_button"]', { state: 'attached', timeout: 3000 });
         await page.getByTestId('settings_button').click();
+        console.log("finding delete user button");
+        await page.waitForSelector('[data-testid="delete_user_button"]', { state: 'attached', timeout: 3000 });
         await page.getByTestId('delete_user_button').click();
+        console.log("Deleted");
+    } catch (error) {
+        console.log("Already deleted");
     }
+    
     await page.goto('http://localhost:3000/');
     await expect(page.getByTestId('sign_in_header')).toBeVisible();
     await page.getByTestId('email_input').click();
@@ -87,9 +96,15 @@ test("clear all", async ({ page }) => {
     await page.getByTestId('password_input').click();
     await page.getByTestId('password_input').fill('admin11!');
     await page.getByTestId('sign_in_button').click();
-    if(await page.isVisible('data-testid=settings_button')){
+    try{
+        console.log("finding settings button");
+        await page.waitForSelector('[data-testid="settings_button"]', { state: 'attached', timeout: 3000 });
         await page.getByTestId('settings_button').click();
+        console.log("finding delete user button");
+        await page.waitForSelector('[data-testid="delete_user_button"]', { state: 'attached', timeout: 3000 });
         await page.getByTestId('delete_user_button').click();
+        console.log("Deleted");
+    } catch (error) {
+        console.log("Already deleted");
     }
-    
 });
