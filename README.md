@@ -65,7 +65,7 @@ Functionality testing is done with Playwright. Make sure to open the website to 
 Fists run `npm init playwright@latest` and install the packed offered. then choose TypeScript and let the end-to-end folder name remain as it is. Do not add Github actions to the workflow. Install Playwright browser and do not override the config file. Finally delete the e2e folder.
 ### Running tests
 While in Whisperfeed directory, you can run tests by running `npx playwright test` followed by the name of the test.
-Important!: NEVER RUN MORE THAN ONE TEST AT A TIME AND ALL THE TEST IN A TEST FILE ARE TO BE RUN FROM TOP TO BUTTOM. If a test fails run test named 'clean_up.spec.ts' and try again
+Important!: NEVER RUN MORE THAN ONE TEST AT A TIME! If a test fails run test named 'clean_up.spec.ts'. If it fails, rerun it. Aften it passes run the desired test again.
 
 
 

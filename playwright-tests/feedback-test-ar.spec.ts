@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { login } from './loginconfig';
 
 test('create_event_and_save_key', async ({ page }) => {
+  //creates an event and saves the invitekey
   await page.goto('http://localhost:3000/');
   await page.getByRole('combobox').selectOption('ar');
   login(page, "play@test.fi", "admin11!");
@@ -15,6 +16,7 @@ test('create_event_and_save_key', async ({ page }) => {
   let key = await page.locator('css=.invcode').first().innerText();
   await page.getByTestId('sign_out_button').click();
 
+  //joins the event and sends feedback
   await page.goto('http://localhost:3000/');
   await page.getByRole('combobox').selectOption('ar');
   login(page, "wright@test.fi", "admin11");
@@ -28,6 +30,7 @@ test('create_event_and_save_key', async ({ page }) => {
   await page.getByTestId('send_feedback_button').click();
   await page.getByTestId('sign_out_button').click();
 
+  //checks the feedback and removes the event
   await page.goto('http://localhost:3000/');
   await page.getByRole('combobox').selectOption('ar');
   login(page, "play@test.fi", "admin11!");
