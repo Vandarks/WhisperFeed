@@ -7,6 +7,12 @@ import React, {useState} from "react";
 import SignInForm from "../Auth/SignInForm";
 import SignUpForm from "../Auth/SignUpForm";
 
+/**
+ * This component is used to display the landing page, It is used in App.js
+ * It is a div that contains the logo, sign in form and courses
+ * It is only displayed if the user is not signed in
+ * If the user is signed in, the courses are displayed
+ */
 function LandingPage() {
     const [user] = useAuthState(auth);
     const [showSignUp, setShowSignUp] = useState(false);

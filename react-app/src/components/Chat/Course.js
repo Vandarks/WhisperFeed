@@ -5,6 +5,12 @@ import Modal from "react-modal";
 import { Donut } from "./DonutChart";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Desc: This component is used to display a course, It is used in CourseList.js
+ * Props: message is the course data
+ * State: isModalOpen is a boolean that is used to toggle the modal, goodRating is the number of good ratings, okRating is the number of ok ratings, badRating is the number of bad ratings, feedback is the feedback for the course, feedbackAvg is the average rating for the course
+ * Functions: openModal is used to open the modal, closeModal is used to close the modal, handleRemoveCourseButton is used to remove the course and its feedback from the database, viewFeedback is used to fetch the feedback for the course from the database
+ */
 function Course(props) {
 
     // Translation hook

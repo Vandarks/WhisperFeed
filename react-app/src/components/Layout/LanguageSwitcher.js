@@ -2,6 +2,15 @@ import React, {useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import {auth, usersRef} from "../../firebaseConfig";
 
+
+/**
+ * This component is used to change the language of the app
+ * It is used in the Header component
+ * It is a select element that has 3 options: English, Finnish and Arabic
+ * When the user selects a language, the app language is changed
+ * The language is also saved in the database for the user
+ * The language is fetched from the database when the user logs in
+ */
 function LanguageSwitcher() {
 
     const {i18n} = useTranslation();
