@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import {auth, usersRef} from "../../firebaseConfig";
 
@@ -8,18 +8,23 @@ function LanguageSwitcher() {
     const { t } = useTranslation();
     let currentUserRef = null;
 
-    if(auth.currentUser != null){
+    if(auth.currentUser != null) {
         currentUserRef = usersRef.doc(auth.currentUser.uid);
-        currentUserRef.get().then((doc) => {
-            if (doc.exists) {
-                const languagePref = doc.data().languagePreference;
-                console.log("Fetched language (" + languagePref + ") from DB")
-                if(languagePref != i18n.language){
-                    i18n.changeLanguage(languagePref)
-                }
-            }
-        })
     }
+
+    useEffect(() => {
+        if(currentUserRef != null){
+            currentUserRef.get().then((doc) => {
+                if (doc.exists) {
+                    const languagePref = doc.data().languagePreference;
+                    console.log("Fetched language (" + languagePref + ") from DB")
+                    if(languagePref != i18n.language){
+                        i18n.changeLanguage(languagePref)
+                    }
+                }
+            })
+        }
+    }, []);
 
     return (
 
@@ -40,12 +45,12 @@ function LanguageSwitcher() {
     );
 
     function updateLanguage(e) {
-        console.log("Updating language to " + e.target.value)
         i18n.changeLanguage(e.target.value)
         if (currentUserRef != null) {
             currentUserRef.update({
                 languagePreference: e.target.value
-            });
+            })
+            console.log("Updating DB language to " + e.target.value);
         }
     }
 }
