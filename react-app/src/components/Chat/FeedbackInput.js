@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import { coursesRef, feedbackRef } from '../../firebaseConfig'; // Import firestore from your Firebase configuration file
 import firebase from "firebase/compat/app";
 import { useTranslation } from "react-i18next";
-
+/**
+ * This component is used to display the feedback input
+ * It is used in Course.js
+ * It is a div that contains the feedback input
+ * It is only displayed if the user is signed in
+ * It contains a textarea for the user to enter feedback
+ * It contains a button to send the feedback
+ * It contains a radio button to select the rating
+ * It contains a function to send the feedback to the course
+ * It contains a function to handle the rating button click
+ */
 function FeedbackInput(props) {
 
     const { t } = useTranslation();

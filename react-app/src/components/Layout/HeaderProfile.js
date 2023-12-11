@@ -9,6 +9,7 @@ import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 
+// Header for the website, contains the navigation bar and the user profile etc.
 function HeaderProfile() {
     const { t } = useTranslation();
 
@@ -91,6 +92,8 @@ function HeaderProfile() {
         </header>
     );
 }
+
+// Modal for the user settings
 function SettingsModal({ isOpen, onRequestClose }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

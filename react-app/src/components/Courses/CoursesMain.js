@@ -288,6 +288,7 @@ function CoursesMain() {
     );
 }
 
+// Modal for creating a new course
 function CourseModal({
     isOpen,
     onRequestClose,

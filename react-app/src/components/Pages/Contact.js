@@ -1,5 +1,9 @@
 import {useTranslation} from "react-i18next";
 
+
+/**
+ * This component is used to display the contact us page
+ */
 function Contact() {
     const { t } = useTranslation();
 

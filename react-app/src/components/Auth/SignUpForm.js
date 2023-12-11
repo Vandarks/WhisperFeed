@@ -4,6 +4,13 @@ import PasswordAlert from "../Alerts/PasswordAlert";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../Layout/LanguageSwitcher";
 
+/**
+ * desc: This component is used to display the sign up form, It is used in LandingPage.js
+ * props: onSignInClick is a function that is used to toggle between sign in and sign up forms
+ * state: email is the user's email, password is the user's password, error is the error message to be displayed if the user enters an invalid username or password
+ * functions: signUp is used to sign up the user, handleEmailChange is used to update the email state, handlePasswordChange is used to update the password state
+ * SignUpForm is a div that contains the sign up form
+ */
 function SignUpForm({ onSignInClick }) {
     const [error, setError] = useState("");
     const { t } = useTranslation();

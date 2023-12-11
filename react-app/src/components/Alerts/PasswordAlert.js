@@ -1,3 +1,6 @@
+/**
+ * This is the alert component for the password field
+ */
 function PasswordAlert({ message }) {
 
     return (

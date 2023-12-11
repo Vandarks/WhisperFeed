@@ -2,8 +2,11 @@ import { auth } from "../../firebaseConfig";
 import React from "react";
 import {useTranslation} from "react-i18next";
 
-
-// Sign out function, uses Firebase auth
+/**
+ * Sign out function, uses Firebase auth
+ * When user signs out, they are redirected to the landing page
+ * If user is already signed out, they are redirected to the landing page
+ */
 function SignOut() {
 
     const { t } = useTranslation();

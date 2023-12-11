@@ -5,8 +5,12 @@ import 'firebase/compat/auth';
 import googleLogo from '../../images/google_logo.png';
 import {useTranslation} from "react-i18next";
 
-
-// Sign in function, uses Firebase Auth, is only visible when not signed in
+/**
+ * Sign in function, uses Firebase Auth, is only visible when not signed in. Uses Google Auth provider.
+ * When user signs in, they are redirected to the home page
+ * If user is already signed in, they are redirected to the home page
+ * If user is not signed in, they are redirected to the landing page 
+ */
 function SignIn() {
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
