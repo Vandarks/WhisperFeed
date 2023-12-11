@@ -38,6 +38,7 @@ function CoursesMain() {
     const [formCourseType, setFormCourseType] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Refreshes the user keys
     const refreshCourses = () => {
         currentUserRef
             .get()
@@ -64,6 +65,7 @@ function CoursesMain() {
 
     // Key generator for new courses
     let generatedKey = "";
+
     const generateCourseKey = () => {
         console.log("Generating course key...")
         // Course key properties
@@ -168,7 +170,6 @@ function CoursesMain() {
         } catch (e) {
         }
     };
-
 
     // Join a course by key
     const [courseKeyText, setCourseKeyText] = useState("");
